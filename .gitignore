@@ -1,0 +1,10 @@
+.vscode/
+Arduino Code/
+__pycache__/
+function.__pycache__
+*.zip
+p4a-recipes/
+pybluez/
+tempCodeRunnerFile.py
+testeremails.csv
+env/
