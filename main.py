@@ -1,33 +1,12 @@
 from kivymd.app import MDApp
 from kivy.lang import Builder
 from kivymd.toast import toast
-from jnius import autoclass
 from kivy import platform
+if platform == "android":
+    from jnius import autoclass
+from kivymd.tools.hotreload.app import MDApp
+from kivymd.utils.set_bars_colors import set_bars_colors
 
-layout = '''
-BoxLayout:
-    id: boxlayout
-    orientation:'vertical'
-    adaptive_size: True
-
-    MDIconButton:
-        icon: "bluetooth"
-        pos_hint: {'center_x':0.5,'center_y':0.875}
-        user_font_size: "40sp"
-        on_release: app.android_bluetooth.getAndroidBluetoothSocket('HC-05')
-
-    MDIconButton:
-        icon: "led-on"
-        user_font_size: "40sp"
-        pos_hint: {'center_x':0.5, 'center_y':0.6}
-        on_release: app.send_command_a()
-
-    MDIconButton:
-        icon: "led-off"
-        user_font_size: "40sp"
-        pos_hint: {'center_x':0.5, 'center_y':0.5}
-        on_release: app.send_command_b()
-'''
 
 class AndroidBluetoothClass:
 
@@ -53,16 +32,12 @@ class AndroidBluetoothClass:
         return self.ConnectionEstablished
 
     def BluetoothSend(self, Message):
-        toast("Sending Bluetooth message")
-        print("Sending Bluetooth message")
         if self.ConnectionEstablished:
             self.SendData.write(Message.encode())
         else:
             print('Bluetooth device not connected')
 
     def BluetoothReceive(self):
-        toast("Receiving Bluetooth message")
-        print("Receiving Bluetooth message")
         DataStream = ''
         if self.ConnectionEstablished:
             DataStream = str(self.ReceiveData.readline())
@@ -71,12 +46,13 @@ class AndroidBluetoothClass:
     def __init__(self):
         toast("Initializing Bluetooth")
         print("Initializing Bluetooth")
-        self.BluetoothAdapter = autoclass('android.bluetooth.BluetoothAdapter')
-        self.BluetoothDevice = autoclass('android.bluetooth.BluetoothDevice')
-        self.BluetoothSocket = autoclass('android.bluetooth.BluetoothSocket')
-        self.UUID = autoclass('java.util.UUID')
-        self.BufferReader = autoclass('java.io.BufferedReader')
-        self.InputStream = autoclass('java.io.InputStreamReader')
+        if platform == "android":
+            self.BluetoothAdapter = autoclass('android.bluetooth.BluetoothAdapter')
+            self.BluetoothDevice = autoclass('android.bluetooth.BluetoothDevice')
+            self.BluetoothSocket = autoclass('android.bluetooth.BluetoothSocket')
+            self.UUID = autoclass('java.util.UUID')
+            self.BufferReader = autoclass('java.io.BufferedReader')
+            self.InputStream = autoclass('java.io.InputStreamReader')
         self.ConnectionEstablished = False
         toast("Bluetooth initialization finished")
         print("Bluetooth initialization finished")
@@ -86,24 +62,37 @@ class AndroidBluetoothClass:
         print('Destroying Bluetooth class')
 
 class MyApp(MDApp):
+    DEBUG = True
 
-    def build(self):
+    def switch_theme_style(self):
+        self.theme_cls.theme_style = "Dark" if self.theme_cls.theme_style == "Light" else "Light"
+    def build_app(self):
 
         if platform == "android":
             from android.permissions import request_permissions, Permission 
             request_permissions([Permission.BLUETOOTH_CONNECT,Permission.BLUETOOTH_SCAN ])
 
-        self.theme_cls.theme_style = "Dark"
+        self.theme_cls.theme_style = "Light"
         self.theme_cls.primary_palette = "Green"
         self.android_bluetooth = AndroidBluetoothClass()
+        self.KV = Builder.load_file("kivy.kv")
+        return self.KV
 
-        return Builder.load_string(layout)
+    def send_wheels_stop(self):
+        self.android_bluetooth.BluetoothSend('a')
 
-    def send_command_a(self):
+    def send_Broms_stop(self):
+        self.android_bluetooth.BluetoothSend('b')
+
+    def send_pump_stop(self):
         self.android_bluetooth.BluetoothSend('a')
 
     def send_command_b(self):
         self.android_bluetooth.BluetoothSend('b')
+
+    def connect_bluetooth(self):
+        self.android_bluetooth.getAndroidBluetoothSocket("HC-05")  # Replace "YourDeviceName" with the actual device name
+
 
 MyApp().run()
 
