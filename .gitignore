@@ -8,3 +8,5 @@ pybluez/
 tempCodeRunnerFile.py
 testeremails.csv
 env/
+.gitignore
+*.md
