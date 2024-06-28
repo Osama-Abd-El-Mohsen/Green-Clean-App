@@ -29,7 +29,7 @@ source.include_exts = py,png,jpg,kv,atlas,ttf,json,wav,ico
 #source.exclude_patterns = license,images/*/*.jpg
 
 # (str) Application versioning (method 1)
-version = 2.1
+version = 1.0
 
 # (str) Application versioning (method 2)
 # version.regex = __version__ = ['"](.*)['"]
@@ -37,7 +37,7 @@ version = 2.1
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = python3, kivy==2.3.0,  https://github.com/kivymd/KivyMD/archive/master.zip, materialyoucolor, exceptiongroup, asyncgui, asynckivy, Pillow,python-bidi,arabic_reshaper,plyer==2.0.0,oscpy 
+requirements = python3, kivy==2.3.0,  https://github.com/kivymd/KivyMD/archive/master.zip, materialyoucolor, exceptiongroup, asyncgui, asynckivy, Pillow,python-bidi,arabic_reshaper,plyer==2.0.0,oscpy
 
 
 # (str) Custom source folders for requirements
@@ -46,10 +46,10 @@ requirements = python3, kivy==2.3.0,  https://github.com/kivymd/KivyMD/archive/m
 
 # (str) Presplash of the application
 # presplash.filename = %(source.dir)s/app_splash.png
-# presplash.filename = Assets/logo.png
+presplash.filename = Assets/bg.png
 
 # (str) Icon of the application
-# icon.filename = Assets/icon.png
+icon.filename = Assets/logo.png
 
 # (list) Supported orientations
 # Valid options are: landscape, portrait, portrait-reverse or landscape-reverse
@@ -84,7 +84,7 @@ fullscreen = 0
 # red, blue, green, black, white, gray, cyan, magenta, yellow, lightgray,
 # darkgray, grey, lightgrey, darkgrey, aqua, fuchsia, lime, maroon, navy,
 # olive, purple, silver, teal.
-android.presplash_color = #1A1B21
+android.presplash_color = #f9fafc
 
 # (string) Presplash animation using Lottie format.
 # see https://lottiefiles.com/ for examples and https://airbnb.design/lottie/
@@ -98,7 +98,7 @@ android.presplash_color = #1A1B21
 
 # (list) Permissions
 # (See https://python-for-android.readthedocs.io/en/latest/buildoptions/#build-options-1 for all the supported syntaxes and properties)
-android.permissions = INTERNET ,READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE,FOREGROUND_SERVICE,POST_NOTIFICATIONS,BLUETOOTH_CONNECT,BLUETOOTH_SCAN
+android.permissions = INTERNET ,READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE,FOREGROUND_SERVICE,POST_NOTIFICATIONS,BLUETOOTH_CONNECT,BLUETOOTH_SCAN,ACCESS_FINE_LOCATION
 #android.permissions = INTERNET,ACCESS_NETWORK_STATE,android.permission.INTERNET, READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE,(name=android.permission.WRITE_EXTERNAL_STORAGE;maxSdkVersion=18) 
 # (list) features (adds uses-feature -tags to manifest)
 #android.features = android.hardware.usb.host

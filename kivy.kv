@@ -1,53 +1,58 @@
 MDBoxLayout:
     id: boxlayout
     orientation: 'vertical'
-    md_bg_color: "#f2f6fe"
-
+    md_bg_color: "#f9fafc"
 
     MDTopAppBar:
-        title: "Green Clean App"
+        type: "small"
+        pos_hint: {"center_x": .5, "center_y": .5}
+        theme_bg_color: "Custom"
+        md_bg_color: "#1ca24d"
 
+        MDTopAppBarLeadingButtonContainer:
+            md_bg_color: "#1ca24d"
 
-        orientation: 'vertical'
-        md_bg_color: self.theme_cls.backgroundColor
-        MDTopAppBar:
-            elevation:1
-            type: "small"
-            MDTopAppBarLeadingButtonContainer:
-                MDActionTopAppBarButton:
-                    icon: "theme-light-dark"
-                    on_release: app.switch_theme_style()
+            MDActionTopAppBarButton:
+                icon: "theme-light-dark"
+                text_color:"#141b23"
 
-            MDTopAppBarTitle:
-                text: "Green Clean App"
-                font_style: "Headline"
-                role: "large"
-                bold:True
-                pos_hint: {"center_x": .5}
+        MDTopAppBarTitle:
+            text: "Green Clean App"
+            font_style: "Headline"
+            role: "medium"
+            bold:True
 
-            MDTopAppBarTrailingButtonContainer:
-                MDActionTopAppBarButton:
-                    icon: "account-circle-outline"
-                    on_release: app.info_dialog() 
-                MDActionTopAppBarButton:
-                    icon: "bluetooth-connect"
-                    on_release: app.connect_bluetooth() 
-                    
+        MDTopAppBarTrailingButtonContainer:
+            MDActionTopAppBarButton:
+                icon: "bluetooth-connect"
+                text_color:"#141b23"
+                on_release: app.connect_bluetooth() 
+            MDActionTopAppBarButton:
+                text_color:"#141b23"
+                icon: "account-circle-outline"
+                on_release: app.info_dialog()
+
+    
     BoxLayout:
         orientation: 'horizontal'
         padding: dp(-5)
         spacing: dp(5)
 
-        MDCard:
+        BoxLayout:
             orientation: 'vertical'
             size_hint_y: 0.7
             size_hint_x: 0.5
             padding: dp(5)
             spacing: dp(5)        
             pos_hint: {"center_x": .5, "center_y": .5}
-            md_bg_color: "#f2f6fe"
-            elevation: 2
-            radius: [0, 35, 35, 0]
+            padding: "4dp"
+            canvas.before:
+                Color:
+                    rgba: 0.949, 0.965, 0.996, 1  # "#f2f6fe"
+                RoundedRectangle:
+                    size: self.size
+                    pos: self.pos
+                    radius: [0, 10, 10, 0]
 
             MDLabel:
                 text: "Wheels"
@@ -55,13 +60,26 @@ MDBoxLayout:
                 theme_text_color: "Custom"
                 text_color : "#1ca24d"
                 bold: True
-                font_style : "Display"
-                role:"small"
-                role:
+                font_style : "Headline"
+                role:"large"
 
             BoxLayout:
                 orientation: 'vertical'
                 spacing: dp(5)
+
+                MDIconButton:
+                    theme_icon_color: "Custom"
+                    theme_bg_color: "Custom"
+                    theme_font_size: "Custom"
+                    font_size: "35sp"
+                    size_hint: None, None
+                    size: "50dp", "50dp"
+
+                    icon: "menu-up"
+                    pos_hint: {'center_x': 0.5}
+                    on_release: app.send_wheels_up()
+                    md_bg_color: "#fdbc48"
+                    text_color: "#141b23" 
 
                 MDLabel:
                     text: "Increase Speed"
@@ -69,22 +87,26 @@ MDBoxLayout:
                     theme_text_color: "Custom"
                     text_color : "#141b23"
                     bold: True
-                    font_style : "Display"
-                    role:"small"
-                
-                MDIconButton:
-                    icon: "menu-up"
-                    user_font_size: "30sp"
-                    pos_hint: {'center_x': 0.5}
-                    on_release: app.left_button_1_action()
-                    md_bg_color: "#fdbc48"
-                    text_color: "#141b23" 
-                    icon_size: "45sp"
-
+                    font_style : "Title"
+                    role:"medium"
 
             BoxLayout:
                 orientation: 'vertical'
                 spacing: dp(5)
+
+                MDIconButton:
+                    theme_icon_color: "Custom"
+                    theme_bg_color: "Custom"
+                    theme_font_size: "Custom"
+                    font_size: "30sp"
+                    size_hint: None, None
+                    size: "45dp", "45dp"
+
+                    icon: "pause"
+                    md_bg_color: "#cd2525"
+                    text_color: "#f2f6fe" 
+                    pos_hint: {'center_x': 0.5}
+                    on_release: app.send_wheels_stop()
 
                 MDLabel:
                     text: "Pause"
@@ -92,22 +114,26 @@ MDBoxLayout:
                     theme_text_color: "Custom"
                     text_color : "#141b23"
                     bold: True
-                    font_style : "Display"
-                    role:"small"
-                
-                MDIconButton:
-                    icon: "pause"
-                    md_bg_color: "#cd2525"
-                    text_color: "#f2f6fe" 
-                    user_font_size: "30sp"
-                    pos_hint: {'center_x': 0.5}
-                    on_release: app.send_wheels_stop()
-                    icon_size: "35sp"
-
+                    font_style : "Title"
+                    role:"medium"
 
             BoxLayout:
                 orientation: 'vertical'
                 spacing: dp(5)
+
+                MDIconButton:
+                    theme_icon_color: "Custom"
+                    theme_bg_color: "Custom"
+                    theme_font_size: "Custom"
+                    font_size: "35sp"
+                    size_hint: None, None
+                    size: "50dp", "50dp"
+
+                    icon: "menu-down"
+                    pos_hint: {'center_x': 0.5}
+                    on_release: app.send_wheels_down()
+                    md_bg_color: "#fdbc48"
+                    text_color: "#141b23" 
 
                 MDLabel:
                     text: "Reducing Speed"
@@ -115,18 +141,8 @@ MDBoxLayout:
                     theme_text_color: "Custom"
                     text_color : "#141b23"
                     bold: True
-                    font_style : "Display"
-                    role:"small"
-                
-                MDIconButton:
-                    icon: "menu-down"
-                    user_font_size: "30sp"
-                    pos_hint: {'center_x': 0.5}
-                    on_release: app.left_button_3_action()
-                    md_bg_color: "#fdbc48"
-                    text_color: "#141b23" 
-                    icon_size: "45sp"
-
+                    font_style : "Title"
+                    role:"medium"
 
         BoxLayout:
             orientation: 'vertical'
@@ -140,16 +156,21 @@ MDBoxLayout:
                 size_hint: (1, 1)
                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
 
-        MDCard:
+        BoxLayout:
             orientation: 'vertical'
             size_hint_y: 0.7
             size_hint_x: 0.5
             padding: dp(5)
             spacing: dp(5)        
             pos_hint: {"center_x": .5, "center_y": .5}
-            md_bg_color: "#f2f6fe"
-            elevation: 2
-            radius: [35, 0, 0, 35]
+            padding: "4dp"
+            canvas.before:
+                Color:
+                    rgba: 0.949, 0.965, 0.996, 1  # "#f2f6fe"
+                RoundedRectangle:
+                    size: self.size
+                    pos: self.pos
+                    radius: [10, 0, 0, 10]
 
             MDLabel:
                 text: "Brooms"
@@ -157,12 +178,26 @@ MDBoxLayout:
                 theme_text_color: "Custom"
                 text_color : "#1ca24d"
                 bold: True
-                font_style : "Display"
-                role:"small"
+                font_style : "Headline"
+                role:"large"
 
             BoxLayout:
                 orientation: 'vertical'
                 spacing: dp(5)
+
+                MDIconButton:
+                    theme_icon_color: "Custom"
+                    theme_bg_color: "Custom"
+                    theme_font_size: "Custom"
+                    font_size: "35sp"
+                    size_hint: None, None
+                    size: "50dp", "50dp"
+
+                    icon: "menu-up"
+                    pos_hint: {'center_x': 0.5}
+                    on_release: app.send_brooms_up()
+                    md_bg_color: "#fdbc48"
+                    text_color: "#141b23" 
 
                 MDLabel:
                     text: "Increase Speed"
@@ -170,22 +205,26 @@ MDBoxLayout:
                     theme_text_color: "Custom"
                     text_color : "#141b23"
                     bold: True
-                    font_style : "Display"
-                    role:"small"
-                
-                MDIconButton:
-                    icon: "menu-up"
-                    user_font_size: "30sp"
-                    pos_hint: {'center_x': 0.5}
-                    on_release: app.right_button_1_action()
-                    md_bg_color: "#fdbc48"
-                    text_color: "#141b23" 
-                    icon_size: "45sp"
-
+                    font_style : "Title"
+                    role:"medium"
 
             BoxLayout:
                 orientation: 'vertical'
                 spacing: dp(5)
+
+                MDIconButton:
+                    theme_icon_color: "Custom"
+                    theme_bg_color: "Custom"
+                    theme_font_size: "Custom"
+                    font_size: "30sp"
+                    size_hint: None, None
+                    size: "45dp", "45dp"
+
+                    icon: "pause"
+                    md_bg_color: "#cd2525"
+                    text_color: "#f2f6fe" 
+                    pos_hint: {'center_x': 0.5}
+                    on_release: app.send_brooms_stop()
 
                 MDLabel:
                     text: "Pause"
@@ -193,22 +232,26 @@ MDBoxLayout:
                     theme_text_color: "Custom"
                     text_color : "#141b23"
                     bold: True
-                    font_style : "Display"
-                    role:"small"
+                    font_style : "Title"
+                    role:"medium"
                 
-                MDIconButton:
-                    icon: "pause"
-                    md_bg_color: "#cd2525"
-                    text_color: "#f2f6fe" 
-                    user_font_size: "30sp"
-                    pos_hint: {'center_x': 0.5}
-                    on_release: app.send_Broms_stop()
-                    icon_size: "35sp"
-
-
             BoxLayout:
                 orientation: 'vertical'
                 spacing: dp(5)
+
+                MDIconButton:
+                    theme_icon_color: "Custom"
+                    theme_bg_color: "Custom"
+                    theme_font_size: "Custom"
+                    font_size: "35sp"
+                    size_hint: None, None
+                    size: "50dp", "50dp"
+
+                    icon: "menu-down"
+                    md_bg_color: "#fdbc48"
+                    text_color: "#141b23" 
+                    pos_hint: {'center_x': 0.5}
+                    on_release: app.send_brooms_down()
 
                 MDLabel:
                     text: "Reducing Speed"
@@ -216,28 +259,23 @@ MDBoxLayout:
                     theme_text_color: "Custom"
                     text_color : "#141b23"
                     bold: True
-                    font_style : "Display"
-                    role:"small"
-                
-                MDIconButton:
-                    icon: "menu-down"
-                    md_bg_color: "#fdbc48"
-                    text_color: "#141b23" 
-                    user_font_size: "30sp"
-                    pos_hint: {'center_x': 0.5}
-                    on_release: app.right_button_3_action()
-                    icon_size: "45sp"
+                    font_style : "Title"
+                    role:"medium"
 
-
-    MDCard:
+    BoxLayout:
         orientation: 'vertical'
-        size_hint_y: 0.3
+        size_hint_y: 0.35
         pos_hint: {"center_x": .5, "center_y": .5}
-        md_bg_color: "#1ca24d"
         elevation: 2
-        radius: [50, 50, 2, 2]
         padding: dp(20)
         spacing: dp(20)
+        canvas.before:
+            Color:
+                rgba: 0.11, 0.64, 0.30, 1  # "#1ca24d"
+            RoundedRectangle:
+                size: self.size
+                pos: self.pos
+                radius: [10, 10, 0, 0]
 
         MDLabel:
             text: "Pump"
@@ -245,15 +283,41 @@ MDBoxLayout:
             theme_text_color: "Custom"
             text_color: "#f2f6fe"
             bold: True
-            font_style : "Display"
-            role:"small"
+            font_style : "Headline"
+            role:"large"
             pos_hint: {'center_x': 0.5}
 
         BoxLayout:
             orientation: 'horizontal'
+            spacing: dp(5)
 
             BoxLayout:
                 orientation: 'vertical'
+                spacing: dp(5)
+
+                MDIconButton:
+                    theme_icon_color: "Custom"
+                    theme_bg_color: "Custom"
+                    theme_font_size: "Custom"
+                    font_size: "35sp"
+                    size_hint: None, None
+                    size: "50dp", "50dp"
+
+                    md_bg_color: "#fdbc48"
+                    text_color: "#141b23" 
+                    icon: "fan-chevron-up"
+                    pos_hint: {'center_x': 0.5}
+                    on_release: app.send_pump_up()
+
+                MDDivider:
+                    color :"#1ca24d"
+                    size_hint_x: .5
+                    pos_hint: {'center_x': .5, 'center_y': .5}
+
+                MDDivider:
+                    color :"#1ca24d"
+                    size_hint_x: .5
+                    pos_hint: {'center_x': .5, 'center_y': .5}
 
                 MDLabel:
                     text: "Increase Speed"
@@ -261,21 +325,36 @@ MDBoxLayout:
                     theme_text_color: "Custom"
                     text_color : "#141b23"
                     bold: True
-                    font_style : "Display"
-                    role:"small"
-                
-                MDIconButton:
-                    md_bg_color: "#fdbc48"
-                    text_color: "#141b23" 
-                    icon: "fan-chevron-up"
-                    user_font_size: "30sp"
-                    pos_hint: {'center_x': 0.5}
-                    on_release: app.bottom_button_1_action()
-                    icon_size: "45sp"
-
+                    font_style : "Title"
+                    role:"medium"
 
             BoxLayout:
                 orientation: 'vertical'
+                spacing: dp(5)
+
+                MDIconButton:
+                    theme_icon_color: "Custom"
+                    theme_bg_color: "Custom"
+                    theme_font_size: "Custom"
+                    font_size: "30sp"
+                    size_hint: None, None
+                    size: "45dp", "45dp"
+
+                    icon: "pause"
+                    md_bg_color: "#cd2525"
+                    text_color: "#f2f6fe" 
+                    pos_hint: {'center_x': 0.5}
+                    on_release: app.send_pump_stop()
+
+                MDDivider:
+                    color :"#1ca24d"
+                    size_hint_x: .5
+                    pos_hint: {'center_x': .5, 'center_y': .5}
+
+                MDDivider:
+                    color :"#1ca24d"
+                    size_hint_x: .5
+                    pos_hint: {'center_x': .5, 'center_y': .5}
 
                 MDLabel:
                     text: "Pause"
@@ -283,21 +362,36 @@ MDBoxLayout:
                     theme_text_color: "Custom"
                     text_color : "#141b23"
                     bold: True
-                    font_style : "Display"
-                    role:"small"
-
-                MDIconButton:
-                    icon: "pause"
-                    md_bg_color: "#cd2525"
-                    text_color: "#f2f6fe" 
-                    user_font_size: "30sp"
-                    pos_hint: {'center_x': 0.5}
-                    on_release: app.send_pump_stop()
-                    icon_size: "35sp"
-
+                    font_style : "Title"
+                    role:"medium"
 
             BoxLayout:
                 orientation: 'vertical'
+                spacing: dp(5)
+
+                MDIconButton:
+                    theme_icon_color: "Custom"
+                    theme_bg_color: "Custom"
+                    theme_font_size: "Custom"
+                    font_size: "35sp"
+                    size_hint: None, None
+                    size: "50dp", "50dp"
+
+                    icon: "fan-chevron-down"
+                    md_bg_color: "#fdbc48"
+                    text_color: "#141b23" 
+                    pos_hint: {'center_x': 0.5}
+                    on_release: app.send_pump_down()
+
+                MDDivider:
+                    color :"#1ca24d"
+                    size_hint_x: .5
+                    pos_hint: {'center_x': .5, 'center_y': .5}
+
+                MDDivider:
+                    color :"#1ca24d"
+                    size_hint_x: .5
+                    pos_hint: {'center_x': .5, 'center_y': .5}
 
                 MDLabel:
                     text: "Reducing Speed"
@@ -305,13 +399,5 @@ MDBoxLayout:
                     theme_text_color: "Custom"
                     text_color : "#141b23"
                     bold: True
-                    font_style : "Display"
-                    role:"small"
-
-                MDIconButton:
-                    icon: "fan-chevron-down"
-                    md_bg_color: "#fdbc48"
-                    text_color: "#141b23" 
-                    pos_hint: {'center_x': 0.5}
-                    on_release: app.bottom_button_3_action()
-                    icon_size: "45sp"
+                    font_style : "Title"
+                    role:"medium"
