@@ -6,13 +6,33 @@ MDBoxLayout:
 
     MDTopAppBar:
         title: "Green Clean App"
-        right_action_items:
-            [
-            ["bluetooth-connect", lambda x: app.connect_bluetooth(), "connect"],
-            ["theme-light-dark", lambda x: app.switch_theme_style(), "Message star"],
-            ["information", lambda x: app.callback(x), "Message question"],
-            ]
 
+
+        orientation: 'vertical'
+        md_bg_color: self.theme_cls.backgroundColor
+        MDTopAppBar:
+            elevation:1
+            type: "small"
+            MDTopAppBarLeadingButtonContainer:
+                MDActionTopAppBarButton:
+                    icon: "theme-light-dark"
+                    on_release: app.switch_theme_style()
+
+            MDTopAppBarTitle:
+                text: "Green Clean App"
+                font_style: "Headline"
+                role: "large"
+                bold:True
+                pos_hint: {"center_x": .5}
+
+            MDTopAppBarTrailingButtonContainer:
+                MDActionTopAppBarButton:
+                    icon: "account-circle-outline"
+                    on_release: app.info_dialog() 
+                MDActionTopAppBarButton:
+                    icon: "bluetooth-connect"
+                    on_release: app.connect_bluetooth() 
+                    
     BoxLayout:
         orientation: 'horizontal'
         padding: dp(-5)
@@ -35,7 +55,9 @@ MDBoxLayout:
                 theme_text_color: "Custom"
                 text_color : "#1ca24d"
                 bold: True
-                font_style : "H4"
+                font_style : "Display"
+                role:"small"
+                role:
 
             BoxLayout:
                 orientation: 'vertical'
@@ -47,7 +69,8 @@ MDBoxLayout:
                     theme_text_color: "Custom"
                     text_color : "#141b23"
                     bold: True
-                    font_style : "H5"
+                    font_style : "Display"
+                    role:"small"
                 
                 MDIconButton:
                     icon: "menu-up"
@@ -69,7 +92,8 @@ MDBoxLayout:
                     theme_text_color: "Custom"
                     text_color : "#141b23"
                     bold: True
-                    font_style : "H5"
+                    font_style : "Display"
+                    role:"small"
                 
                 MDIconButton:
                     icon: "pause"
@@ -91,7 +115,8 @@ MDBoxLayout:
                     theme_text_color: "Custom"
                     text_color : "#141b23"
                     bold: True
-                    font_style : "H5"
+                    font_style : "Display"
+                    role:"small"
                 
                 MDIconButton:
                     icon: "menu-down"
@@ -132,7 +157,8 @@ MDBoxLayout:
                 theme_text_color: "Custom"
                 text_color : "#1ca24d"
                 bold: True
-                font_style : "H4"
+                font_style : "Display"
+                role:"small"
 
             BoxLayout:
                 orientation: 'vertical'
@@ -144,7 +170,8 @@ MDBoxLayout:
                     theme_text_color: "Custom"
                     text_color : "#141b23"
                     bold: True
-                    font_style : "H5"
+                    font_style : "Display"
+                    role:"small"
                 
                 MDIconButton:
                     icon: "menu-up"
@@ -166,7 +193,8 @@ MDBoxLayout:
                     theme_text_color: "Custom"
                     text_color : "#141b23"
                     bold: True
-                    font_style : "H5"
+                    font_style : "Display"
+                    role:"small"
                 
                 MDIconButton:
                     icon: "pause"
@@ -188,7 +216,8 @@ MDBoxLayout:
                     theme_text_color: "Custom"
                     text_color : "#141b23"
                     bold: True
-                    font_style : "H5"
+                    font_style : "Display"
+                    role:"small"
                 
                 MDIconButton:
                     icon: "menu-down"
@@ -216,7 +245,8 @@ MDBoxLayout:
             theme_text_color: "Custom"
             text_color: "#f2f6fe"
             bold: True
-            font_style : "H4"
+            font_style : "Display"
+            role:"small"
             pos_hint: {'center_x': 0.5}
 
         BoxLayout:
@@ -231,7 +261,8 @@ MDBoxLayout:
                     theme_text_color: "Custom"
                     text_color : "#141b23"
                     bold: True
-                    font_style : "H5"
+                    font_style : "Display"
+                    role:"small"
                 
                 MDIconButton:
                     md_bg_color: "#fdbc48"
@@ -252,7 +283,8 @@ MDBoxLayout:
                     theme_text_color: "Custom"
                     text_color : "#141b23"
                     bold: True
-                    font_style : "H5"
+                    font_style : "Display"
+                    role:"small"
 
                 MDIconButton:
                     icon: "pause"
@@ -273,7 +305,8 @@ MDBoxLayout:
                     theme_text_color: "Custom"
                     text_color : "#141b23"
                     bold: True
-                    font_style : "H5"
+                    font_style : "Display"
+                    role:"small"
 
                 MDIconButton:
                     icon: "fan-chevron-down"

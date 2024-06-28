@@ -1,6 +1,6 @@
 from kivymd.app import MDApp
 from kivy.lang import Builder
-from kivymd.toast import toast
+# from kivymd.toast import toast
 from kivy import platform
 if platform == "android":
     from jnius import autoclass
@@ -10,7 +10,7 @@ if platform == "android":
 class AndroidBluetoothClass:
 
     def getAndroidBluetoothSocket(self, DeviceName):
-        toast("Searching for AndroidBluetoothSocket")
+        # toast("Searching for AndroidBluetoothSocket")
         print("Searching for AndroidBluetoothSocket")
         paired_devices = self.BluetoothAdapter.getDefaultAdapter().getBondedDevices().toArray()
         socket = None
@@ -23,11 +23,12 @@ class AndroidBluetoothClass:
                 socket.connect()
                 self.ConnectionEstablished = True
                 print('Bluetooth Connection successful')
-                toast("Bluetooth Connection successful")
+                # toast("Bluetooth Connection successful")
                 break
 
         if not self.ConnectionEstablished:
-            toast("Bluetooth Connection failed")
+            # toast("Bluetooth Connection failed")
+            pass
         return self.ConnectionEstablished
 
     def BluetoothSend(self, Message):
@@ -43,7 +44,7 @@ class AndroidBluetoothClass:
         return DataStream
 
     def __init__(self):
-        toast("Initializing Bluetooth")
+        # toast("Initializing Bluetooth")
         print("Initializing Bluetooth")
         if platform == "android":
             self.BluetoothAdapter = autoclass('android.bluetooth.BluetoothAdapter')
@@ -53,11 +54,11 @@ class AndroidBluetoothClass:
             self.BufferReader = autoclass('java.io.BufferedReader')
             self.InputStream = autoclass('java.io.InputStreamReader')
         self.ConnectionEstablished = False
-        toast("Bluetooth initialization finished")
+        # toast("Bluetooth initialization finished")
         print("Bluetooth initialization finished")
 
     def __del__(self):
-        toast("Destroying Bluetooth class")
+        # toast("Destroying Bluetooth class")
         print('Destroying Bluetooth class')
 
 class MyApp(MDApp):
