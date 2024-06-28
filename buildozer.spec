@@ -4,10 +4,10 @@
 title = Green Clean
 
 # (str) Package name
-package.name = greenclean
+package.name = green
 
 # (str) Package domain (needed for android/ios packaging)
-package.domain = org.pill
+package.domain = org.clean
 
 # (str) Source code where the main.py live
 source.dir = .
@@ -16,7 +16,7 @@ source.dir = .
 source.include_exts = py,png,jpg,kv,atlas,ttf,json,wav,ico
 
 # (list) List of inclusions using pattern matching
-source.include_patterns = assets/*,images/*.png
+#source.include_patterns = assets/*,images/*.png
 
 # (list) Source files to exclude (let empty to not exclude anything)
 #source.exclude_exts = spec
@@ -37,7 +37,7 @@ version = 2.1
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = python3, kivy, materialyoucolor, exceptiongroup, asyncgui, asynckivy,oscpy ,kivymd==1.1.1,sdl2_ttf==2.0.15,pillow,pyjnius
+requirements = python3, kivy==2.3.0,  https://github.com/kivymd/KivyMD/archive/master.zip, materialyoucolor, exceptiongroup, asyncgui, asynckivy, Pillow,python-bidi,arabic_reshaper,plyer==2.0.0,oscpy 
 
 
 # (str) Custom source folders for requirements
@@ -98,7 +98,7 @@ android.presplash_color = #1A1B21
 
 # (list) Permissions
 # (See https://python-for-android.readthedocs.io/en/latest/buildoptions/#build-options-1 for all the supported syntaxes and properties)
-android.permissions = INTERNET ,READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE,FOREGROUND_SERVICE,POST_NOTIFICATIONS,BLUETOOTH_CONNECT,BLUETOOTH_SCAN, INTERNET,BLUETOOTH_ADMIN,BLUETOOTH
+android.permissions = INTERNET ,READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE,FOREGROUND_SERVICE,POST_NOTIFICATIONS,BLUETOOTH_CONNECT,BLUETOOTH_SCAN
 #android.permissions = INTERNET,ACCESS_NETWORK_STATE,android.permission.INTERNET, READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE,(name=android.permission.WRITE_EXTERNAL_STORAGE;maxSdkVersion=18) 
 # (list) features (adds uses-feature -tags to manifest)
 #android.features = android.hardware.usb.host
@@ -310,7 +310,7 @@ android.allow_backup = True
 
 # (str) The format used to package the app for release mode (aab or apk or aar).
 # android.release_artifact = aab
-android.release_artifact = apk
+#android.release_artifact = apk
 
 # (str) The format used to package the app for debug mode (apk or aar).
 # android.debug_artifact = apk
@@ -327,7 +327,7 @@ android.release_artifact = apk
 
 # (str) python-for-android branch to use, defaults to master
 # p4a.branch = master
-p4a.branch = develop
+# p4a.branch = develop
 
 # (str) python-for-android specific commit to use, defaults to HEAD, must be within p4a.branch
 #p4a.commit = HEAD

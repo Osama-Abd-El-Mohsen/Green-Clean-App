@@ -4,8 +4,7 @@ from kivymd.toast import toast
 from kivy import platform
 if platform == "android":
     from jnius import autoclass
-from kivymd.tools.hotreload.app import MDApp
-from kivymd.utils.set_bars_colors import set_bars_colors
+# from kivymd.tools.hotreload.app import MDApp
 
 
 class AndroidBluetoothClass:
@@ -62,11 +61,11 @@ class AndroidBluetoothClass:
         print('Destroying Bluetooth class')
 
 class MyApp(MDApp):
-    DEBUG = True
+    # DEBUG = True
 
     def switch_theme_style(self):
         self.theme_cls.theme_style = "Dark" if self.theme_cls.theme_style == "Light" else "Light"
-    def build_app(self):
+    def build(self):
 
         if platform == "android":
             from android.permissions import request_permissions, Permission 
@@ -91,7 +90,7 @@ class MyApp(MDApp):
         self.android_bluetooth.BluetoothSend('b')
 
     def connect_bluetooth(self):
-        self.android_bluetooth.getAndroidBluetoothSocket("HC-05")  # Replace "YourDeviceName" with the actual device name
+        self.android_bluetooth.getAndroidBluetoothSocket("HC-05")  
 
 
 MyApp().run()

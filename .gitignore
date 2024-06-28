@@ -10,3 +10,4 @@ testeremails.csv
 env/
 .gitignore
 *.md
+*.ai
