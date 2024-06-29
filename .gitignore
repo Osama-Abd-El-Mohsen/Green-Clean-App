@@ -11,3 +11,5 @@ env/
 .gitignore
 *.md
 *.ai
+APKS/
+test.py
