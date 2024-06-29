@@ -1,1 +1,11 @@
-{"devices": [], "style": "Light"}
+{
+    "devices": {
+        "Address": []
+        }, 
+    "devices1": {
+        "Name": []
+        }, 
+    "style": {
+        "List2": "Light"
+    }
+}

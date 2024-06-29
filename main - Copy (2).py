@@ -11,7 +11,6 @@ import time
 from kivy.uix.screenmanager import Screen, ScreenManager
 from kivy.storage.jsonstore import JsonStore
 from kivy.clock import Clock
-from kivymd.uix.menu import MDDropdownMenu
 
 from kivy import platform
 if platform == "android":
@@ -24,11 +23,11 @@ class MainScreen(Screen):
 class SecondScreen(Screen):
     pass
 
-style_state = 'Light'
-id_devices_list =[]
+style_state =[]
+# id_devices_list =[]
 name_devices_list=[]
 address_devices_list=[]
-selected_device = ''
+
 def snackbar(text:str):
     MDSnackbar(
         MDSnackbarText(
@@ -55,74 +54,69 @@ class AndroidBluetoothClass:
             paired_devices = bluetooth_adapter.getBondedDevices().toArray()
             print(f"paired_devices = {paired_devices}")
             socket = None
-            
-            if len(paired_devices)!=0:
-                for device in paired_devices:
-                    if device.getName() == DeviceName and device.getAddress() not in address_devices_list:
-                        device_name = device.getName()
-                        device_address = device.getAddress()
-                        id_devices_list.append(device)
-                        name_devices_list.append(device_name)
-                        address_devices_list.append(device_address)
-                        self.save()
+            for device in paired_devices:
+                if device.getName() == DeviceName and device.getAddress() not in address_devices_list:
+                    device_name = device.getName()
+                    device_address = device.getAddress()
+                    # id_devices_list.append(device)
+                    name_devices_list.append(device_name)
+                    address_devices_list.append(device_address)
+                    self.save()
 
-                        try:
-                            print(f"DeviceName = {device_name}")
-                            print(f"getAddress = {device_address}")
-                        except:pass
-                        second_screen = self.KV.get_screen('second')
-                        second_screen.ids.list.add_widget(
-                            MDCard(
+                    try:
+                        print(f"DeviceName = {device_name}")
+                        print(f"getAddress = {device_address}")
+                    except:pass
+                    second_screen = self.KV.get_screen('second')
+                    second_screen.ids.list.add_widget(
+                        MDCard(
 
-                            MDRelativeLayout(
-                                MDIconButton(
-                                    icon= "pencil",
-                                    pos_hint= {"top": 1, "right": 1},
-                                ),
-
-                                MDBoxLayout(
-                                    MDLabel(
-                                        text= f"{device_name}",
-                                        adaptive_size= True,
-                                        bold= True,
-                                        halign= 'center',
-                                        theme_text_color= "Custom",
-                                        text_color = "#141b23",
-                                        font_style = "Headline",
-                                        role="small",
-                                    ),
-                                    MDLabel(
-                                        text= f"{device_address}",
-                                        adaptive_size= True,
-                                        color= "grey",
-                                        pos= ("12dp", "12dp"),
-                                    ),
-                                    orientation= 'vertical',
-                                    padding = dp(15),
-                                ),
+                        MDRelativeLayout(
+                            MDIconButton(
+                                icon= "pencil",
+                                pos_hint= {"top": 1, "right": .92},
                             ),
-                            id = f"{device_address}",
-                            style= "filled",
-                            pos_hint= {"center_x": .5, "center_y": .5},
-                            # size_hint=(.9, None),
-                            # size=(.1,.9) 
 
-                            size_hint=(.5, None),
-                            size=(1, 200),
-                            padding=(10, 10, 10, 10),
-                            )
+                            MDIconButton(
+                                icon= "delete",
+                                pos_hint= {"top": 1, "right":1},
+                            ),
+
+                            MDBoxLayout(
+                                MDLabel(
+                                    text= f"{device_name}",
+                                    adaptive_size= True,
+                                    bold= True,
+                                    halign= 'center',
+                                    theme_text_color= "Custom",
+                                    text_color = "#141b23",
+                                    font_style = "Headline",
+                                    role="small",
+                                ),
+                                MDLabel(
+                                    text= f"{device_address}",
+                                    adaptive_size= True,
+                                    color= "grey",
+                                    pos= ("12dp", "12dp"),
+                                    bold= True,
+                                ),
+                                orientation= 'vertical',
+                                padding = dp(15),
+
+                            ),
+                        ),
+                        id = f"{device_address}",
+                        style= "filled",
+                        pos_hint= {"center_x": .5, "center_y": .5},
+                        padding= "4dp",
+                        size_hint=(.9, None),
                         )
-
+                    )
+                
         except Exception as e:
             print(e)
 
     def get_connect_to_device(self, device):
-        print(f"="*50)
-        print(f"device = {device}")
-        print(f"device Name = {device.getName()}")
-        print(f"device Address = {device.getAddress()}")
-        print(f"device type = {type(device)}")
-        print(f"="*50)
         try :
             socket = device.createRfcommSocketToServiceRecord(
                 self.UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"))
@@ -159,6 +153,7 @@ class AndroidBluetoothClass:
 
     def __init__(self,KV):
         self.stored_data = JsonStore('data.json')
+        Clock.schedule_once(lambda *args: self.load())
         self.KV = KV
         try:
             snackbar("Initializing Bluetooth")
@@ -177,10 +172,21 @@ class AndroidBluetoothClass:
             snackbar("Bluetooth Can not initialization")
             print("Bluetooth Can not initialization")
 
+    def load(self):
+        style_state = self.stored_data.get('style')['List2']
+        # id_devices_list = self.stored_data.get('devices')['Id']
+        name_devices_list = self.stored_data.get('devices')['Name']
+        address_devices_list = self.stored_data.get('devices')['Address']
+
+        print("from load")
+        # print(id_devices_list)
+        print(name_devices_list)
+        print(address_devices_list)
+        print(style_state)
 
     def save(self):
         # self.stored_data.put('devices', Id=id_devices_list)
-        self.stored_data.put('devices1', Name=name_devices_list)
+        self.stored_data.put('devices', Name=name_devices_list)
         self.stored_data.put('devices', Address=address_devices_list)
         self.stored_data.put('style', List2=style_state)
         print("="*50)
@@ -194,38 +200,11 @@ class AndroidBluetoothClass:
         snackbar("Destroying Bluetooth class")
         print('Destroying Bluetooth class')
 
-menu = ""
+
 
 class MyApp(MDApp):
     # DEBUG = True
     
-    def open_menu(self, item):
-        global menu
-        menu_items = [
-            {
-                "text": f"{id.getName()}",
-                "on_release": lambda x=id: self.menu_callback(id.getName(), x),
-            } for id in id_devices_list
-        ]
-        menu = MDDropdownMenu(caller=item, items=menu_items)
-        menu.open()
-
-    def menu_callback(self, text_item,id):
-        global selected_device
-        print("in callback")
-        print("id_devices_list = ")
-        print(id_devices_list)
-        print("name_devices_list = ")
-        print(name_devices_list)
-        print("text_item = ")
-        print(text_item)
-        print("id = ")
-        print(id)
-        main_screen = self.KV.get_screen('main')
-        main_screen.ids.drop_text.text = text_item
-        selected_device = id
-        menu.dismiss()
-
     def switch_theme_style(self):
         self.theme_cls.theme_style = "Dark" if self.theme_cls.theme_style == "Light" else "Light"
     
@@ -235,10 +214,9 @@ class MyApp(MDApp):
         Clock.schedule_once(lambda *args: self.load())
     
     def load(self):
-        global style_state,name_devices_list,address_devices_list
         style_state = self.stored_data.get('style')['List2']
         # id_devices_list = self.stored_data.get('devices')['Id']
-        name_devices_list = self.stored_data.get('devices1')['Name']
+        name_devices_list = self.stored_data.get('devices')['Name']
         address_devices_list = self.stored_data.get('devices')['Address']
 
         print("from load")
@@ -249,7 +227,7 @@ class MyApp(MDApp):
 
     def save(self):
         # self.stored_data.put('devices', Id=id_devices_list)
-        self.stored_data.put('devices1', Name=name_devices_list)
+        self.stored_data.put('devices', Name=name_devices_list)
         self.stored_data.put('devices', Address=address_devices_list)
         self.stored_data.put('style', List2=style_state)
         print("="*50)
@@ -270,6 +248,7 @@ class MyApp(MDApp):
         self.KV = Builder.load_file("kivy.kv")
         self.android_bluetooth = AndroidBluetoothClass(self.KV)
         self.android_bluetooth.get_paired_devices()
+        
 
         return self.KV
     
@@ -297,15 +276,13 @@ class MyApp(MDApp):
         self.android_bluetooth.BluetoothSend('9')
 
 
-    def bluetooth_devices(self):
-        self.android_bluetooth.get_paired_devices("HC-05")  
-
     def connect_bluetooth(self):
-        self.android_bluetooth.get_connect_to_device(selected_device)  
+        # self.android_bluetooth.get_connect_to_device("HC-05")  
+        self.android_bluetooth.get_paired_devices("HC-05")  
 
     def go_to_second_screen(self):
         self.root.current = 'second'
-        self.bluetooth_devices()
+        self.connect_bluetooth()
         
     def go_back_to_main_screen(self):
         self.root.current = 'main'

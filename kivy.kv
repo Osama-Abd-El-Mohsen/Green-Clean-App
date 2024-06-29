@@ -31,26 +31,36 @@ ScreenManager:
                 bold:True
 
             MDTopAppBarTrailingButtonContainer:
-                # MDActionTopAppBarButton:
-                #     icon: "bluetooth-connect"
-                #     text_color:"#141b23"
-                #     on_release: app.connect_bluetooth() 
+                MDActionTopAppBarButton:
+                    icon: "robot"
+                    text_color:"#141b23"
+                    on_release: app.go_to_second_screen() 
                 MDActionTopAppBarButton:
                     text_color:"#141b23"
                     icon: "account-circle-outline"
                     on_release: app.info_dialog()
 
-        MDExtendedFabButton:
-            fab_state: "expand"
-            pos_hint: {"center_x": .5 ,"center_y": .5}
-            on_release: app.go_to_second_screen()
+        BoxLayout:
+            orientation: 'horizontal'
+            padding: dp(10)
+            spacing: dp(10)
+            size_hint: None, None
+            size: self.minimum_size
+            pos_hint: {"center_x": .5, "center_y": .5}
 
+            MDDropDownItem:
+                id : menu
+                on_release: app.open_menu(self)
 
-            MDExtendedFabButtonIcon:
-                icon: "robot"
+                MDDropDownItemText:
+                    id: drop_text
+                    text: "Select Device"
 
-            MDExtendedFabButtonText:
-                text: "Devices"
+            MDIconButton:
+                icon: "bluetooth-connect"
+                text_color: "#141b23"
+                on_release: app.connect_bluetooth()
+
 
         BoxLayout:
             orientation: 'horizontal'
@@ -461,7 +471,7 @@ ScreenManager:
             fab_state: "expand"
             pos_hint: {"center_x": .5, "center_y": .5}
             on_release: app.go_back_to_main_screen()
-
+            elevation_level:0
             MDExtendedFabButtonIcon:
                 icon: "arrow-left"
 
