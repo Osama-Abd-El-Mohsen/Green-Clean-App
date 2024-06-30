@@ -9,23 +9,26 @@ ScreenManager:
         id: boxlayout
         orientation: 'vertical'
         md_bg_color: "#ffffff"
-        spacing:dp(20)
+        spacing:dp(1)
 
         MDTopAppBar:
             type: "small"
             pos_hint: {"center_x": .5 ,"center_y": .5}
             theme_bg_color: "Custom"
             md_bg_color: "#1ca24d"
+            
 
             MDTopAppBarLeadingButtonContainer:
                 md_bg_color: "#1ca24d"
 
-                MDActionTopAppBarButton:
-                    icon: "theme-light-dark"
-                    text_color:"#141b23"
+                # MDActionTopAppBarButton:
+                #     icon: "theme-light-dark"
+                #     text_color:"#141b23"
+                #     on_release: app.switch_theme_style() 
 
             MDTopAppBarTitle:
                 text: "Green Clean App"
+                
                 font_style: "Headline"
                 role: "medium"
                 bold:True
@@ -42,8 +45,8 @@ ScreenManager:
 
         BoxLayout:
             orientation: 'horizontal'
-            padding: dp(10)
-            spacing: dp(10)
+            padding: dp(1)
+            spacing: dp(1)
             size_hint: None, None
             size: self.minimum_size
             pos_hint: {"center_x": .5, "center_y": .5}
@@ -51,29 +54,34 @@ ScreenManager:
             MDDropDownItem:
                 id : menu
                 on_release: app.open_menu(self)
+                bold:True
+                font_name:"font/cairo"
 
                 MDDropDownItemText:
                     id: drop_text
                     text: "Select Device"
+                    font_name:"font/cairo"
+                    bold:True
 
             MDIconButton:
                 icon: "bluetooth-connect"
-                text_color: "#141b23"
+                text_color: "blue"
                 on_release: app.connect_bluetooth()
+                id :connect
 
 
         BoxLayout:
             orientation: 'horizontal'
-            padding: dp(-5)
-            spacing: dp(5)
+            padding: dp(-2)
+            spacing: dp(2)
 
 
             BoxLayout:
                 orientation: 'vertical'
-                size_hint_y: 0.7
-                size_hint_x: 0.5
-                padding: dp(5)
-                spacing: dp(5)        
+                size_hint_y: 0.8
+                size_hint_x: 0.7
+                padding: dp(1)
+                spacing: dp(1)        
                 pos_hint: {"center_x": .5 ,"center_y": .5}
                 padding: "4dp"
                 canvas.before:
@@ -114,6 +122,7 @@ ScreenManager:
 
                     MDLabel:
                         text: "Increase Speed"
+                        
                         halign: 'center'
                         theme_text_color: "Custom"
                         text_color : "#141b23"
@@ -189,8 +198,8 @@ ScreenManager:
 
             BoxLayout:
                 orientation: 'vertical'
-                size_hint_y: 0.7
-                size_hint_x: 0.5
+                size_hint_y: 0.8
+                size_hint_x: 0.7
                 padding: dp(5)
                 spacing: dp(5)        
                 pos_hint: {"center_x": .5, "center_y": .5}
@@ -298,8 +307,8 @@ ScreenManager:
             size_hint_y: 0.35
             pos_hint: {"center_x": .5, "center_y": .5}
             elevation: 2
-            padding: dp(20)
-            spacing: dp(20)
+            padding: dp(10)
+            spacing: dp(2)
             canvas.before:
                 Color:
                     rgba: 0.11, 0.64 ,0.30, 1  # "#1ca24d"
@@ -451,9 +460,10 @@ ScreenManager:
             MDTopAppBarLeadingButtonContainer:
                 md_bg_color: "#1ca24d"
 
-                MDActionTopAppBarButton:
-                    icon: "theme-light-dark"
-                    text_color:"#141b23"
+                # MDActionTopAppBarButton:
+                #     icon: "theme-light-dark"
+                #     text_color:"#141b23"
+                #     on_release: app.switch_theme_style() 
 
             MDTopAppBarTitle:
                 text: "Green Clean App"
@@ -463,20 +473,54 @@ ScreenManager:
 
             MDTopAppBarTrailingButtonContainer:
                 MDActionTopAppBarButton:
+                    icon: "robot"
+                    text_color:"#141b23"
+                    on_release: app.go_to_second_screen() 
+                MDActionTopAppBarButton:
                     text_color:"#141b23"
                     icon: "account-circle-outline"
                     on_release: app.info_dialog()
 
-        MDExtendedFabButton:
-            fab_state: "expand"
+        BoxLayout:
+            orientation: 'horizontal'
+            padding: dp(10)
+            spacing: dp(10)
+            size_hint: None, None
+            size: self.minimum_size
             pos_hint: {"center_x": .5, "center_y": .5}
-            on_release: app.go_back_to_main_screen()
-            elevation_level:0
-            MDExtendedFabButtonIcon:
-                icon: "arrow-left"
 
-            MDExtendedFabButtonText:
-                text: "Back"
+            MDButton:
+                fab_state: "expand"
+                pos_hint: {"center_x": .5, "center_y": .5}
+                on_release: app.go_back_to_main_screen()
+                style: "tonal"
+                theme_bg_color: "Custom"
+                md_bg_color: "#141b23"
+                MDButtonIcon:
+                    icon: "arrow-left"
+                    theme_icon_color: "Custom"
+                    icon_color: "#f2f6fe"
+                MDButtonText:
+                    text: "Back"
+                    theme_text_color: "Custom"
+                    text_color: "#f2f6fe"
+
+            MDButton:
+                fab_state: "expand"
+                pos_hint: {"center_x": .5, "center_y": .5}
+                on_release: app.bluetooth_devices()
+                style: "filled"
+                theme_bg_color: "Custom"
+                md_bg_color: "#1ca24d"
+                MDButtonIcon:
+                    icon: "refresh"
+                    theme_icon_color: "Custom"
+                    icon_color: "#141b23"
+                MDButtonText:
+                    text: "Refresh"
+                    theme_text_color: "Custom"
+                    text_color: "#141b23"
+
 
         MDBoxLayout:
             orientation: 'vertical'
@@ -489,3 +533,39 @@ ScreenManager:
                     id:list
                     spacing:dp(5)
                     padding:dp(5)
+
+                    # MDCard:
+                    #     id : "{device_address}"
+                    #     style: "filled"
+                    #     pos_hint: {"center_x": .5, "center_y": .5}
+                    #     # size_hint:(.9, None)
+                    #     # size:(.1,.9) 
+
+                    #     size_hint:(.5, None)
+                    #     size:(1, 200)
+                    #     padding:(10, 10, 10, 10)
+
+                    #     MDRelativeLayout:
+                    #         MDIconButton:
+                    #             icon: "pencil"
+                    #             pos_hint: {"top": 1, "right": 1}
+                    #             on_release  : app.edit_device_card
+
+                    #         MDBoxLayout:
+                    #             orientation: 'vertical'
+                    #             padding : dp(15),
+                    #             MDLabel:
+                    #                 text: "{device_name}"
+                    #                 adaptive_size: True
+                    #                 bold: True
+                    #                 halign: 'center'
+                    #                 theme_text_color: "Custom"
+                    #                 text_color : "#141b23"
+                    #                 font_style : "Headline"
+                    #                 role:"small"
+                    #             MDLabel:
+                    #                 text: "{device_address}"
+                    #                 adaptive_size: True
+                    #                 color: "grey"
+                    #                 pos: ("12dp", "12dp")
+                                
