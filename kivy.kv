@@ -45,8 +45,8 @@ ScreenManager:
 
         BoxLayout:
             orientation: 'horizontal'
-            padding: dp(1)
-            spacing: dp(1)
+            padding: dp(7)
+            spacing: dp(20)
             size_hint: None, None
             size: self.minimum_size
             pos_hint: {"center_x": .5, "center_y": .5}
@@ -56,18 +56,43 @@ ScreenManager:
                 on_release: app.open_menu(self)
                 bold:True
                 font_name:"font/cairo"
+                theme_icon_color: "Custom"
+                theme_bg_color: "Custom"
+                theme_font_size: "Custom"
+                font_size: "20sp"
+                size_hint: None ,None
+                size: "40dp", "40dp"
+                md_bg_color: "#1ca24d"
+                text_color: "#141b23" 
 
                 MDDropDownItemText:
                     id: drop_text
                     text: "Select Device"
                     font_name:"font/cairo"
                     bold:True
+                    theme_icon_color: "Custom"
+                    theme_bg_color: "Custom"
+                    theme_font_size: "Custom"
+                    font_size: "20sp"
+                    size_hint: None ,None
+                    size: "40dp", "40dp"
+                    md_bg_color: "#1ca24d"
+                    text_color: "#141b23" 
+
 
             MDIconButton:
                 icon: "bluetooth-connect"
                 text_color: "blue"
                 on_release: app.connect_bluetooth()
                 id :connect
+                theme_icon_color: "Custom"
+                theme_bg_color: "Custom"
+                theme_font_size: "Custom"
+                font_size: "30sp"
+                size_hint: None ,None
+                size: "40dp", "40dp"
+                md_bg_color: "#f2f6fe"
+                text_color: "#196cac" 
 
 
         BoxLayout:
@@ -90,7 +115,7 @@ ScreenManager:
                     RoundedRectangle:
                         size: self.size
                         pos: self.pos
-                        radius: [0 ,10 ,10 ,0]
+                        radius: [0 ,25 ,25 ,0]
                 
 
                 MDLabel:
@@ -210,7 +235,7 @@ ScreenManager:
                     RoundedRectangle:
                         size: self.size
                         pos: self.pos
-                        radius: [10 ,0 ,0 ,10]
+                        radius: [25 ,0 ,0 ,25]
 
                 MDLabel:
                     text: "Brooms"
@@ -315,7 +340,7 @@ ScreenManager:
                 RoundedRectangle:
                     size: self.size
                     pos: self.pos
-                    radius: [10, 10, 0 ,0]
+                    radius: [25, 25, 0 ,0]
 
             MDLabel:
                 text: "Pump"

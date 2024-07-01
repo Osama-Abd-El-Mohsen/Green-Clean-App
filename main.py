@@ -205,7 +205,7 @@ class AndroidBluetoothClass:
             print('Bluetooth Connection successful')
             snackbar("Bluetooth Connection successful")
             main_screen = self.KV.get_screen('main')
-            main_screen.ids.connect.text_color="green"
+            main_screen.ids.connect.text_color="#1aaa65"
 
 
             if not self.ConnectionEstablished:
@@ -356,8 +356,8 @@ class MyApp(MDApp):
     # DEBUG = True
     def set_bars_colors(self):
         set_bars_colors(
-            "#1ca24d",
-            "#1ca24d",
+            [28/255, 162/255, 77/255,1],
+            [28/255, 162/255, 77/255,1],
             "Dark" 
         )
     def open_menu(self, item):
