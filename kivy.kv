@@ -362,7 +362,7 @@ ScreenManager:
                         text_color: "#130f1e" 
                         icon: "arrow-left-drop-circle"
                         pos_hint: {'center_x': 0.5,'center_y': 0.5}
-                        on_release: app.send_deg_up()
+                        on_release: app.send_deg_down()
 
                     MDLabel:
                         text: "Reducing Degree"
@@ -402,7 +402,7 @@ ScreenManager:
                         md_bg_color: "#fdbc48"
                         text_color: "#130f1e" 
                         pos_hint: {'center_x': 0.5}
-                        on_release: app.send_deg_down()
+                        on_release: app.send_deg_up()
 
                     MDLabel:
                         text: "Increase Degree"
