@@ -7,19 +7,20 @@ from kivymd.uix.relativelayout  import MDRelativeLayout
 from kivymd.uix.boxlayout  import MDBoxLayout
 from kivymd.uix.snackbar import MDSnackbar,MDSnackbarText
 from kivy.metrics import dp
-import time
-from kivy.uix.screenmanager import Screen, ScreenManager
+from kivy.uix.screenmanager import Screen
 from kivy.storage.jsonstore import JsonStore
 from kivy.clock import Clock
 from kivymd.uix.menu import MDDropdownMenu
-from kivymd.uix.dialog import *
+from kivymd.uix.dialog import MDDialog,MDDialogButtonContainer,MDDialogIcon,MDDialogHeadlineText,MDDialogSupportingText,MDDialogContentContainer
 from kivymd.uix.textfield import MDTextField,MDTextFieldHelperText,MDTextFieldHintText
-from kivymd.uix.button import MDButton, MDButtonIcon, MDButtonText
+from kivymd.uix.button import MDButton, MDButtonText
 from kivy.uix.widget import Widget
 from kivymd.uix.divider import MDDivider
-from kivymd.uix.list import *
+from kivymd.uix.list import MDListItem,MDListItemLeadingIcon,MDListItemSupportingText
 import webbrowser
 from kivymd.utils.set_bars_colors import set_bars_colors
+# from kivymd.tools.hotreload.app import MDApp
+
 
 from kivy import platform
 if platform == "android":
@@ -522,6 +523,10 @@ class MyApp(MDApp):
     def send_pump_stop(self):
         self.android_bluetooth.BluetoothSend('9')
 
+    def send_deg_up(self):
+        self.android_bluetooth.BluetoothSend('m')
+    def send_deg_down(self):
+        self.android_bluetooth.BluetoothSend('n')
 
     def bluetooth_devices(self):
         self.android_bluetooth.get_paired_devices("HC-05")  

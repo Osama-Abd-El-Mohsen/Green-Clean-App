@@ -23,7 +23,7 @@ ScreenManager:
 
                 # MDActionTopAppBarButton:
                 #     icon: "theme-light-dark"
-                #     text_color:"#141b23"
+                #     text_color:"#130f1e"
                 #     on_release: app.switch_theme_style() 
 
             MDTopAppBarTitle:
@@ -36,10 +36,10 @@ ScreenManager:
             MDTopAppBarTrailingButtonContainer:
                 MDActionTopAppBarButton:
                     icon: "robot"
-                    text_color:"#141b23"
+                    text_color:"#130f1e"
                     on_release: app.go_to_second_screen() 
                 MDActionTopAppBarButton:
-                    text_color:"#141b23"
+                    text_color:"#130f1e"
                     icon: "account-circle-outline"
                     on_release: app.info_dialog()
 
@@ -63,7 +63,7 @@ ScreenManager:
                 size_hint: None ,None
                 size: "40dp", "40dp"
                 md_bg_color: "#1ca24d"
-                text_color: "#141b23" 
+                text_color: "#130f1e" 
 
                 MDDropDownItemText:
                     id: drop_text
@@ -77,7 +77,7 @@ ScreenManager:
                     size_hint: None ,None
                     size: "40dp", "40dp"
                     md_bg_color: "#1ca24d"
-                    text_color: "#141b23" 
+                    text_color: "#130f1e" 
 
 
             MDIconButton:
@@ -90,7 +90,7 @@ ScreenManager:
                 theme_font_size: "Custom"
                 font_size: "30sp"
                 size_hint: None ,None
-                size: "40dp", "40dp"
+                size: "45dp", "45dp"
                 md_bg_color: "#f2f6fe"
                 text_color: "#196cac" 
 
@@ -135,22 +135,22 @@ ScreenManager:
                         theme_icon_color: "Custom"
                         theme_bg_color: "Custom"
                         theme_font_size: "Custom"
-                        font_size: "35sp"
+                        font_size: "60sp"
                         size_hint: None ,None
-                        size: "50dp", "50dp"
+                        size: "60dp", "60dp"
 
-                        icon: "menu-up"
-                        pos_hint: {'center_x': 0.5}
+                        icon: "arrow-up-drop-circle"
+                        pos_hint: {'center_x': 0.5,'center_y': 0.5}
                         on_release: app.send_wheels_up()
                         md_bg_color: "#fdbc48"
-                        text_color: "#141b23" 
+                        text_color: "#130f1e" 
 
                     MDLabel:
                         text: "Increase Speed"
                         
                         halign: 'center'
                         theme_text_color: "Custom"
-                        text_color : "#141b23"
+                        text_color : "#130f1e"
                         bold: True
                         font_style : "Title"
                         role:"medium"
@@ -165,19 +165,19 @@ ScreenManager:
                         theme_font_size: "Custom"
                         font_size: "30sp"
                         size_hint: None, None
-                        size: "45dp" ,"45dp"
+                        size: "50dp" ,"50dp"
 
                         icon: "pause"
                         md_bg_color: "#cd2525"
                         text_color: "#f2f6fe" 
-                        pos_hint: {'center_x': 0.5}
+                        pos_hint: {'center_x': 0.5,'center_y': 0.5}
                         on_release: app.send_wheels_stop()
 
                     MDLabel:
                         text: "Pause"
                         halign: 'center'
                         theme_text_color: "Custom"
-                        text_color : "#141b23"
+                        text_color : "#130f1e"
                         bold: True
                         font_style : "Title"
                         role:"medium"
@@ -190,21 +190,21 @@ ScreenManager:
                         theme_icon_color: "Custom"
                         theme_bg_color: "Custom"
                         theme_font_size: "Custom"
-                        font_size: "35sp"
+                        font_size: "60sp"
                         size_hint: None, None
-                        size: "50dp", "50dp"
+                        size: "60dp", "60dp"
 
-                        icon: "menu-down"
-                        pos_hint: {'center_x': 0.5}
+                        icon: "arrow-down-drop-circle"
+                        pos_hint: {'center_x': 0.5,'center_y': 0.5}
                         on_release: app.send_wheels_down()
                         md_bg_color: "#fdbc48"
-                        text_color: "#141b23" 
+                        text_color: "#130f1e" 
 
                     MDLabel:
                         text: "Reducing Speed"
                         halign: 'center'
                         theme_text_color: "Custom"
-                        text_color : "#141b23"
+                        text_color : "#130f1e"
                         bold: True
                         font_style : "Title"
                         role:"medium"
@@ -254,21 +254,21 @@ ScreenManager:
                         theme_icon_color: "Custom"
                         theme_bg_color: "Custom"
                         theme_font_size: "Custom"
-                        font_size: "35sp"
+                        font_size: "60sp"
                         size_hint: None, None
-                        size: "50dp", "50dp"
+                        size: "60dp", "60dp"
 
-                        icon: "menu-up"
-                        pos_hint: {'center_x': 0.5}
+                        icon: "arrow-up-drop-circle"
+                        pos_hint: {'center_x': 0.5,'center_y': 0.5}
                         on_release: app.send_brooms_up()
                         md_bg_color: "#fdbc48"
-                        text_color: "#141b23" 
+                        text_color: "#130f1e" 
 
                     MDLabel:
                         text: "Increase Speed"
                         halign: 'center'
                         theme_text_color: "Custom"
-                        text_color : "#141b23"
+                        text_color : "#130f1e"
                         bold: True
                         font_style : "Title"
                         role:"medium"
@@ -283,19 +283,19 @@ ScreenManager:
                         theme_font_size: "Custom"
                         font_size: "30sp"
                         size_hint: None, None
-                        size: "45dp", "45dp"
+                        size: "50dp", "50dp"
 
                         icon: "pause"
                         md_bg_color: "#cd2525"
                         text_color: "#f2f6fe" 
-                        pos_hint: {'center_x': 0.5}
+                        pos_hint: {'center_x': 0.5,'center_y': 0.5}
                         on_release: app.send_brooms_stop()
 
                     MDLabel:
                         text: "Pause"
                         halign: 'center'
                         theme_text_color: "Custom"
-                        text_color : "#141b23"
+                        text_color : "#130f1e"
                         bold: True
                         font_style : "Title"
                         role:"medium"
@@ -308,13 +308,13 @@ ScreenManager:
                         theme_icon_color: "Custom"
                         theme_bg_color: "Custom"
                         theme_font_size: "Custom"
-                        font_size: "35sp"
+                        font_size: "60sp"
                         size_hint: None, None
-                        size: "50dp" ,"50dp"
+                        size: "60dp" ,"60dp"
 
-                        icon: "menu-down"
+                        icon: "arrow-down-drop-circle"
                         md_bg_color: "#fdbc48"
-                        text_color: "#141b23" 
+                        text_color: "#130f1e" 
                         pos_hint: {'center_x': 0.5}
                         on_release: app.send_brooms_down()
 
@@ -322,10 +322,99 @@ ScreenManager:
                         text: "Reducing Speed"
                         halign: 'center'
                         theme_text_color: "Custom"
-                        text_color : "#141b23"
+                        text_color : "#130f1e"
                         bold: True
                         font_style : "Title"
                         role:"medium"
+
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint_y: 0.2
+            pos_hint: {"center_x": .5, "center_y": .5}
+            elevation: 2
+            padding: dp(5)
+            spacing: dp(2)
+            canvas.before:
+                Color:
+                    rgba: 242/255, 246/255, 254/255, 1
+                RoundedRectangle:
+                    size: self.size
+                    pos: self.pos
+                    radius: [25, 25, 0 ,0]
+
+            BoxLayout:
+                orientation: 'horizontal'
+                spacing: dp(2)
+
+                BoxLayout:
+                    orientation: 'vertical'
+                    spacing: dp(2)
+
+                    MDIconButton:
+                        theme_icon_color: "Custom"
+                        theme_bg_color: "Custom"
+                        theme_font_size: "Custom"
+                        font_size: "60sp"
+                        size_hint: None, None
+                        size: "60dp", "60dp"
+
+                        md_bg_color: "#fdbc48"
+                        text_color: "#130f1e" 
+                        icon: "arrow-left-drop-circle"
+                        pos_hint: {'center_x': 0.5,'center_y': 0.5}
+                        on_release: app.send_deg_up()
+
+                    MDLabel:
+                        text: "Increase Degree"
+                        halign: 'center'
+                        theme_text_color: "Custom"
+                        text_color : "#130f1e"
+                        bold: True
+                        font_style : "Title"
+                        role:"medium"
+
+                BoxLayout:
+                    orientation: 'vertical'
+                    spacing: dp(2)
+
+                    MDLabel:
+                        text: "Glass MOP"
+                        halign: 'center'
+                        theme_text_color: "Custom"
+                        text_color : "#1ca24d"
+                        bold: True
+                        font_style : "Title"
+                        role:"large"
+
+                BoxLayout:
+                    orientation: 'vertical'
+                    spacing: dp(2)
+
+                    MDIconButton:
+                        theme_icon_color: "Custom"
+                        theme_bg_color: "Custom"
+                        theme_font_size: "Custom"
+                        font_size: "60sp"
+                        size_hint: None, None
+                        size: "60dp" ,"60dp"
+
+                        icon: "arrow-right-drop-circle"
+                        md_bg_color: "#fdbc48"
+                        text_color: "#130f1e" 
+                        pos_hint: {'center_x': 0.5}
+                        on_release: app.send_deg_down()
+
+                    MDLabel:
+                        text: "Reducing Degree"
+                        halign: 'center'
+                        theme_text_color: "Custom"
+                        text_color : "#130f1e"
+                        bold: True
+                        font_style : "Title"
+                        role:"medium"
+
+
+
 
         BoxLayout:
             orientation: 'vertical'
@@ -364,12 +453,12 @@ ScreenManager:
                         theme_icon_color: "Custom"
                         theme_bg_color: "Custom"
                         theme_font_size: "Custom"
-                        font_size: "35sp"
+                        font_size: "40sp"
                         size_hint: None, None
-                        size: "50dp", "50dp"
+                        size: "60dp", "60dp"
 
                         md_bg_color: "#fdbc48"
-                        text_color: "#141b23" 
+                        text_color: "#130f1e" 
                         icon: "fan-chevron-up"
                         pos_hint: {'center_x': 0.5}
                         on_release: app.send_pump_up()
@@ -388,7 +477,7 @@ ScreenManager:
                         text: "Increase Speed"
                         halign: 'center'
                         theme_text_color: "Custom"
-                        text_color : "#141b23"
+                        text_color : "#130f1e"
                         bold: True
                         font_style : "Title"
                         role:"medium"
@@ -401,9 +490,9 @@ ScreenManager:
                         theme_icon_color: "Custom"
                         theme_bg_color: "Custom"
                         theme_font_size: "Custom"
-                        font_size: "30sp"
+                        font_size: "35sp"
                         size_hint: None, None
-                        size: "45dp", "45dp"
+                        size: "50dp", "50dp"
 
                         icon: "pause"
                         md_bg_color: "#cd2525"
@@ -425,7 +514,7 @@ ScreenManager:
                         text: "Pause"
                         halign: 'center'
                         theme_text_color: "Custom"
-                        text_color : "#141b23"
+                        text_color : "#130f1e"
                         bold: True
                         font_style : "Title"
                         role:"medium"
@@ -438,13 +527,13 @@ ScreenManager:
                         theme_icon_color: "Custom"
                         theme_bg_color: "Custom"
                         theme_font_size: "Custom"
-                        font_size: "35sp"
+                        font_size: "40sp"
                         size_hint: None, None
-                        size: "50dp" ,"50dp"
+                        size: "60dp" ,"60dp"
 
                         icon: "fan-chevron-down"
                         md_bg_color: "#fdbc48"
-                        text_color: "#141b23" 
+                        text_color: "#130f1e" 
                         pos_hint: {'center_x': 0.5}
                         on_release: app.send_pump_down()
 
@@ -462,7 +551,7 @@ ScreenManager:
                         text: "Reducing Speed"
                         halign: 'center'
                         theme_text_color: "Custom"
-                        text_color : "#141b23"
+                        text_color : "#130f1e"
                         bold: True
                         font_style : "Title"
                         role:"medium"
@@ -487,7 +576,7 @@ ScreenManager:
 
                 # MDActionTopAppBarButton:
                 #     icon: "theme-light-dark"
-                #     text_color:"#141b23"
+                #     text_color:"#130f1e"
                 #     on_release: app.switch_theme_style() 
 
             MDTopAppBarTitle:
@@ -498,11 +587,7 @@ ScreenManager:
 
             MDTopAppBarTrailingButtonContainer:
                 MDActionTopAppBarButton:
-                    icon: "robot"
-                    text_color:"#141b23"
-                    on_release: app.go_to_second_screen() 
-                MDActionTopAppBarButton:
-                    text_color:"#141b23"
+                    text_color:"#130f1e"
                     icon: "account-circle-outline"
                     on_release: app.info_dialog()
 
@@ -520,7 +605,7 @@ ScreenManager:
                 on_release: app.go_back_to_main_screen()
                 style: "tonal"
                 theme_bg_color: "Custom"
-                md_bg_color: "#141b23"
+                md_bg_color: "#130f1e"
                 MDButtonIcon:
                     icon: "arrow-left"
                     theme_icon_color: "Custom"
@@ -540,11 +625,11 @@ ScreenManager:
                 MDButtonIcon:
                     icon: "refresh"
                     theme_icon_color: "Custom"
-                    icon_color: "#141b23"
+                    icon_color: "#130f1e"
                 MDButtonText:
                     text: "Refresh"
                     theme_text_color: "Custom"
-                    text_color: "#141b23"
+                    text_color: "#130f1e"
 
 
         MDBoxLayout:
@@ -585,7 +670,7 @@ ScreenManager:
                     #                 bold: True
                     #                 halign: 'center'
                     #                 theme_text_color: "Custom"
-                    #                 text_color : "#141b23"
+                    #                 text_color : "#130f1e"
                     #                 font_style : "Headline"
                     #                 role:"small"
                     #             MDLabel:

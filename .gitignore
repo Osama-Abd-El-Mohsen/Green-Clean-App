@@ -13,3 +13,6 @@ env/
 *.ai
 APKS/
 test.py
+.buildozer
+.idea
+bin/

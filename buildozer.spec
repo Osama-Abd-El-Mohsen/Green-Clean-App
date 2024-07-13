@@ -13,7 +13,7 @@ package.domain = org.clean
 source.dir = .
 
 # (list) Source files to include (let empty to include all the files)
-source.include_exts = py,png,jpg,kv,atlas,ttf,json,wav,ico
+source.include_exts = py,png,jpg,kv,atlas,ttf,json,ico
 
 # (list) List of inclusions using pattern matching
 #source.include_patterns = assets/*,images/*.png
@@ -29,7 +29,7 @@ source.include_exts = py,png,jpg,kv,atlas,ttf,json,wav,ico
 #source.exclude_patterns = license,images/*/*.jpg
 
 # (str) Application versioning (method 1)
-version = 1.3
+version = 1.4
 
 # (str) Application versioning (method 2)
 # version.regex = __version__ = ['"](.*)['"]
@@ -37,7 +37,7 @@ version = 1.3
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = python3, kivy==2.3.0,  https://github.com/kivymd/KivyMD/archive/master.zip, materialyoucolor, exceptiongroup, asyncgui, asynckivy, Pillow,python-bidi,arabic_reshaper,plyer==2.0.0,oscpy
+requirements = python3, kivy==2.3.0,  https://github.com/kivymd/KivyMD/archive/master.zip, materialyoucolor, exceptiongroup, asyncgui, asynckivy, Pillow,oscpy
 
 
 # (str) Custom source folders for requirements
