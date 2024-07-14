@@ -19,7 +19,7 @@ from kivymd.uix.divider import MDDivider
 from kivymd.uix.list import MDListItem,MDListItemLeadingIcon,MDListItemSupportingText
 import webbrowser
 from kivymd.utils.set_bars_colors import set_bars_colors
-# from kivymd.tools.hotreload.app import MDApp
+from kivymd.tools.hotreload.app import MDApp
 
 
 from kivy import platform
@@ -269,8 +269,15 @@ class AndroidBluetoothClass:
             print(e)
 
         card = instance.parent.parent
-        device_name = instance.parent.get_ids()["device_name"].text
+        # device_name = instance.parent.get_ids()["device_name"].text
+        device_name = card.children[0].children[0].children[1].text
 
+        print("="*50)
+        print("in edit_device_card")
+        print(device_name)
+        print("="*50)
+
+        
         self.dialog = MDDialog(
             MDDialogIcon(
                 icon="pencil",
@@ -354,7 +361,7 @@ class AndroidBluetoothClass:
 menu = ""
 
 class MyApp(MDApp):
-    # DEBUG = True
+    DEBUG = True
     def set_bars_colors(self):
         set_bars_colors(
             [28/255, 162/255, 77/255,1],
@@ -423,7 +430,7 @@ class MyApp(MDApp):
         print(style_state)
         print("="*50)
 
-    def build(self):
+    def build_app(self):
         if platform == "android":
             from android.permissions import request_permissions, Permission 
             request_permissions([Permission.BLUETOOTH_CONNECT, Permission.BLUETOOTH_SCAN,Permission.ACCESS_FINE_LOCATION,Permission.BLUETOOTH])
@@ -536,6 +543,10 @@ class MyApp(MDApp):
             self.android_bluetooth.get_connect_to_device(selected_address)  
         except Exception as e :
             print(e)
+
+    def edit(self,x):
+        self.android_bluetooth.edit_device_card(x)  
+
 
     def go_to_second_screen(self):
         self.root.current = 'second'
