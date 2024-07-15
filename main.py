@@ -19,8 +19,9 @@ from kivymd.uix.divider import MDDivider
 from kivymd.uix.list import MDListItem,MDListItemLeadingIcon,MDListItemSupportingText
 import webbrowser
 from kivymd.utils.set_bars_colors import set_bars_colors
-from kivymd.tools.hotreload.app import MDApp
-
+# from kivymd.tools.hotreload.app import MDApp
+import json
+import time
 
 from kivy import platform
 if platform == "android":
@@ -32,6 +33,12 @@ id_devices_list =[]
 name_devices_list=[]
 address_devices_list=[]
 selected_address = ''
+RSM1 = 0
+LSM1 = 0
+RSM2 = 0
+LSM2 = 0
+RSM3 = 0
+LSM3 = 0
 
 class MainScreen(Screen):
     pass
@@ -105,9 +112,9 @@ class AndroidBluetoothClass:
         try :
             self.init_bluetooth()
             paired_devices = self.bluetooth_adapter.getBondedDevices().toArray()
-            # print(f"="*50)
-            # print(f"paired_devices = {paired_devices}")
-            # print(f"="*50)
+            print(f"="*50)
+            print(f"paired_devices = {paired_devices}")
+            print(f"="*50)
             
             if len(paired_devices)!=0:
                 second_screen = self.KV.get_screen('second')
@@ -236,6 +243,14 @@ class AndroidBluetoothClass:
             snackbar('Bluetooth device not connected')
             print('Bluetooth device not connected')
 
+    def BluetoothReceive(self):
+        snackbar("Receiving Bluetooth message")
+        print("Receiving Bluetooth message")
+        DataStream = ''
+        if self.ConnectionEstablished:
+            DataStream = str(self.ReceiveData.readLine())
+            print(f"recevied data = {DataStream}")
+        return DataStream
 
     def __init__(self,KV):
         self.stored_data = JsonStore('data.json')
@@ -361,7 +376,7 @@ class AndroidBluetoothClass:
 menu = ""
 
 class MyApp(MDApp):
-    DEBUG = True
+    # DEBUG = True
     def set_bars_colors(self):
         set_bars_colors(
             [28/255, 162/255, 77/255,1],
@@ -430,7 +445,7 @@ class MyApp(MDApp):
         print(style_state)
         print("="*50)
 
-    def build_app(self):
+    def build(self):
         if platform == "android":
             from android.permissions import request_permissions, Permission 
             request_permissions([Permission.BLUETOOTH_CONNECT, Permission.BLUETOOTH_SCAN,Permission.ACCESS_FINE_LOCATION,Permission.BLUETOOTH])
@@ -454,36 +469,9 @@ class MyApp(MDApp):
                 text="About App",
             ),
             MDDialogSupportingText(
-                text="this app devolped by Osama Abd El Mohsen \n All Rights Reserved for Green Clean".capitalize(),
+                text="All Rights Reserved for Green Clean".capitalize(),
             ),
 
-            MDDialogContentContainer(
-                MDDivider(),
-                MDListItem(
-                    MDListItemLeadingIcon(
-                        icon="gmail",
-                    ),
-                    MDListItemSupportingText(
-                        text="Osama.m.abdelmohsen@gmail.com",
-                    ),
-                    on_press=self.info_email_link,
-                    theme_bg_color="Custom",
-                    md_bg_color=self.theme_cls.transparentColor,
-                ),
-                MDListItem(
-                    MDListItemLeadingIcon(
-                        icon="whatsapp",
-                    ),
-                    MDListItemSupportingText(
-                        text="+201067992759",
-                    ),
-                    on_press=self.info_whatsapp_link,
-                    theme_bg_color="Custom",
-                    md_bg_color=self.theme_cls.transparentColor,
-                ),
-                MDDivider(),
-                orientation="vertical",
-            ),
 
             MDDialogButtonContainer(
                 Widget(),
@@ -502,33 +490,101 @@ class MyApp(MDApp):
     def close_info_dialog(self, *args):
         self.InfoDialog.dismiss()
 
-    def info_email_link(self, *arg):
-        webbrowser.open("mailto:Osama.m.abdelmohsen@gmail.com")
-    def info_whatsapp_link(self, *arg):
-        webbrowser.open("https://wa.me/+201067992759/")
 
 ####################### Info Dialog ##############################
 
     def send_wheels_up(self):
-        self.android_bluetooth.BluetoothSend('1')
+        global RSM1,LSM1,RSM2,LSM2,RSM3,LSM3
+        if self.android_bluetooth.ConnectionEstablished:
+            self.android_bluetooth.BluetoothSend('1')
+            RSM1+=1
+            LSM1+=1
+            if RSM1 >= 4 : RSM1 = 4
+            if LSM1 >= 4 : LSM1 = 4
+            self.update_info_label()
+        else : snackbar("Not connected to a robot")
+
     def send_wheels_down(self):
-        self.android_bluetooth.BluetoothSend('2')
+        global RSM1,LSM1,RSM2,LSM2,RSM3,LSM3
+        if self.android_bluetooth.ConnectionEstablished:
+            self.android_bluetooth.BluetoothSend('2')
+            RSM1-=1
+            LSM1-=1        
+            if LSM1 <= -4 : LSM1 = -4
+            if RSM1 <= -4 : RSM1 = -4
+            self.update_info_label()
+        else : snackbar("Not connected to a robot")
+        
     def send_wheels_stop(self):
-        self.android_bluetooth.BluetoothSend('3')
+        global RSM1,LSM1,RSM2,LSM2,RSM3,LSM3
+        if self.android_bluetooth.ConnectionEstablished:
+            self.android_bluetooth.BluetoothSend('3')
+            LSM1=0
+            RSM1=0
+            self.update_info_label()
+        else : snackbar("Not connected to a robot")
 
     def send_brooms_up(self):
-        self.android_bluetooth.BluetoothSend('4')
+        global RSM1,LSM1,RSM2,LSM2,RSM3,LSM3
+        if self.android_bluetooth.ConnectionEstablished:
+            self.android_bluetooth.BluetoothSend('4')
+            RSM2+=1
+            LSM2+=1
+            if RSM2 >= 4 : RSM2 = 4
+            if LSM2 >= 4 : LSM2 = 4
+            self.update_info_label()
+        else : snackbar("Not connected to a robot")
+
     def send_brooms_down(self):
-        self.android_bluetooth.BluetoothSend('5')
+        global RSM1,LSM1,RSM2,LSM2,RSM3,LSM3
+        if self.android_bluetooth.ConnectionEstablished:
+            self.android_bluetooth.BluetoothSend('5')
+            RSM2-=1
+            LSM2-=1
+            if LSM2 <= -4 : LSM2 = -4
+            if RSM2 <= -4 : RSM2 = -4
+            self.update_info_label()
+        else : snackbar("Not connected to a robot")
+
     def send_brooms_stop(self):
-        self.android_bluetooth.BluetoothSend('6')
+        global RSM1,LSM1,RSM2,LSM2,RSM3,LSM3
+        if self.android_bluetooth.ConnectionEstablished:
+            self.android_bluetooth.BluetoothSend('6')
+            LSM2=0
+            RSM2=0
+            self.update_info_label()
+        else : snackbar("Not connected to a robot")
 
     def send_pump_up(self):
-        self.android_bluetooth.BluetoothSend('7')
+        global RSM1,LSM1,RSM2,LSM2,RSM3,LSM3
+        if self.android_bluetooth.ConnectionEstablished:
+            self.android_bluetooth.BluetoothSend('7')
+            RSM3+=1
+            LSM3-=1
+            if RSM3 >= 3 : RSM3 = 3
+            if LSM3 >= 3 : LSM3 = 3
+            self.update_info_label()
+        else : snackbar("Not connected to a robot")
+
     def send_pump_down(self):
-        self.android_bluetooth.BluetoothSend('8')
+        global RSM1,LSM1,RSM2,LSM2,RSM3,LSM3
+        if self.android_bluetooth.ConnectionEstablished:
+            self.android_bluetooth.BluetoothSend('8')
+            RSM3-=1
+            LSM3-=1
+            if LSM3 <= 0 : LSM3 = 0
+            if RSM3 <= 0 : RSM3 = 0
+            self.update_info_label()
+        else : snackbar("Not connected to a robot")
+
     def send_pump_stop(self):
-        self.android_bluetooth.BluetoothSend('9')
+        global RSM1,LSM1,RSM2,LSM2,RSM3,LSM3
+        if self.android_bluetooth.ConnectionEstablished:
+            self.android_bluetooth.BluetoothSend('9')
+            RSM3=0
+            LSM3=0
+            self.update_info_label()
+        else : snackbar("Not connected to a robot")
 
     def send_deg_up(self):
         self.android_bluetooth.BluetoothSend('m')
@@ -539,13 +595,40 @@ class MyApp(MDApp):
         self.android_bluetooth.get_paired_devices("HC-05")  
 
     def connect_bluetooth(self):
+        global RSM1,LSM1,RSM2,LSM2,RSM3,LSM3
         try :
-            self.android_bluetooth.get_connect_to_device(selected_address)  
+            self.android_bluetooth.get_connect_to_device(selected_address) 
+            self.android_bluetooth.BluetoothSend('c')
+            dic = self.android_bluetooth.BluetoothReceive()
+            dic=dic.replace("'",'"')
+            dic = json.loads(dic)
+            print("="*50)
+            print(dic)
+            print("="*50)
+            
+            RSM1 = dic['RSM1']
+            LSM1 = dic['LSM1']
+            RSM2 = dic['RSM2']
+            LSM2 = dic['LSM2']
+            RSM3 = dic['RSM3']
+            LSM3 = dic['LSM3']
+            self.update_info_label()
+            # self.KV.get_screen('main').ids.WheelsSpeed.text
+
+
         except Exception as e :
             print(e)
 
-    def edit(self,x):
-        self.android_bluetooth.edit_device_card(x)  
+    def update_info_label(self):
+        self.KV.get_screen('main').ids.WheelsSpeed.text = str(RSM1) 
+        self.KV.get_screen('main').ids.BroomsSpeed.text = str(RSM2) 
+        self.KV.get_screen('main').ids.PumpSpeed.text = str(RSM3)
+        self.KV.get_screen('main').ids.GlassSpeed.text = "still"
+
+
+
+    def edit(self,instance):
+        self.android_bluetooth.edit_device_card(instance)  
 
 
     def go_to_second_screen(self):

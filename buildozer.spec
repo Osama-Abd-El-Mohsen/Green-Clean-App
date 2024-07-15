@@ -29,7 +29,7 @@ source.include_exts = py,png,jpg,kv,atlas,ttf,json,ico
 #source.exclude_patterns = license,images/*/*.jpg
 
 # (str) Application versioning (method 1)
-version = 1.5
+version = 1.6
 
 # (str) Application versioning (method 2)
 # version.regex = __version__ = ['"](.*)['"]
@@ -288,6 +288,7 @@ android.accept_sdk_license = True
 # In past, was `android.arch` as we weren't supporting builds for multiple archs at the same time.
 # android.archs = arm64-v8a, armeabi-v7a
 android.archs = arm64-v8a, armeabi-v7a
+# android.archs = arm64-v8a
 
 # (int) overrides automatic versionCode computation (used in build.gradle)
 # this is not the same as app version and should only be edited if you know what you're doing

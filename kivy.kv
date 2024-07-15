@@ -151,6 +151,7 @@ ScreenManager:
                         bold: True
                         font_style : "Title"
                         role:"large"
+                        id:WheelsSpeed
 
                     MDLabel:
                         text: "min = -4"
@@ -192,6 +193,7 @@ ScreenManager:
                         bold: True
                         font_style : "Title"
                         role:"large"
+                        id: BroomsSpeed
 
                     MDLabel:
                         text: "min = -4"
@@ -233,6 +235,7 @@ ScreenManager:
                         bold: True
                         font_style : "Title"
                         role:"large"
+                        id: PumpSpeed
 
                     MDLabel:
                         text: "min = 0"
@@ -274,6 +277,7 @@ ScreenManager:
                         bold: True
                         font_style : "Title"
                         role:"large"
+                        id: GlassSpeed
 
                     MDLabel:
                         text: "min = 0"
@@ -285,7 +289,7 @@ ScreenManager:
                         role:"small"
 
                     MDLabel:
-                        text: "max = 3"
+                        text: "max = 90"
                         halign: 'center'
                         theme_text_color: "Custom"
                         text_color : "#cd2525"
@@ -301,7 +305,7 @@ ScreenManager:
 
             BoxLayout:
                 orientation: 'vertical'
-                size_hint_y: 0.8
+                size_hint_y: 0.85
                 size_hint_x: 0.7
                 padding: dp(1)
                 spacing: dp(1)        
@@ -421,7 +425,7 @@ ScreenManager:
 
             BoxLayout:
                 orientation: 'vertical'
-                size_hint_y: 0.8
+                size_hint_y: 0.85
                 size_hint_x: 0.7
                 padding: dp(5)
                 spacing: dp(5)        
@@ -531,7 +535,7 @@ ScreenManager:
 #===========================================================
         BoxLayout:
             orientation: 'vertical'
-            size_hint_y: 0.25
+            size_hint_y: 0.3
             pos_hint: {"center_x": .5, "center_y": .5}
             elevation: 2
             padding: dp(5)
