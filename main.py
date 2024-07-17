@@ -29,7 +29,7 @@ if platform == "android":
 ############################################################
 ###################### Global Variabls #####################
 ############################################################
-app_version = 1.7
+app_version = 1.8
 style_state = 'Light'
 id_devices_list =[]
 name_devices_list=[]
@@ -42,6 +42,7 @@ LSM2 = 0
 RSM3 = 0
 LSM3 = 0
 SR = 0
+W = 0
 ############################################################
 ########################## Screens #########################
 ############################################################
@@ -526,12 +527,13 @@ class MyApp(MDApp):
         self.KV.get_screen('main').ids.BroomsSpeed.text = str(RSM2) 
         self.KV.get_screen('main').ids.PumpSpeed.text = str(RSM3)
         self.KV.get_screen('main').ids.GlassSpeed.text = str(SR)
+        self.KV.get_screen('main').ids.pumpState.text = "Pump = On" if abs(W) ==1 else  "Pump = Off"
 
     def bluetooth_devices(self):
         self.android_bluetooth.get_paired_devices("HC-05")  
 
     def connect_bluetooth(self):
-        global RSM1,LSM1,RSM2,LSM2,RSM3,LSM3,SR
+        global RSM1,LSM1,RSM2,LSM2,RSM3,LSM3,SR,W
         try :
             self.android_bluetooth.get_connect_to_device(selected_address) 
             self.android_bluetooth.BluetoothSend('c')
@@ -549,6 +551,7 @@ class MyApp(MDApp):
             RSM3 = dic['RSM3']
             LSM3 = dic['LSM3']
             SR   = dic['SR']
+            W   = dic['W']
             self.update_info_label()
         except Exception as e :
             print(e)
@@ -564,7 +567,7 @@ class MyApp(MDApp):
         self.root.current = 'main'
 
     def send_wheels_up(self):
-        global RSM1,LSM1,RSM2,LSM2,RSM3,LSM3,SR
+        global RSM1,LSM1,RSM2,LSM2,RSM3,LSM3,SR,W
         if self.android_bluetooth.ConnectionEstablished:
             self.android_bluetooth.BluetoothSend('1')
             RSM1+=1
@@ -575,7 +578,7 @@ class MyApp(MDApp):
         else : snackbar("Not connected to a robot")
 
     def send_wheels_down(self):
-        global RSM1,LSM1,RSM2,LSM2,RSM3,LSM3,SR
+        global RSM1,LSM1,RSM2,LSM2,RSM3,LSM3,SR,W
         if self.android_bluetooth.ConnectionEstablished:
             self.android_bluetooth.BluetoothSend('2')
             RSM1-=1
@@ -586,7 +589,7 @@ class MyApp(MDApp):
         else : snackbar("Not connected to a robot")
 
     def send_wheels_stop(self):
-        global RSM1,LSM1,RSM2,LSM2,RSM3,LSM3,SR
+        global RSM1,LSM1,RSM2,LSM2,RSM3,LSM3,SR,W
         if self.android_bluetooth.ConnectionEstablished:
             self.android_bluetooth.BluetoothSend('3')
             LSM1=0
@@ -595,7 +598,7 @@ class MyApp(MDApp):
         else : snackbar("Not connected to a robot")
 
     def send_brooms_up(self):
-        global RSM1,LSM1,RSM2,LSM2,RSM3,LSM3,SR
+        global RSM1,LSM1,RSM2,LSM2,RSM3,LSM3,SR,W
         if self.android_bluetooth.ConnectionEstablished:
             self.android_bluetooth.BluetoothSend('4')
             RSM2+=1
@@ -606,7 +609,7 @@ class MyApp(MDApp):
         else : snackbar("Not connected to a robot")
 
     def send_brooms_down(self):
-        global RSM1,LSM1,RSM2,LSM2,RSM3,LSM3,SR
+        global RSM1,LSM1,RSM2,LSM2,RSM3,LSM3,SR,W
         if self.android_bluetooth.ConnectionEstablished:
             self.android_bluetooth.BluetoothSend('5')
             RSM2-=1
@@ -617,7 +620,7 @@ class MyApp(MDApp):
         else : snackbar("Not connected to a robot")
 
     def send_brooms_stop(self):
-        global RSM1,LSM1,RSM2,LSM2,RSM3,LSM3,SR
+        global RSM1,LSM1,RSM2,LSM2,RSM3,LSM3,SR,W
         if self.android_bluetooth.ConnectionEstablished:
             self.android_bluetooth.BluetoothSend('6')
             LSM2=0
@@ -626,7 +629,7 @@ class MyApp(MDApp):
         else : snackbar("Not connected to a robot")
 
     def send_pump_up(self):
-        global RSM1,LSM1,RSM2,LSM2,RSM3,LSM3,SR
+        global RSM1,LSM1,RSM2,LSM2,RSM3,LSM3,SR,W
         if self.android_bluetooth.ConnectionEstablished:
             self.android_bluetooth.BluetoothSend('7')
             RSM3+=1
@@ -637,7 +640,7 @@ class MyApp(MDApp):
         else : snackbar("Not connected to a robot")
 
     def send_pump_down(self):
-        global RSM1,LSM1,RSM2,LSM2,RSM3,LSM3,SR
+        global RSM1,LSM1,RSM2,LSM2,RSM3,LSM3,SR,W
         if self.android_bluetooth.ConnectionEstablished:
             self.android_bluetooth.BluetoothSend('8')
             RSM3-=1
@@ -648,7 +651,7 @@ class MyApp(MDApp):
         else : snackbar("Not connected to a robot")
 
     def send_pump_stop(self):
-        global RSM1,LSM1,RSM2,LSM2,RSM3,LSM3,SR
+        global RSM1,LSM1,RSM2,LSM2,RSM3,LSM3,SR,W
         if self.android_bluetooth.ConnectionEstablished:
             self.android_bluetooth.BluetoothSend('9')
             RSM3=0
@@ -657,20 +660,29 @@ class MyApp(MDApp):
         else : snackbar("Not connected to a robot")
 
     def send_deg_up(self):
-        global RSM1,LSM1,RSM2,LSM2,RSM3,LSM3,SR
+        global RSM1,LSM1,RSM2,LSM2,RSM3,LSM3,SR,W
         if self.android_bluetooth.ConnectionEstablished:
             self.android_bluetooth.BluetoothSend('s')
             SR+=1
-            if SR > 4 : SR = 0
+            if SR > 3 : SR = 0
             self.update_info_label()
         else : snackbar("Not connected to a robot")
     
+    # def send_deg_down(self):
+    #     global RSM1,LSM1,RSM2,LSM2,RSM3,LSM3,SR,W
+    #     if self.android_bluetooth.ConnectionEstablished:
+    #         self.android_bluetooth.BluetoothSend('w')
+    #         SR-=1
+    #         if SR < 0 : SR = 3
+    #         self.update_info_label()
+    #     else : snackbar("Not connected to a robot")
+        
     def send_deg_down(self):
-        global RSM1,LSM1,RSM2,LSM2,RSM3,LSM3,SR
+        global RSM1,LSM1,RSM2,LSM2,RSM3,LSM3,SR,W
         if self.android_bluetooth.ConnectionEstablished:
-            self.android_bluetooth.BluetoothSend('n')
-            SR-=1
-            if SR < 0 : SR = 4
+            self.android_bluetooth.BluetoothSend('w')
+            W=~W
+            print(abs(W))
             self.update_info_label()
         else : snackbar("Not connected to a robot")
 

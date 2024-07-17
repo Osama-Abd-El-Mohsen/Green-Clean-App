@@ -599,14 +599,14 @@ ScreenManager:
                         size_hint: None, None
                         size: "55dp", "55dp"
 
-                        md_bg_color: "#130f1e"
+                        md_bg_color: "#fdbc48"
                         text_color: "#f2f6fe" 
                         icon: "menu-left"
                         pos_hint: {'center_x': 0.5,'center_y': 0.5}
                         on_release: app.send_deg_down()
 
                     MDLabel:
-                        text: "Reducing Degree"
+                        text: "Toggle Pump"
                         halign: 'center'
                         theme_text_color: "Custom"
                         text_color : "#130f1e"
@@ -696,7 +696,8 @@ ScreenManager:
                     radius: [35, 35, 0 ,0]
 
             MDLabel:
-                text: "Pump"
+                text: "Pump = Off"
+                id: pumpState
                 halign: 'center'
                 theme_text_color: "Custom"
                 text_color: "#f2f6fe"
