@@ -13,7 +13,7 @@ package.domain = org.clean
 source.dir = .
 
 # (list) Source files to include (let empty to include all the files)
-source.include_exts = py,png,jpg,kv,atlas,ttf,json,ico
+source.include_exts = py,png,jpg,kv,atlas,ttf,json,ico,otf
 
 # (list) List of inclusions using pattern matching
 #source.include_patterns = assets/*,images/*.png
@@ -29,7 +29,7 @@ source.include_exts = py,png,jpg,kv,atlas,ttf,json,ico
 #source.exclude_patterns = license,images/*/*.jpg
 
 # (str) Application versioning (method 1)
-version = 1.8
+version = 2.0
 
 # (str) Application versioning (method 2)
 # version.regex = __version__ = ['"](.*)['"]

@@ -20,16 +20,20 @@ from kivymd.uix.textfield import MDTextField,MDTextFieldHelperText,MDTextFieldHi
 from kivymd.uix.button import MDButton, MDButtonText
 from kivy.uix.widget import Widget
 from kivymd.utils.set_bars_colors import set_bars_colors
+# from kivy.core.window import Window
+from kivy.core.text import LabelBase
 # from kivymd.tools.hotreload.app import MDApp
 from kivy import platform
 if platform == "android":
     from android import activity
     from jnius import autoclass,cast
 
+# Window.size = (400, 800)
+
 ############################################################
 ###################### Global Variabls #####################
 ############################################################
-app_version = 1.8
+app_version = 2.0
 style_state = 'Light'
 id_devices_list =[]
 name_devices_list=[]
@@ -59,10 +63,19 @@ def snackbar(text:str):
     MDSnackbar(
         MDSnackbarText(
             text=text,
+            theme_text_color= "Custom",
+            theme_font_name= "Custom",
+            theme_font_size= "Custom",
+            font_name="BPoppins",
+            text_color = "#081415",
+            font_size = dp(15),
+        pos_hint={"center_x": 0.5},
         ),
         y=dp(24),
         pos_hint={"center_x": 0.5},
         size_hint_x=0.7,
+        background_color = "#f4f9fc",
+        radius= [30, 30, 30 ,30]
     ).open()
 
 
@@ -143,7 +156,9 @@ class AndroidBluetoothClass:
                                 MDIconButton(
                                     icon= "pencil",
                                     pos_hint= {"top": 1, "right": 1},
-                                    on_release  = self.edit_device_card
+                                    on_release  = self.edit_device_card,
+                                    theme_text_color= "Custom",
+                                    text_color = "#222627"
                                 ),
 
                                 MDBoxLayout(
@@ -151,30 +166,38 @@ class AndroidBluetoothClass:
                                         id = "device_name",
                                         text= f"{device_name}",
                                         adaptive_size= True,
-                                        bold= True,
-                                        halign= 'center',
                                         theme_text_color= "Custom",
-                                        text_color = "#141b23",
-                                        font_style = "Headline",
-                                        role="small",
-                                        font_name="font/cairo"
+                                        theme_font_name= "Custom",
+                                        theme_font_size= "Custom",
+                                        font_name="BPoppins",
+                                        text_color = "#081415",
+                                        font_size = dp(18),
 
                                     ),
                                     MDLabel(
                                         text= f"{device_address}",
                                         adaptive_size= True,
-                                        color= "grey",
                                         pos= ("12dp", "12dp"),
+                                        theme_text_color= "Custom",
+                                        theme_font_name= "Custom",
+                                        theme_font_size= "Custom",
+                                        font_name="MPoppins",
+                                        text_color = "#5b5b5a",
+                                        font_size = dp(16),
                                     ),
                                     orientation= 'vertical',
                                     padding = dp(15),
                                 ),
                             ),
                             id = f"{device_address}",
-                            style= "filled",
+                            style= "elevated",
                             pos_hint= {"center_x": .5, "center_y": .5},
-                            # size_hint=(.9, None),
-                            # size=(.1,.9) 
+                            theme_bg_color= "Custom",
+                            md_bg_color = "#fefefe",
+                            theme_shadow_softness= "Custom",
+                            shadow_softness= 20,
+                            theme_elevation_level= "Custom",
+                            elevation_level= 1,
 
                             size_hint=(.5, None),
                             size=(1, 200),
@@ -297,28 +320,52 @@ class AndroidBluetoothClass:
         self.dialog = MDDialog(
             MDDialogIcon(
                 icon="pencil",
+                theme_icon_color= "Custom",
+                icon_color= "#11ac68"
             ),
             MDDialogHeadlineText(
                 text="Edit Device Name",
-                font_style="Title",
-                role='medium',
-                bold=True
+                theme_text_color= "Custom",
+                theme_font_name= "Custom",
+                theme_font_size= "Custom",
+                font_name="BPoppins",
+                text_color = "#222627",
+                font_size = dp(15)
             ),
             MDDialogButtonContainer(
                 Widget(),
                 MDButton(
                     MDButtonText(
-                        text="CANCEL",
+                        text="Cancel",
+                        theme_text_color= "Custom",
+                        theme_font_name= "Custom",
+                        theme_font_size= "Custom",
+                        font_name="BPoppins",
+                        text_color = "#222627",
+                        font_size = dp(13)
                     ),
-                    on_release=self.close_dialog
+                    fab_state= "expand",
+                    style= "tonal",
+                    theme_bg_color= "Custom",
+                    md_bg_color= "#fefefe",
+                    on_release=self.close_dialog,
                 ),
                 MDButton(
                     MDButtonText(
                         text="Save",
                         font_style="Title", role='medium',
+                        theme_text_color= "Custom",
+                        theme_font_name= "Custom",
+                        theme_font_size= "Custom",
+                        font_name="BPoppins",
+                        text_color = "#222627",
+                        font_size = dp(13)
                         ),
+                    fab_state= "expand",
+                    style= "tonal",
+                    theme_bg_color= "Custom",
+                    md_bg_color= "#11ac68",
                     on_release=lambda x: self.save_device_changes(x,card),
-                    style="tonal",
                 ),
                 spacing="5dp",
             ),
@@ -330,19 +377,24 @@ class AndroidBluetoothClass:
                     ),
                     MDTextFieldHelperText(
                         text="Enter Device Name",
+                        
                         ),
+                        
                     theme_line_color="Custom",
                     id="device_name1",
                     text=device_name,
                     required=True,
                     mode="outlined",
+                    
                 ),
                 id="con",
                 orientation="vertical",
 
             ),
+            theme_bg_color= "Custom",
+            md_bg_color = "#EAECF1",
             pos_hint = {"center_x": 0.5, "top": 0.8},
-            width_offset = dp(10)
+            width_offset = dp(10),
         )
 
         print("="*50)
@@ -406,16 +458,23 @@ class MyApp(MDApp):
         self.theme_cls.theme_style = "Light"
         self.theme_cls.primary_palette = "Green"
         self.KV = Builder.load_file("kivy.kv")
-        self.set_bars_colors()
+        self.set_bars_colors_screen_1()
         self.android_bluetooth = AndroidBluetoothClass(self.KV)
         self.android_bluetooth.get_paired_devices()
 
         return self.KV
     # changing topbar and navigation bar color
-    def set_bars_colors(self):
+    def set_bars_colors_screen_2(self):
         set_bars_colors(
-            [28/255, 162/255, 77/255,1],
-            [28/255, 162/255, 77/255,1],
+            [244/255, 249/255, 252/255,1],
+            [244/255, 249/255, 252/255,1],
+            "Dark" 
+        )
+
+    def set_bars_colors_screen_1(self):
+        set_bars_colors(
+            [244/255, 249/255, 252/255,1],
+            [17/255, 172/255, 104/255,1],
             "Dark" 
         )
 
@@ -452,7 +511,7 @@ class MyApp(MDApp):
         global menu
         menu_items = [
             {
-                "font_name": "font/cairo",
+                "font_name": "BPoppins",
                 "text": f"{name}",
                 "on_release": lambda x=name, y=address: self.menu_callback(x, y),
             } for name,address in zip(name_devices_list,address_devices_list)
@@ -480,23 +539,39 @@ class MyApp(MDApp):
         self.InfoDialog = MDDialog(
             MDDialogIcon(
                 icon="information",
+                theme_icon_color= "Custom",
+                icon_color= "#11ac68"
             ),
             MDDialogHeadlineText(
                 text="About App",
+                theme_text_color= "Custom",
+                theme_font_name= "Custom",
+                theme_font_size= "Custom",
+                font_name="BPoppins",
+                text_color = "#081415",
+                font_size = dp(18),
             ),
             MDDialogSupportingText(
                 text="All Rights Reserved for Green Clean\n".capitalize(),
+                halign= 'center',
+                theme_text_color= "Custom",
+                theme_font_name= "Custom",
+                theme_font_size= "Custom",
+                font_name="MPoppins",
+                text_color = "#282827",
+                font_size = dp(13),
             ),
 
             MDDialogContentContainer(
                 MDLabel(
                     text = f'V {app_version}',
                     halign= 'center',
-                    text_color = "#130f1e",
                     theme_text_color= "Custom",
-                    bold= True,
-                    font_style = "Headline",
-                    role="medium"
+                    theme_font_name= "Custom",
+                    theme_font_size= "Custom",
+                    font_name="BPoppins",
+                    text_color = "#081415",
+                    font_size = dp(12),
                 ),
                 orientation= 'vertical'
             ),
@@ -504,13 +579,25 @@ class MyApp(MDApp):
             MDDialogButtonContainer(
                 Widget(),
                 MDButton(
-                    MDButtonText(text="Ok"),
-                    style="text",
-                    on_release=self.close_info_dialog
+                    MDButtonText(
+                        text="Ok",
+                        theme_text_color= "Custom",
+                        theme_font_name= "Custom",
+                        theme_font_size= "Custom",
+                        font_name="BPoppins",
+                        text_color = "#EAECF1",
+                        font_size = dp(13),
+                        ),
+                    style= "tonal",
+                    theme_bg_color= "Custom",
+                    md_bg_color= "#282827",
+                    on_release=self.close_info_dialog,
                 ),
                 spacing="8dp",
             ),
             id="infodialog",
+            theme_bg_color= "Custom",
+            md_bg_color = "#EAECF1",
         )
         self.InfoDialog.open()
 
@@ -527,7 +614,7 @@ class MyApp(MDApp):
         self.KV.get_screen('main').ids.BroomsSpeed.text = str(RSM2) 
         self.KV.get_screen('main').ids.PumpSpeed.text = str(RSM3)
         self.KV.get_screen('main').ids.GlassSpeed.text = str(SR)
-        self.KV.get_screen('main').ids.pumpState.text = "Pump = On" if abs(W) ==1 else  "Pump = Off"
+        self.KV.get_screen('main').ids.pumpState.text = "PUMP : ON" if abs(W) ==1 else  "PUMP : OFF"
 
     def bluetooth_devices(self):
         self.android_bluetooth.get_paired_devices("HC-05")  
@@ -560,10 +647,12 @@ class MyApp(MDApp):
         self.android_bluetooth.edit_device_card(instance)  
 
     def go_to_second_screen(self):
+        self.set_bars_colors_screen_2()
         self.root.current = 'second'
         self.bluetooth_devices()
 
     def go_back_to_main_screen(self):
+        self.set_bars_colors_screen_1()
         self.root.current = 'main'
 
     def send_wheels_up(self):
@@ -686,4 +775,10 @@ class MyApp(MDApp):
             self.update_info_label()
         else : snackbar("Not connected to a robot")
 
-MyApp().run()
+
+
+if __name__ == "__main__":
+
+    LabelBase.register (name="BPoppins", fn_regular="font/Poppins/Poppins-Bold.ttf")
+    LabelBase.register (name="MPoppins", fn_regular="font/Poppins/Poppins-Medium.ttf")
+    MyApp().run()
