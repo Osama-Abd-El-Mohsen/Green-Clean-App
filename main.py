@@ -33,7 +33,7 @@ if platform == "android":
 ############################################################
 ###################### Global Variabls #####################
 ############################################################
-app_version = 2.0
+app_version = 2.1
 style_state = 'Light'
 id_devices_list =[]
 name_devices_list=[]
@@ -74,8 +74,12 @@ def snackbar(text:str):
         y=dp(24),
         pos_hint={"center_x": 0.5},
         size_hint_x=0.7,
-        background_color = "#f4f9fc",
-        radius= [30, 30, 30 ,30]
+        background_color = "#fefefe",
+        radius= [30, 30, 30 ,30],
+        theme_shadow_softness= "Custom",
+        shadow_softness= 10,
+        theme_elevation_level= "Custom",
+        elevation_level= 1,
     ).open()
 
 
@@ -98,7 +102,6 @@ class AndroidBluetoothClass:
                 self.BufferReader = autoclass('java.io.BufferedReader')
                 self.InputStream = autoclass('java.io.InputStreamReader')
             self.ConnectionEstablished = False
-            snackbar("Bluetooth initialization finished")
             print("Bluetooth initialization finished")
             
             self.bluetooth_adapter = self.BluetoothAdapter.getDefaultAdapter()
@@ -126,7 +129,9 @@ class AndroidBluetoothClass:
             print(f"paired_devices = {paired_devices}")
             print(f"="*50)
             
+            print("in get_paired_devices")
             if len(paired_devices)!=0:
+                print("in if")
                 second_screen = self.KV.get_screen('second')
                 second_screen.ids.list.clear_widgets()
                 for device in paired_devices:
@@ -195,13 +200,15 @@ class AndroidBluetoothClass:
                             theme_bg_color= "Custom",
                             md_bg_color = "#fefefe",
                             theme_shadow_softness= "Custom",
-                            shadow_softness= 20,
+                            shadow_softness= 15,
                             theme_elevation_level= "Custom",
                             elevation_level= 1,
 
                             size_hint=(.5, None),
                             size=(1, 200),
                             padding=(10, 10, 10, 10),
+                            state_hover = 0,
+                            state_press = 0,
                             )
                         )
 
@@ -257,12 +264,10 @@ class AndroidBluetoothClass:
                 self.ReceiveData.close()
                 self.SendData.close()
                 self.ConnectionEstablished = False
-                snackbar("Disconnected from device")
                 print("Disconnected from device")
                 main_screen = self.KV.get_screen('main')
                 main_screen.ids.connect.text_color="red"
             except Exception as e:
-                snackbar("Failed to disconnect")
                 print("Failed to disconnect:", e)
                 main_screen = self.KV.get_screen('main')
                 main_screen.ids.connect.text_color="red"
@@ -283,12 +288,11 @@ class AndroidBluetoothClass:
             print('Bluetooth device not connected')
 
     def BluetoothReceive(self):
-        snackbar("Receiving Bluetooth message")
-        print("Receiving Bluetooth message")
         DataStream = ''
         if self.ConnectionEstablished:
             DataStream = str(self.ReceiveData.readLine())
             print(f"recevied data = {DataStream}")
+            print("Receiving Bluetooth message")
         return DataStream
 
 
@@ -392,9 +396,13 @@ class AndroidBluetoothClass:
 
             ),
             theme_bg_color= "Custom",
-            md_bg_color = "#EAECF1",
             pos_hint = {"center_x": 0.5, "top": 0.8},
             width_offset = dp(10),
+            _md_bg_color = "#EAECF1",
+            state_hover = 0,
+            state_press = 0,
+            auto_dismiss = False
+
         )
 
         print("="*50)
@@ -420,22 +428,23 @@ class AndroidBluetoothClass:
         print("="*50)
     
     def save_device_changes(self,x,card):
-        print("in save_device_changes")
-        print(f"card id = {card.id}")
-        print(f"new text = {x.parent.get_ids()['device_name1'].text}")
-        device_name = x.parent.get_ids()['device_name1'].text
-
-        # Update the stored information
-        index = address_devices_list.index(card.id)
-        name_devices_list[index] = device_name
-        self.save_to_JSON()
 
         # Close the dialog
-        self.dialog.dismiss("close")
-        self.get_paired_devices("HC-05") 
+        if len(x.parent.get_ids()['device_name1'].text) != 0 :
+            print("in save_device_changes")
+            print(f"card id = {card.id}")
+            print(f"new text = {x.parent.get_ids()['device_name1'].text}")
+            device_name = x.parent.get_ids()['device_name1'].text
+
+            # Update the stored information
+            index = address_devices_list.index(card.id)
+            name_devices_list[index] = device_name
+            self.save_to_JSON()
+            self.dialog.dismiss("close")
+            self.get_paired_devices("HC-05") 
+        else : x.parent.get_ids()['device_name1'].text = "Robot_x"
 
     def __del__(self):
-        snackbar("Destroying Bluetooth class")
         print('Destroying Bluetooth class')
 
 menu = ""
@@ -459,6 +468,7 @@ class MyApp(MDApp):
         self.theme_cls.primary_palette = "Green"
         self.KV = Builder.load_file("kivy.kv")
         self.set_bars_colors_screen_1()
+        self.load_from_JSON()
         self.android_bluetooth = AndroidBluetoothClass(self.KV)
         self.android_bluetooth.get_paired_devices()
 
@@ -516,7 +526,16 @@ class MyApp(MDApp):
                 "on_release": lambda x=name, y=address: self.menu_callback(x, y),
             } for name,address in zip(name_devices_list,address_devices_list)
         ]
-        menu = MDDropdownMenu(caller=item, items=menu_items)
+        menu = MDDropdownMenu(
+            caller=item,
+            items=menu_items,
+            theme_bg_color= "Custom",
+            theme_divider_color= "Custom",
+            theme_line_color= "Custom",
+            _md_bg_color = "#f4f9fc",
+            line_color = "#11ac68",
+            position="bottom",
+            )
         menu.open()
 
     def menu_callback(self, text_item,address):
@@ -597,7 +616,9 @@ class MyApp(MDApp):
             ),
             id="infodialog",
             theme_bg_color= "Custom",
-            md_bg_color = "#EAECF1",
+            _md_bg_color = "#EAECF1",
+            state_hover = 0,
+            state_press = 0,
         )
         self.InfoDialog.open()
 

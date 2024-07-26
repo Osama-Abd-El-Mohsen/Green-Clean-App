@@ -141,14 +141,12 @@ ScreenManager:
             orientation: 'vertical'
             size_hint_y: 0.25
             pos_hint: {"center_x": .5, "center_y": .5}
-            style: "elevated"
+            style: "filled"
             theme_bg_color: "Custom"
             md_bg_color : "#f4f9fc"
-            theme_shadow_softness: "Custom"
-            shadow_softness: 20
-            theme_elevation_level: "Custom"
-            elevation_level: 1
             radius: [35 ,35 ,35 ,35]
+            state_hover : 0
+            state_press : 0
 
 
             BoxLayout:
@@ -365,6 +363,8 @@ ScreenManager:
                 theme_elevation_level: "Custom"
                 elevation_level: 1
                 radius: [0 ,35 ,35 ,0]
+                state_hover : 0
+                state_press : 0
 
 
                 
@@ -500,7 +500,8 @@ ScreenManager:
                 theme_elevation_level: "Custom"
                 elevation_level: 1
                 radius: [35 ,0 ,0 ,35]
-
+                state_hover : 0
+                state_press : 0
 
                 
                 MDDivider:
@@ -622,6 +623,8 @@ ScreenManager:
             theme_elevation_level: "Custom"
             elevation_level: 1
             radius: [35 ,35 ,0 ,0]
+            state_hover : 0
+            state_press : 0
 
             BoxLayout:
                 orientation: 'horizontal'
