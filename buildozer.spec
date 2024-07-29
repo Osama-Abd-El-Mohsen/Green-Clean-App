@@ -49,7 +49,7 @@ requirements = python3, kivy==2.3.0,  https://github.com/kivymd/KivyMD/archive/m
 presplash.filename = Assets/bg.png
 
 # (str) Icon of the application
-icon.filename = Assets/logo.png
+icon.filename = Assets/icon.png
 
 # (list) Supported orientations
 # Valid options are: landscape, portrait, portrait-reverse or landscape-reverse
@@ -310,8 +310,8 @@ android.allow_backup = True
 # android.no-byte-compile-python = False
 
 # (str) The format used to package the app for release mode (aab or apk or aar).
-# android.release_artifact = aab
-#android.release_artifact = apk
+android.release_artifact = aab
+# android.release_artifact = apk
 
 # (str) The format used to package the app for debug mode (apk or aar).
 # android.debug_artifact = apk
@@ -328,7 +328,6 @@ android.allow_backup = True
 
 # (str) python-for-android branch to use, defaults to master
 # p4a.branch = master
-# p4a.branch = develop
 
 # (str) python-for-android specific commit to use, defaults to HEAD, must be within p4a.branch
 #p4a.commit = HEAD

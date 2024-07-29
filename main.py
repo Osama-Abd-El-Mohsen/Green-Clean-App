@@ -398,7 +398,7 @@ class AndroidBluetoothClass:
             theme_bg_color= "Custom",
             pos_hint = {"center_x": 0.5, "top": 0.8},
             width_offset = dp(10),
-            _md_bg_color = "#EAECF1",
+            _md_bg_color = "#f4f9fc",
             state_hover = 0,
             state_press = 0,
             auto_dismiss = False
@@ -604,7 +604,7 @@ class MyApp(MDApp):
                         theme_font_name= "Custom",
                         theme_font_size= "Custom",
                         font_name="BPoppins",
-                        text_color = "#EAECF1",
+                        text_color = "#f4f9fc",
                         font_size = dp(13),
                         ),
                     style= "tonal",
@@ -616,7 +616,7 @@ class MyApp(MDApp):
             ),
             id="infodialog",
             theme_bg_color= "Custom",
-            _md_bg_color = "#EAECF1",
+            _md_bg_color = "#f4f9fc",
             state_hover = 0,
             state_press = 0,
         )

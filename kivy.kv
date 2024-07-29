@@ -401,11 +401,12 @@ ScreenManager:
                     size_hint: None ,None
                     size: "55dp", "55dp"
 
-                    icon: "menu-up"
+                    icon: "chevron-up"
                     pos_hint: {'center_x': 0.5,'center_y': 0.5}
                     on_release: app.send_wheels_up()
                     md_bg_color: "#282827"
                     icon_color: "#fefefe" 
+                    
 
                 MDLabel:
                     text: "INCREASE SPEED"
@@ -451,11 +452,12 @@ ScreenManager:
                     size_hint: None, None
                     size: "55dp", "55dp"
 
-                    icon: "menu-down"
+                    icon: "chevron-down"
                     pos_hint: {'center_x': 0.5,'center_y': 0.5}
                     on_release: app.send_wheels_down()
                     md_bg_color: "#282827"
                     icon_color: "#fefefe" 
+                    
 
                 MDLabel:
                     text: "REDUCING SPEED"
@@ -536,7 +538,7 @@ ScreenManager:
                     size_hint: None, None
                     size: "55dp", "55dp"
 
-                    icon: "menu-up"
+                    icon: "chevron-up"
                     pos_hint: {'center_x': 0.5,'center_y': 0.5}
                     on_release: app.send_brooms_up()
                     md_bg_color: "#282827"
@@ -587,7 +589,7 @@ ScreenManager:
                     size_hint: None, None
                     size: "55dp", "55dp"
 
-                    icon: "menu-down"
+                    icon: "chevron-down"
                     md_bg_color: "#282827"
                     icon_color: "#fefefe" 
                     pos_hint: {'center_x': 0.5}
@@ -1069,4 +1071,3 @@ ScreenManager:
                     #                 text_color : "#5b5b5a"
                     #                 font_size : dp(16)
                     #                 pos: ("12dp", "12dp")
-                                

@@ -16,3 +16,4 @@ test.py
 .buildozer
 .idea
 bin/
+keystores/
