@@ -33,12 +33,13 @@ if platform == "android":
 ############################################################
 ###################### Global Variabls #####################
 ############################################################
-app_version = 2.1
+app_version = 2.2
 style_state = 'Light'
 id_devices_list =[]
 name_devices_list=[]
 address_devices_list=[]
 selected_address = ''
+first_open_state = 0
 RSM1 = 0
 LSM1 = 0
 RSM2 = 0
@@ -53,7 +54,16 @@ W = 0
 class MainScreen(Screen):
     pass
 
-class SecondScreen(Screen):
+class DevicesScreen(Screen):
+    pass
+
+class HelpScreen_1(Screen):
+    pass
+
+class HelpScreen_2(Screen):
+    pass
+
+class HelpScreen_3(Screen):
     pass
 
 ############################################################
@@ -81,6 +91,7 @@ def snackbar(text:str):
         theme_elevation_level= "Custom",
         elevation_level= 1,
     ).open()
+
 
 
 ############################################################
@@ -455,9 +466,11 @@ menu = ""
 class MyApp(MDApp):
     # DEBUG = True
     def __init__(self, **kwargs):
+        global first_open_state
         super(MyApp, self).__init__(**kwargs)
         self.stored_data = JsonStore('data.json')
         Clock.schedule_once(lambda *args: self.load_from_JSON())
+        Clock.schedule_once(lambda *args: self.help_page())
 
     def build(self):
         if platform == "android":
@@ -471,8 +484,17 @@ class MyApp(MDApp):
         self.load_from_JSON()
         self.android_bluetooth = AndroidBluetoothClass(self.KV)
         self.android_bluetooth.get_paired_devices()
-
         return self.KV
+    
+    # if first time open the app go to help screens
+    def help_page(self):
+        global first_open_state
+        if first_open_state == 0 :
+            self.KV.current = 'help_1'
+            self.set_bars_colors_screen_2()
+            first_open_state = 1
+            self.save_to_JSON()
+
     # changing topbar and navigation bar color
     def set_bars_colors_screen_2(self):
         set_bars_colors(
@@ -492,11 +514,12 @@ class MyApp(MDApp):
         self.theme_cls.theme_style = "Dark" if self.theme_cls.theme_style == "Light" else "Light"
     
     def load_from_JSON(self):
-        global style_state,name_devices_list,address_devices_list
+        global style_state,name_devices_list,address_devices_list,first_open_state
         style_state = self.stored_data.get('style')['List2']
         # id_devices_list = self.stored_data.get('devices')['Id']
         name_devices_list = self.stored_data.get('devices1')['Name']
         address_devices_list = self.stored_data.get('devices')['Address']
+        first_open_state = self.stored_data.get('state')['first']
 
         print("from load")
         # print(id_devices_list)
@@ -509,6 +532,7 @@ class MyApp(MDApp):
         self.stored_data.put('devices1', Name=name_devices_list)
         self.stored_data.put('devices', Address=address_devices_list)
         self.stored_data.put('style', List2=style_state)
+        self.stored_data.put('state', first=first_open_state)
         print("="*50)
         print("saved")
         # print(id_devices_list)
@@ -667,6 +691,16 @@ class MyApp(MDApp):
     def edit(self,instance):
         self.android_bluetooth.edit_device_card(instance)  
 
+    def go_back_to_help_1_screen(self):
+        self.set_bars_colors_screen_2()
+        self.root.current = 'help_1'
+    def go_back_to_help_2_screen(self):
+        self.set_bars_colors_screen_2()
+        self.root.current = 'help_2'
+    def go_back_to_help_3_screen(self):
+        self.set_bars_colors_screen_2()
+        self.root.current = 'help_3'
+
     def go_to_second_screen(self):
         self.set_bars_colors_screen_2()
         self.root.current = 'second'
@@ -802,4 +836,7 @@ if __name__ == "__main__":
 
     LabelBase.register (name="BPoppins", fn_regular="font/Poppins/Poppins-Bold.ttf")
     LabelBase.register (name="MPoppins", fn_regular="font/Poppins/Poppins-Medium.ttf")
+
+    LabelBase.register (name="BBCairo", fn_regular="font/cairo/Cairo-Black.ttf")
+    
     MyApp().run()
