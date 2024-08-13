@@ -3,7 +3,6 @@
 ############################################################
 import json
 from kivymd.app import MDApp
-from kivy.lang import Builder
 from kivymd.uix.label import MDLabel
 from kivymd.uix.card import MDCard
 from kivymd.uix.button import MDIconButton
@@ -17,18 +16,23 @@ from kivy.clock import Clock
 from kivymd.uix.menu import MDDropdownMenu
 from kivymd.uix.dialog import MDDialog,MDDialogButtonContainer,MDDialogIcon,MDDialogHeadlineText,MDDialogSupportingText,MDDialogContentContainer
 from kivymd.uix.textfield import MDTextField,MDTextFieldHelperText,MDTextFieldHintText
+from kivymd.uix.progressindicator.progressindicator import MDCircularProgressIndicator
 from kivymd.uix.button import MDButton, MDButtonText
 from kivy.uix.widget import Widget
 from kivymd.utils.set_bars_colors import set_bars_colors
-# from kivy.core.window import Window
 from kivy.core.text import LabelBase
+from libs.uix.root import Root
+from kivy.core.window import Window
 # from kivymd.tools.hotreload.app import MDApp
 from kivy import platform
 if platform == "android":
     from android import activity
     from jnius import autoclass,cast
 
-# Window.size = (400, 800)
+if platform != "android":
+    Window.size = (406, 762)
+    Window.always_on_top = True
+
 
 ############################################################
 ###################### Global Variabls #####################
@@ -48,23 +52,6 @@ RSM3 = 0
 LSM3 = 0
 SR = 0
 W = 0
-############################################################
-########################## Screens #########################
-############################################################
-class MainScreen(Screen):
-    pass
-
-class DevicesScreen(Screen):
-    pass
-
-class HelpScreen_1(Screen):
-    pass
-
-class HelpScreen_2(Screen):
-    pass
-
-class HelpScreen_3(Screen):
-    pass
 
 ############################################################
 ##################### helper Functions #####################
@@ -98,9 +85,9 @@ def snackbar(text:str):
 ################# Bluetooth Control Class ##################
 ############################################################
 class AndroidBluetoothClass:    
-    def __init__(self,KV):
+    def __init__(self,root):
         self.stored_data = JsonStore('data.json')
-        self.KV = KV
+        self.root = root
         # self.init_bluetooth()
     
     def init_bluetooth(self):
@@ -143,7 +130,7 @@ class AndroidBluetoothClass:
             print("in get_paired_devices")
             if len(paired_devices)!=0:
                 print("in if")
-                second_screen = self.KV.get_screen('second')
+                second_screen = self.root.get_screen('second')
                 second_screen.ids.list.clear_widgets()
                 for device in paired_devices:
                     if device.getName() == DeviceName and device.getAddress() not in address_devices_list:
@@ -164,7 +151,7 @@ class AndroidBluetoothClass:
                             print(f"DeviceName = {device_name}")
                             print(f"getAddress = {device_address}")
                         except:pass
-                        second_screen = self.KV.get_screen('second')
+                        second_screen = self.root.get_screen('second')
                         second_screen.ids.list.add_widget(
                             MDCard(
 
@@ -250,14 +237,14 @@ class AndroidBluetoothClass:
             self.ConnectionEstablished = True
             print('Bluetooth Connection successful')
             snackbar("Bluetooth Connection successful")
-            main_screen = self.KV.get_screen('main')
+            main_screen = self.root.get_screen('main')
             main_screen.ids.connect.text_color="#1aaa65"
 
 
             if not self.ConnectionEstablished:
                 snackbar("Bluetooth Connection failed")
                 print("Bluetooth Connection failed")
-                main_screen = self.KV.get_screen('main')
+                main_screen = self.root.get_screen('main')
                 main_screen.ids.connect.text_color="red"
             return self.ConnectionEstablished
         
@@ -265,7 +252,7 @@ class AndroidBluetoothClass:
             print(e)
             snackbar("Bluetooth Connection failed")
             print("Bluetooth Connection failed")
-            main_screen = self.KV.get_screen('main')
+            main_screen = self.root.get_screen('main')
             main_screen.ids.connect.text_color="red"
             return 0
     
@@ -276,15 +263,15 @@ class AndroidBluetoothClass:
                 self.SendData.close()
                 self.ConnectionEstablished = False
                 print("Disconnected from device")
-                main_screen = self.KV.get_screen('main')
+                main_screen = self.root.get_screen('main')
                 main_screen.ids.connect.text_color="red"
             except Exception as e:
                 print("Failed to disconnect:", e)
-                main_screen = self.KV.get_screen('main')
+                main_screen = self.root.get_screen('main')
                 main_screen.ids.connect.text_color="red"
         else:
             print("No connection to disconnect")
-            main_screen = self.KV.get_screen('main')
+            main_screen = self.root.get_screen('main')
             main_screen.ids.connect.text_color="red"
 
     def BluetoothSend(self, Message):
@@ -465,12 +452,37 @@ menu = ""
 ############################################################
 class MyApp(MDApp):
     # DEBUG = True
+
     def __init__(self, **kwargs):
         global first_open_state
         super(MyApp, self).__init__(**kwargs)
         self.stored_data = JsonStore('data.json')
         Clock.schedule_once(lambda *args: self.load_from_JSON())
         Clock.schedule_once(lambda *args: self.help_page())
+        self.root = Root()
+        self.load_wedgit = MDBoxLayout(
+            MDBoxLayout(
+                MDCircularProgressIndicator(
+                    size_hint= (.5, .5),
+                    size= ("48dp", "48dp"),
+                    pos_hint= {'center_x': .5, 'center_y': .5},
+                    color= "#11ac68", 
+                    line_width = 4
+                    
+                ),
+                orientation= 'horizontal',
+                padding= dp(7),
+                spacing= dp(20),
+                pos_hint= {"center_x": .5, "center_y": .5},
+                size_hint= (.2, .2),
+                md_bg_color= "#f4f9fc",
+        ),
+            orientation= 'vertical',
+            md_bg_color= "#f4f9fc",
+            spacing=dp(1),
+            size_hint= (1, 1)
+        )
+
 
     def build(self):
         if platform == "android":
@@ -479,18 +491,43 @@ class MyApp(MDApp):
 
         self.theme_cls.theme_style = "Light"
         self.theme_cls.primary_palette = "Green"
-        self.KV = Builder.load_file("kivy.kv")
         self.set_bars_colors_screen_1()
         self.load_from_JSON()
-        self.android_bluetooth = AndroidBluetoothClass(self.KV)
+
+        self.root.push('main')
+        self.root.load_screen('second')
+        Window.bind(on_keyboard=self.handle_keyboard)
+
+
+        self.android_bluetooth = AndroidBluetoothClass(self.root)
         self.android_bluetooth.get_paired_devices()
-        return self.KV
-    
+
+    # handel android back button event
+    def handle_keyboard(self, instance, key, *args):
+        if key == 27:
+            self.root.pop()
+            try:
+                main_screen = self.root.get_screen('main')
+                main_screen.remove_widget(self.load_wedgit)
+            except:pass
+
+            if self.root.current_screen == self.root.get_screen('main') :
+                self.set_bars_colors_screen_1()
+            else :
+                self.set_bars_colors_screen_2()
+
+
+            return True
+
     # if first time open the app go to help screens
     def help_page(self):
         global first_open_state
         if first_open_state == 0 :
-            self.KV.current = 'help_1'
+            main_screen = self.root.get_screen('main')
+            main_screen.add_widget(self.load_wedgit)
+            self.root.load_screen('help_2')
+            self.root.load_screen('help_3')
+            self.root.push('help_1','left')
             self.set_bars_colors_screen_2()
             first_open_state = 1
             self.save_to_JSON()
@@ -573,7 +610,7 @@ class MyApp(MDApp):
         print(text_item)
         print("address = ")
         print(address)
-        main_screen = self.KV.get_screen('main')
+        main_screen = self.root.get_screen('main')
         main_screen.ids.drop_text.text = text_item
         selected_address = address
         menu.dismiss()
@@ -655,11 +692,11 @@ class MyApp(MDApp):
 ##################### Sending Commands #####################
 ############################################################
     def update_info_label(self):
-        self.KV.get_screen('main').ids.WheelsSpeed.text = str(RSM1) 
-        self.KV.get_screen('main').ids.BroomsSpeed.text = str(RSM2) 
-        self.KV.get_screen('main').ids.PumpSpeed.text = str(RSM3)
-        self.KV.get_screen('main').ids.GlassSpeed.text = str(SR)
-        self.KV.get_screen('main').ids.pumpState.text = "PUMP : ON" if abs(W) ==1 else  "PUMP : OFF"
+        self.root.get_screen('main').ids.WheelsSpeed.text = str(RSM1) 
+        self.root.get_screen('main').ids.BroomsSpeed.text = str(RSM2) 
+        self.root.get_screen('main').ids.PumpSpeed.text = str(RSM3)
+        self.root.get_screen('main').ids.GlassSpeed.text = str(SR)
+        self.root.get_screen('main').ids.pumpState.text = "PUMP : ON" if abs(W) ==1 else  "PUMP : OFF"
 
     def bluetooth_devices(self):
         self.android_bluetooth.get_paired_devices("HC-05")  
@@ -692,23 +729,36 @@ class MyApp(MDApp):
         self.android_bluetooth.edit_device_card(instance)  
 
     def go_back_to_help_1_screen(self):
+        main_screen = self.root.get_screen('main')
+        main_screen.add_widget(self.load_wedgit)
+        self.root.load_screen('help_2')
+        self.root.load_screen('help_3')
+        self.root.push('help_1','left')
         self.set_bars_colors_screen_2()
-        self.root.current = 'help_1'
+
     def go_back_to_help_2_screen(self):
+        self.root.push('help_2','left')
         self.set_bars_colors_screen_2()
-        self.root.current = 'help_2'
+
     def go_back_to_help_3_screen(self):
+        self.root.push('help_3','left')
         self.set_bars_colors_screen_2()
-        self.root.current = 'help_3'
 
     def go_to_second_screen(self):
+        self.root.push('second','down')
         self.set_bars_colors_screen_2()
-        self.root.current = 'second'
         self.bluetooth_devices()
 
+    def go_back_to_main_screen2(self):
+        self.set_bars_colors_screen_1()
+        main_screen = self.root.get_screen('main')
+        main_screen.remove_widget(self.load_wedgit)
+        self.root.push('main','up')
     def go_back_to_main_screen(self):
         self.set_bars_colors_screen_1()
-        self.root.current = 'main'
+        main_screen = self.root.get_screen('main')
+        main_screen.remove_widget(self.load_wedgit)
+        self.root.push('main','right')
 
     def send_wheels_up(self):
         global RSM1,LSM1,RSM2,LSM2,RSM3,LSM3,SR,W
