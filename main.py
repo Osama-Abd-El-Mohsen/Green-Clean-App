@@ -10,7 +10,6 @@ from kivymd.uix.relativelayout  import MDRelativeLayout
 from kivymd.uix.boxlayout  import MDBoxLayout
 from kivymd.uix.snackbar import MDSnackbar,MDSnackbarText
 from kivy.metrics import dp
-from kivy.uix.screenmanager import Screen
 from kivy.storage.jsonstore import JsonStore
 from kivy.clock import Clock
 from kivymd.uix.menu import MDDropdownMenu
@@ -21,10 +20,12 @@ from kivymd.uix.button import MDButton, MDButtonText
 from kivy.uix.widget import Widget
 from kivymd.utils.set_bars_colors import set_bars_colors
 from kivy.core.text import LabelBase
-from libs.uix.root import Root
 from kivy.core.window import Window
+from kivy.factory import Factory as F
+from kivy.utils import platform
+from kivy.uix.screenmanager import SlideTransition,WipeTransition
+
 # from kivymd.tools.hotreload.app import MDApp
-from kivy import platform
 if platform == "android":
     from android import activity
     from jnius import autoclass,cast
@@ -37,7 +38,7 @@ if platform != "android":
 ############################################################
 ###################### Global Variabls #####################
 ############################################################
-app_version = 2.2
+app_version = 2.3
 style_state = 'Light'
 id_devices_list =[]
 name_devices_list=[]
@@ -130,7 +131,7 @@ class AndroidBluetoothClass:
             print("in get_paired_devices")
             if len(paired_devices)!=0:
                 print("in if")
-                second_screen = self.root.get_screen('second')
+                second_screen = self.root.get_screen('Devices Screen')
                 second_screen.ids.list.clear_widgets()
                 for device in paired_devices:
                     if device.getName() == DeviceName and device.getAddress() not in address_devices_list:
@@ -151,7 +152,7 @@ class AndroidBluetoothClass:
                             print(f"DeviceName = {device_name}")
                             print(f"getAddress = {device_address}")
                         except:pass
-                        second_screen = self.root.get_screen('second')
+                        second_screen = self.root.get_screen('Devices Screen')
                         second_screen.ids.list.add_widget(
                             MDCard(
 
@@ -237,14 +238,14 @@ class AndroidBluetoothClass:
             self.ConnectionEstablished = True
             print('Bluetooth Connection successful')
             snackbar("Bluetooth Connection successful")
-            main_screen = self.root.get_screen('main')
+            main_screen = self.root.get_screen('Main Screen')
             main_screen.ids.connect.text_color="#1aaa65"
 
 
             if not self.ConnectionEstablished:
                 snackbar("Bluetooth Connection failed")
                 print("Bluetooth Connection failed")
-                main_screen = self.root.get_screen('main')
+                main_screen = self.root.get_screen('Main Screen')
                 main_screen.ids.connect.text_color="red"
             return self.ConnectionEstablished
         
@@ -252,7 +253,7 @@ class AndroidBluetoothClass:
             print(e)
             snackbar("Bluetooth Connection failed")
             print("Bluetooth Connection failed")
-            main_screen = self.root.get_screen('main')
+            main_screen = self.root.get_screen('Main Screen')
             main_screen.ids.connect.text_color="red"
             return 0
     
@@ -263,15 +264,15 @@ class AndroidBluetoothClass:
                 self.SendData.close()
                 self.ConnectionEstablished = False
                 print("Disconnected from device")
-                main_screen = self.root.get_screen('main')
+                main_screen = self.root.get_screen('Main Screen')
                 main_screen.ids.connect.text_color="red"
             except Exception as e:
                 print("Failed to disconnect:", e)
-                main_screen = self.root.get_screen('main')
+                main_screen = self.root.get_screen('Main Screen')
                 main_screen.ids.connect.text_color="red"
         else:
             print("No connection to disconnect")
-            main_screen = self.root.get_screen('main')
+            main_screen = self.root.get_screen('Main Screen')
             main_screen.ids.connect.text_color="red"
 
     def BluetoothSend(self, Message):
@@ -454,12 +455,11 @@ class MyApp(MDApp):
     # DEBUG = True
 
     def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         global first_open_state
         super(MyApp, self).__init__(**kwargs)
         self.stored_data = JsonStore('data.json')
-        Clock.schedule_once(lambda *args: self.load_from_JSON())
-        Clock.schedule_once(lambda *args: self.help_page())
-        self.root = Root()
+        Clock.schedule_once(lambda *args: self.main_init())
         self.load_wedgit = MDBoxLayout(
             MDBoxLayout(
                 MDCircularProgressIndicator(
@@ -483,51 +483,57 @@ class MyApp(MDApp):
             size_hint= (1, 1)
         )
 
-
     def build(self):
+        self.screen_manager = F.MDScreenManager()
+        self.screen_manager.transition = SlideTransition(direction='up')
+        self.change_screen("Main Screen")
         if platform == "android":
             from android.permissions import request_permissions, Permission 
             request_permissions([Permission.BLUETOOTH_CONNECT, Permission.BLUETOOTH_SCAN,Permission.ACCESS_FINE_LOCATION,Permission.BLUETOOTH])
 
         self.theme_cls.theme_style = "Light"
         self.theme_cls.primary_palette = "Green"
-        self.set_bars_colors_screen_1()
+
+        return self.screen_manager
+
+
+    def change_screen(self, screen_name, toolbar_title=None):
+        # print(f"Changing screen to {screen_name}")
+        if screen_name not in self.screen_manager.screen_names:
+            screen_object = self.get_screen_object_from_screen_name(screen_name)
+            self.screen_manager.add_widget(screen_object)
+        self.screen_manager.current = screen_name
+
+    def get_screen_object_from_screen_name(self, screen_name):
+        # Parsing module 'my_screen.py' and object 'MyScreen' from screen_name 'My Screen'
+        screen_module_in_str = "_".join([i.lower() for i in screen_name.split()])
+        screen_object_in_str = "".join(screen_name.split())
+        # Importing screen object
+        exec(f"from screens.{screen_module_in_str} import {screen_object_in_str}")
+        # Instantiating the object
+        screen_object = eval(f"{screen_object_in_str}()")
+        return screen_object
+
+    def main_init(self):
         self.load_from_JSON()
-
-        self.root.push('main')
-        self.root.load_screen('second')
-        Window.bind(on_keyboard=self.handle_keyboard)
-
-
+        self.set_bars_colors_screen_1()
+        self.help_page()
         self.android_bluetooth = AndroidBluetoothClass(self.root)
         self.android_bluetooth.get_paired_devices()
 
-    # handel android back button event
-    def handle_keyboard(self, instance, key, *args):
-        if key == 27:
-            self.root.pop()
-            try:
-                main_screen = self.root.get_screen('main')
-                main_screen.remove_widget(self.load_wedgit)
-            except:pass
-
-            if self.root.current_screen == self.root.get_screen('main') :
-                self.set_bars_colors_screen_1()
-            else :
-                self.set_bars_colors_screen_2()
-
-
-            return True
 
     # if first time open the app go to help screens
     def help_page(self):
         global first_open_state
         if first_open_state == 0 :
-            main_screen = self.root.get_screen('main')
+            main_screen = self.root.get_screen('Main Screen')
+            print(main_screen)
             main_screen.add_widget(self.load_wedgit)
-            self.root.load_screen('help_2')
-            self.root.load_screen('help_3')
-            self.root.push('help_1','left')
+            self.screen_manager.transition = SlideTransition(direction='left')
+            self.change_screen("Help Screen_1")
+            self.change_screen("Help Screen_2")
+            self.change_screen("Help Screen_3")
+            self.change_screen("Help Screen_1")
             self.set_bars_colors_screen_2()
             first_open_state = 1
             self.save_to_JSON()
@@ -610,7 +616,7 @@ class MyApp(MDApp):
         print(text_item)
         print("address = ")
         print(address)
-        main_screen = self.root.get_screen('main')
+        main_screen = self.root.get_screen('Main Screen')
         main_screen.ids.drop_text.text = text_item
         selected_address = address
         menu.dismiss()
@@ -692,11 +698,11 @@ class MyApp(MDApp):
 ##################### Sending Commands #####################
 ############################################################
     def update_info_label(self):
-        self.root.get_screen('main').ids.WheelsSpeed.text = str(RSM1) 
-        self.root.get_screen('main').ids.BroomsSpeed.text = str(RSM2) 
-        self.root.get_screen('main').ids.PumpSpeed.text = str(RSM3)
-        self.root.get_screen('main').ids.GlassSpeed.text = str(SR)
-        self.root.get_screen('main').ids.pumpState.text = "PUMP : ON" if abs(W) ==1 else  "PUMP : OFF"
+        self.root.get_screen('Main Screen').ids.WheelsSpeed.text = str(RSM1) 
+        self.root.get_screen('Main Screen').ids.BroomsSpeed.text = str(RSM2) 
+        self.root.get_screen('Main Screen').ids.PumpSpeed.text = str(RSM3)
+        self.root.get_screen('Main Screen').ids.GlassSpeed.text = str(SR)
+        self.root.get_screen('Main Screen').ids.pumpState.text = "PUMP : ON" if abs(W) ==1 else  "PUMP : OFF"
 
     def bluetooth_devices(self):
         self.android_bluetooth.get_paired_devices("HC-05")  
@@ -729,36 +735,44 @@ class MyApp(MDApp):
         self.android_bluetooth.edit_device_card(instance)  
 
     def go_back_to_help_1_screen(self):
-        main_screen = self.root.get_screen('main')
+        main_screen = self.root.get_screen('Main Screen')
         main_screen.add_widget(self.load_wedgit)
-        self.root.load_screen('help_2')
-        self.root.load_screen('help_3')
-        self.root.push('help_1','left')
+
+        self.screen_manager.transition = SlideTransition(direction='left')
+        self.change_screen('Help Screen_1')
+        self.change_screen("Help Screen_2")
+        self.change_screen("Help Screen_3")
+        self.change_screen('Help Screen_1')
         self.set_bars_colors_screen_2()
 
     def go_back_to_help_2_screen(self):
-        self.root.push('help_2','left')
+        self.screen_manager.transition = WipeTransition()
+        self.change_screen('Help Screen_2')
         self.set_bars_colors_screen_2()
 
     def go_back_to_help_3_screen(self):
-        self.root.push('help_3','left')
+        self.screen_manager.transition = WipeTransition()
+        self.change_screen('Help Screen_3')
         self.set_bars_colors_screen_2()
 
     def go_to_second_screen(self):
-        self.root.push('second','down')
+        self.screen_manager.transition = SlideTransition(direction='down')
+        self.change_screen('Devices Screen')
         self.set_bars_colors_screen_2()
         self.bluetooth_devices()
 
     def go_back_to_main_screen2(self):
         self.set_bars_colors_screen_1()
-        main_screen = self.root.get_screen('main')
+        self.screen_manager.transition = SlideTransition(direction='right')
+        main_screen = self.root.get_screen('Main Screen')
         main_screen.remove_widget(self.load_wedgit)
-        self.root.push('main','up')
+        self.change_screen('Main Screen')
     def go_back_to_main_screen(self):
         self.set_bars_colors_screen_1()
-        main_screen = self.root.get_screen('main')
+        self.screen_manager.transition = SlideTransition(direction='right')
+        main_screen = self.root.get_screen('Main Screen')
         main_screen.remove_widget(self.load_wedgit)
-        self.root.push('main','right')
+        self.change_screen('Main Screen')
 
     def send_wheels_up(self):
         global RSM1,LSM1,RSM2,LSM2,RSM3,LSM3,SR,W

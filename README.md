@@ -3,4 +3,4 @@
 
 |Screen 1|Screen 2|
 |--|--|
-|![Screen1](Assets/Screenshot_٢٠٢٤-٠٨-٠٩-١٨-٠٩-٣١-٢٥٩_org.clean.green.jpg)|![Screen2](Assets/Screenshot_٢٠٢٤-٠٨-٠٩-١٨-٠٩-٥٠-٠٧٦_org.clean.green.jpg)|
+|![Screen1](Assets/Screenshot_20240726_000936.png)|![Screen2](Assets/Screenshot_20240726_001824.png)|

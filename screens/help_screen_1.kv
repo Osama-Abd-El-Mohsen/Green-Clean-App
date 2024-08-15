@@ -1,0 +1,194 @@
+<HelpScreen_1>:
+    name: 'Help Screen_1'
+    app: app
+
+    id :sec
+    MDBoxLayout:
+        id: boxlayout
+        orientation: 'vertical'
+        md_bg_color: "#f4f9fc"
+        spacing:dp(20)
+
+############################################################
+########################## Top Bar #########################
+############################################################
+        MDTopAppBar:
+            type: "small"
+            pos_hint: {"center_x": .5 ,"center_y": .5}
+            theme_bg_color: "Custom"
+            md_bg_color: "#f4f9fc"
+
+            MDTopAppBarLeadingButtonContainer:
+                md_bg_color: "#f4f9fc"
+
+                # MDActionTopAppBarButton:
+                #     icon: "theme-light-dark"
+                #     text_color:"#282827"
+                #     on_release: app.switch_theme_style() 
+
+            MDTopAppBarTitle:
+                text: "[color=11ac68]Green[/color] Clean"
+                markup: True
+                theme_text_color: "Custom"
+                theme_font_name: "Custom"
+                theme_font_size: "Custom"
+                font_name:"BPoppins"
+                text_color : "#0c1616"
+                font_size : dp(25)
+
+            MDTopAppBarTrailingButtonContainer:
+                MDActionTopAppBarButton:
+                    icon: "information"
+                    theme_icon_color: "Custom"
+                    theme_bg_color: "Custom"
+                    md_bg_color: "#f4f9fc"
+                    icon_color: "#282827"                     
+                    on_release: app.info_dialog()
+
+        MDBoxLayout:
+            radius: "36dp","36dp",0,0
+            pos_hint: {"center_x": .5}
+            size_hint: .95, .2
+            theme_bg_color: "Custom"
+            md_bg_color: "#fefefe"
+            padding : 20
+            spacing : 10
+            orientation : "vertical"
+            
+            MDBoxLayout:
+                radius: "36dp"
+                theme_bg_color: "Custom"
+                md_bg_color: "#161c22"
+                orientation : "vertical"
+                padding : 20
+                spacing : 5
+                size_hint: 1, .3
+
+                FitImage:
+                    source: "Assets/help_screen/01.png"
+                    padding : 5
+                    pos_hint: {"top": 1}
+                    radius: "36dp", "36dp", "36dp", "36dp"
+                    fit_mode : "scale-down"
+                    size_hint: 1, 1
+
+            MDBoxLayout:
+                radius: "36dp"
+                theme_bg_color: "Custom"
+                md_bg_color: "#f4f9fc"
+                orientation : "vertical"
+                padding : 20
+                spacing : 5
+                size_hint: 1, .5
+                MDLabel:
+                    size_hint: 1, 1
+                    halign: 'right'
+                    theme_text_color: "Custom"
+                    theme_font_name: "Custom"
+                    theme_font_size: "Custom"
+                    font_name:"BBCairo"
+                    markup: True
+                    text: "[color=11ac68]" + " البلوتوث" + "[/color]" + " ثم"+ "[color=11ac68]" + " الإعدادات" + "[/color]" + "1- نقوم بفتح"  +'\n'  + "2- اقران جهاز جديد"
+                    text_color : "#0c1616"
+                    font_size : dp(14)
+                    font_script_name: "Arab"
+                    font_direction: "rtl"
+
+                MDLabel:
+                    size_hint: 1, 1
+                    halign: 'left'
+                    theme_text_color: "Custom"
+                    theme_font_name: "Custom"
+                    theme_font_size: "Custom"
+                    font_name:"BPoppins"
+                    markup: True
+                    text: "1- Go to [color=11ac68]settings[/color] -> [color=11ac68]bluetooth[/color]" + '\n' + '2- Click pair new device'
+                    text_color : "#0c1616"
+                    font_size : dp(14)
+
+            MDBoxLayout:
+                radius: "36dp"
+                theme_bg_color: "Custom"
+                md_bg_color: "#161c22"
+                orientation : "vertical"
+                padding : 20
+                spacing : 5
+                size_hint: 1, .3
+
+                FitImage:
+                    source: "Assets/help_screen/02.png"
+                    padding : 5
+                    pos_hint: {"top": 1}
+                    radius: "36dp", "36dp", "36dp", "36dp"
+                    fit_mode : "scale-down"
+                    size_hint: 1, .4
+
+            MDBoxLayout:
+                radius: "36dp"
+                theme_bg_color: "Custom"
+                md_bg_color: "#f4f9fc"
+                orientation : "vertical"
+                padding : 20
+                spacing : 5
+                size_hint: 1, .5
+                MDLabel:
+                    size_hint: 1, .3
+                    halign: 'right'
+                    theme_text_color: "Custom"
+                    theme_font_name: "Custom"
+                    theme_font_size: "Custom"
+                    font_name:"BBCairo"
+                    text:  "1- نبحث و نقترن ب جهاز بإسم "
+                    text_color : "#0c1616"
+                    font_size : dp(14)
+                    font_script_name: "Arab"
+                    font_direction: "rtl"
+
+                MDLabel:
+                    size_hint: 1, .1
+                    halign: 'right'
+                    theme_text_color: "Custom"
+                    theme_font_name: "Custom"
+                    theme_font_size: "Custom"
+                    font_name:"BPoppins"
+                    markup: True
+                    text:  "[color=11ac68]'HC-05'[/color]" 
+                    text_color : "#0c1616"
+                    font_size : dp(14)
+
+                MDLabel:
+                    size_hint: 1, .3
+                    halign: 'left'
+                    theme_text_color: "Custom"
+                    theme_font_name: "Custom"
+                    theme_font_size: "Custom"
+                    font_name:"BPoppins"
+                    markup: True
+                    text: "1- Search for [color=11ac68]'HC-05'[/color] and click on it to pair" 
+                    text_color : "#0c1616"
+                    font_size : dp(14)
+
+
+
+            MDBoxLayout:
+                radius: "36dp"
+                theme_bg_color: "Custom"
+                md_bg_color: "#fefefe"
+                orientation : "vertical"
+                padding : 20
+                spacing : 5
+                size_hint: 1, .2
+
+                MDIconButton:
+                    theme_icon_color: "Custom"
+                    theme_bg_color: "Custom"
+                    theme_font_size: "Custom"
+                    font_size: "55sp"
+                    size_hint: None ,None
+                    size: "55dp", "55dp"
+
+                    icon: "chevron-right"
+                    pos_hint: {'center_x': 0.5}
+                    on_release: app.go_back_to_help_2_screen()
+                    md_bg_color: "#11ac68"
+                    icon_color: "#f4f9fc" 
