@@ -38,7 +38,7 @@ if platform != "android":
 ############################################################
 ###################### Global Variabls #####################
 ############################################################
-app_version = 2.3
+app_version = 2.4
 style_state = 'Light'
 id_devices_list =[]
 name_devices_list=[]
@@ -496,6 +496,16 @@ class MyApp(MDApp):
 
         return self.screen_manager
 
+    def Android_back_click(self,window,key,*largs):
+            if key in [27, 1001]:
+                try:
+                    main_screen = self.root.get_screen('Main Screen')
+                    main_screen.remove_widget(self.load_wedgit)
+                except :pass
+                self.screen_manager.transition = SlideTransition(direction='up')
+                self.set_bars_colors_screen_1()
+                self.screen_manager.current = 'Main Screen'
+                return True
 
     def change_screen(self, screen_name, toolbar_title=None):
         # print(f"Changing screen to {screen_name}")
@@ -515,6 +525,7 @@ class MyApp(MDApp):
         return screen_object
 
     def main_init(self):
+        Window.bind(on_keyboard=self.Android_back_click)
         self.load_from_JSON()
         self.set_bars_colors_screen_1()
         self.help_page()
@@ -529,10 +540,9 @@ class MyApp(MDApp):
             main_screen = self.root.get_screen('Main Screen')
             print(main_screen)
             main_screen.add_widget(self.load_wedgit)
+            self.screen_manager.add_widget(self.get_screen_object_from_screen_name('Help Screen_2'))
+            self.screen_manager.add_widget(self.get_screen_object_from_screen_name('Help Screen_3'))
             self.screen_manager.transition = SlideTransition(direction='left')
-            self.change_screen("Help Screen_1")
-            self.change_screen("Help Screen_2")
-            self.change_screen("Help Screen_3")
             self.change_screen("Help Screen_1")
             self.set_bars_colors_screen_2()
             first_open_state = 1
@@ -738,10 +748,9 @@ class MyApp(MDApp):
         main_screen = self.root.get_screen('Main Screen')
         main_screen.add_widget(self.load_wedgit)
 
+        self.screen_manager.add_widget(self.get_screen_object_from_screen_name('Help Screen_2'))
+        self.screen_manager.add_widget(self.get_screen_object_from_screen_name('Help Screen_3'))
         self.screen_manager.transition = SlideTransition(direction='left')
-        self.change_screen('Help Screen_1')
-        self.change_screen("Help Screen_2")
-        self.change_screen("Help Screen_3")
         self.change_screen('Help Screen_1')
         self.set_bars_colors_screen_2()
 
