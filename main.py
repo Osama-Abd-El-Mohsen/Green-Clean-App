@@ -23,16 +23,30 @@ from kivy.core.text import LabelBase
 from kivy.core.window import Window
 from kivy.factory import Factory as F
 from kivy.utils import platform
-from kivy.uix.screenmanager import SlideTransition,WipeTransition
-
+from kivy.uix.screenmanager import SlideTransition,WipeTransition,ScreenManager,Screen,NoTransition
+import datetime
 # from kivymd.tools.hotreload.app import MDApp
 if platform == "android":
     from android import activity
     from jnius import autoclass,cast
-
 if platform != "android":
     Window.size = (406, 762)
     Window.always_on_top = True
+Window.clearcolor = (244/255, 249/255, 252/255, 1)
+x = datetime.datetime.now()
+
+
+
+
+class MyScreenManager(ScreenManager) :
+    pass
+
+class LoadScreen(Screen):
+    pass
+
+
+
+
 
 
 ############################################################
@@ -108,7 +122,7 @@ class AndroidBluetoothClass:
             self.PythonActivity = autoclass('org.kivy.android.PythonActivity')
 
             if not self.bluetooth_adapter.isEnabled():
-                snackbar("Enabling Bluetooth...")
+                # snackbar("Enabling Bluetooth...")
                 print("Enabling Bluetooth...")
                 self.bluetooth_adapter.enable()
                 enableIntent = self.Intent(self.bluetooth_adapter.ACTION_REQUEST_ENABLE)
@@ -116,7 +130,7 @@ class AndroidBluetoothClass:
                 currentActivity.startActivity(enableIntent)
 
         except :
-            snackbar("Bluetooth Can not initialization")
+            # snackbar("Bluetooth Can not initialization")
             print("Bluetooth Can not initialization")
     
     def get_paired_devices(self, DeviceName="HC-05"):
@@ -448,105 +462,91 @@ class AndroidBluetoothClass:
 
 menu = ""
 
+
+LOADING_KV = """
+MyScreenManager:
+    LoadScreen:
+        name: 'Load Screen'
+        app: app
+
+        MDBoxLayout:
+            orientation: 'vertical'
+            md_bg_color: "#f4f9fc"
+            spacing:'1dp'
+            size_hint: (1, 1)
+            MDBoxLayout:
+                orientation: 'horizontal'
+                padding: '7dp'
+                spacing: '20dp'
+                pos_hint: {"center_x": .5, "center_y": .5}
+                size_hint: (.2, .2)
+                md_bg_color: "#f4f9fc"
+                MDCircularProgressIndicator:
+                    size_hint: (.5, .5)
+                    size: ("48dp", "48dp")
+                    pos_hint: {'center_x': .5, 'center_y': .5}
+                    color: "#11ac68"
+                    line_width : 4
+"""
+from kivy.lang.builder import Builder
+
+
 ############################################################
 ######################## App Class #########################
 ############################################################
 class MyApp(MDApp):
     # DEBUG = True
-
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        global first_open_state
-        super(MyApp, self).__init__(**kwargs)
-        self.stored_data = JsonStore('data.json')
-        Clock.schedule_once(lambda *args: self.main_init())
-        self.load_wedgit = MDBoxLayout(
-            MDBoxLayout(
-                MDCircularProgressIndicator(
-                    size_hint= (.5, .5),
-                    size= ("48dp", "48dp"),
-                    pos_hint= {'center_x': .5, 'center_y': .5},
-                    color= "#11ac68", 
-                    line_width = 4
-                    
-                ),
-                orientation= 'horizontal',
-                padding= dp(7),
-                spacing= dp(20),
-                pos_hint= {"center_x": .5, "center_y": .5},
-                size_hint= (.2, .2),
-                md_bg_color= "#f4f9fc",
-        ),
-            orientation= 'vertical',
-            md_bg_color= "#f4f9fc",
-            spacing=dp(1),
-            size_hint= (1, 1)
-        )
+        Window.bind(on_keyboard=self.Android_back_click)
 
     def build(self):
-        self.screen_manager = F.MDScreenManager()
-        self.screen_manager.transition = SlideTransition(direction='up')
-        self.change_screen("Main Screen")
+        self.stored_data = JsonStore('data.json')
+        self.load_from_JSON()
+        self.screen_manager = MyScreenManager(transition = WipeTransition())
         if platform == "android":
             from android.permissions import request_permissions, Permission 
             request_permissions([Permission.BLUETOOTH_CONNECT, Permission.BLUETOOTH_SCAN,Permission.ACCESS_FINE_LOCATION,Permission.BLUETOOTH])
-
         self.theme_cls.theme_style = "Light"
-        self.theme_cls.primary_palette = "Green"
+        self.theme_cls.primary_palette = "Green"   
+        
 
-        return self.screen_manager
-
-    def Android_back_click(self,window,key,*largs):
-            if key in [27, 1001]:
-                try:
-                    main_screen = self.root.get_screen('Main Screen')
-                    main_screen.remove_widget(self.load_wedgit)
-                except :pass
-                self.screen_manager.transition = SlideTransition(direction='up')
-                self.set_bars_colors_screen_1()
-                self.screen_manager.current = 'Main Screen'
-                return True
-
-    def change_screen(self, screen_name, toolbar_title=None):
-        # print(f"Changing screen to {screen_name}")
-        if screen_name not in self.screen_manager.screen_names:
-            screen_object = self.get_screen_object_from_screen_name(screen_name)
-            self.screen_manager.add_widget(screen_object)
-        self.screen_manager.current = screen_name
-
-    def get_screen_object_from_screen_name(self, screen_name):
-        # Parsing module 'my_screen.py' and object 'MyScreen' from screen_name 'My Screen'
-        screen_module_in_str = "_".join([i.lower() for i in screen_name.split()])
-        screen_object_in_str = "".join(screen_name.split())
-        # Importing screen object
-        exec(f"from screens.{screen_module_in_str} import {screen_object_in_str}")
-        # Instantiating the object
-        screen_object = eval(f"{screen_object_in_str}()")
-        return screen_object
-
-    def main_init(self):
-        Window.bind(on_keyboard=self.Android_back_click)
-        self.load_from_JSON()
-        self.set_bars_colors_screen_1()
+        y = datetime.datetime.now()
+        print(y-x)
+        self.screen_manager.transition = WipeTransition() 
+        return Builder.load_string(LOADING_KV)
+    
+    def on_start(self):
+        self.load_main()
         self.help_page()
+        y = datetime.datetime.now()
+        print(y-x)
+
         self.android_bluetooth = AndroidBluetoothClass(self.root)
         self.android_bluetooth.get_paired_devices()
-
 
     # if first time open the app go to help screens
     def help_page(self):
         global first_open_state
-        if first_open_state == 0 :
-            main_screen = self.root.get_screen('Main Screen')
-            print(main_screen)
-            main_screen.add_widget(self.load_wedgit)
-            self.screen_manager.add_widget(self.get_screen_object_from_screen_name('Help Screen_2'))
-            self.screen_manager.add_widget(self.get_screen_object_from_screen_name('Help Screen_3'))
-            self.screen_manager.transition = SlideTransition(direction='left')
-            self.change_screen("Help Screen_1")
-            self.set_bars_colors_screen_2()
-            first_open_state = 1
-            self.save_to_JSON()
+        self.set_bars_colors_screen_2()
+        first_open_state = 1
+        self.save_to_JSON()
+        print(datetime.datetime.now()-x)
+
+    def Android_back_click(self,window,key,*largs):
+            if key in [27, 1001]:
+                self.root.transition = SlideTransition(direction='up')
+                self.set_bars_colors_screen_1()
+                self.root.current = 'Main Screen'
+                return True
+
+    def get_screen_object_from_screen_name(self, screen_name):
+        screen_module_in_str = "_".join([i.lower() for i in screen_name.split()])
+        screen_object_in_str = "".join(screen_name.split())
+        exec(f"from screens.{screen_module_in_str} import {screen_object_in_str}")
+        screen_object = eval(f"{screen_object_in_str}()")
+        return screen_object
+
 
     # changing topbar and navigation bar color
     def set_bars_colors_screen_2(self):
@@ -745,43 +745,46 @@ class MyApp(MDApp):
         self.android_bluetooth.edit_device_card(instance)  
 
     def go_back_to_help_1_screen(self):
-        main_screen = self.root.get_screen('Main Screen')
-        main_screen.add_widget(self.load_wedgit)
-
-        self.screen_manager.add_widget(self.get_screen_object_from_screen_name('Help Screen_2'))
-        self.screen_manager.add_widget(self.get_screen_object_from_screen_name('Help Screen_3'))
-        self.screen_manager.transition = SlideTransition(direction='left')
-        self.change_screen('Help Screen_1')
+        if 'Help Screen_1' not in self.root.screen_names:
+            self.root.add_widget(self.get_screen_object_from_screen_name('Help Screen_1'))
+        self.root.transition = SlideTransition(direction='left')
+        self.root.current = 'Help Screen_1'
         self.set_bars_colors_screen_2()
 
     def go_back_to_help_2_screen(self):
-        self.screen_manager.transition = WipeTransition()
-        self.change_screen('Help Screen_2')
+        if 'Help Screen_2' not in self.root.screen_names:
+            self.root.add_widget(self.get_screen_object_from_screen_name('Help Screen_2'))
+        self.root.transition = WipeTransition()
+        self.root.current = 'Help Screen_2'
         self.set_bars_colors_screen_2()
 
     def go_back_to_help_3_screen(self):
-        self.screen_manager.transition = WipeTransition()
-        self.change_screen('Help Screen_3')
+        if 'Help Screen_3' not in self.root.screen_names:
+            self.root.add_widget(self.get_screen_object_from_screen_name('Help Screen_3'))
+        self.root.transition = WipeTransition()
+        self.root.current = 'Help Screen_3'
         self.set_bars_colors_screen_2()
 
     def go_to_second_screen(self):
-        self.screen_manager.transition = SlideTransition(direction='down')
-        self.change_screen('Devices Screen')
+
+        if 'Devices Screen' not in self.root.screen_names:
+            from screens.devices_screen import DevicesScreen
+            screen = DevicesScreen(name='Devices Screen')
+            self.root.add_widget(screen)
+        self.root.transition = SlideTransition(direction='down')
+        self.root.current = 'Devices Screen'
         self.set_bars_colors_screen_2()
         self.bluetooth_devices()
 
-    def go_back_to_main_screen2(self):
+    def load_main(self):
+        if 'Main Screen' not in self.root.screen_names:
+            self.root.add_widget(self.get_screen_object_from_screen_name('Main Screen'))
         self.set_bars_colors_screen_1()
-        self.screen_manager.transition = SlideTransition(direction='right')
-        main_screen = self.root.get_screen('Main Screen')
-        main_screen.remove_widget(self.load_wedgit)
-        self.change_screen('Main Screen')
+        self.root.current = 'Main Screen'
+
     def go_back_to_main_screen(self):
-        self.set_bars_colors_screen_1()
-        self.screen_manager.transition = SlideTransition(direction='right')
-        main_screen = self.root.get_screen('Main Screen')
-        main_screen.remove_widget(self.load_wedgit)
-        self.change_screen('Main Screen')
+        self.root.transition = SlideTransition(direction='right')
+        self.load_main()
 
     def send_wheels_up(self):
         global RSM1,LSM1,RSM2,LSM2,RSM3,LSM3,SR,W
