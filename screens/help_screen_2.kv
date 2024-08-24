@@ -41,9 +41,12 @@
                     icon: "information"
                     theme_icon_color: "Custom"
                     theme_bg_color: "Custom"
+                    theme_font_size: "Custom"
                     md_bg_color: "#f4f9fc"
                     icon_color: "#282827"                     
                     on_release: app.info_dialog()
+                    font_size: dp(25)
+                    size: dp(25), dp(25)
 
         MDBoxLayout:
             radius: "36dp","36dp",0,0
@@ -79,7 +82,7 @@
                     markup: True
                     text: "[color=11ac68]" + " الأجهزه المقترنة" + "[/color]" + " لعرض"+ "[color=11ac68]" + " الروبوت" + "[/color]" + "1- نضغط على "  
                     text_color : "#0c1616"
-                    font_size : dp(14)
+                    font_size : dp(12)
                     font_script_name: "Arab"
                     font_direction: "rtl"
 
@@ -93,7 +96,7 @@
                     markup: True
                     text: "1- Click on [color=11ac68]Robot icon[/color] to see [color=11ac68]paired devices[/color]" 
                     text_color : "#0c1616"
-                    font_size : dp(14)
+                    font_size : dp(12)
 
 
             MDBoxLayout:
@@ -120,7 +123,7 @@
                     font_name:"BBCairo"
                     text:  "يمكن تحديث و عرض الروبوتس المقترنه بالضغط على الزر 1" +"\n"+  "كما يمكن تغير اسم الروبوت بالضغط على الزر 2"
                     text_color : "#0c1616"
-                    font_size : dp(14)
+                    font_size : dp(12)
                     font_script_name: "Arab"
                     font_direction: "rtl"
 
@@ -134,9 +137,7 @@
                     markup: True
                     text: "you can [color=11ac68] find and refresh[/color] paired robots by clicking button 1 and also you can [color=11ac68] rename [/color]your robot by clicking button 2" 
                     text_color : "#0c1616"
-                    font_size : dp(14)
-
-
+                    font_size : dp(12)
 
             MDBoxLayout:
                 radius: "36dp"
@@ -151,9 +152,9 @@
                     theme_icon_color: "Custom"
                     theme_bg_color: "Custom"
                     theme_font_size: "Custom"
-                    font_size: "55sp"
+                    font_size: dp(50)
                     size_hint: None ,None
-                    size: "55dp", "55dp"
+                    size: dp(50), dp(50)
 
                     icon: "chevron-right"
                     pos_hint: {'center_x': 0.5}

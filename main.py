@@ -36,18 +36,14 @@ Window.clearcolor = (244/255, 249/255, 252/255, 1)
 x = datetime.datetime.now()
 
 
-
-
+############################################################
+################ ScreenManager & Load Screen ###############
+############################################################
 class MyScreenManager(ScreenManager) :
     pass
 
 class LoadScreen(Screen):
     pass
-
-
-
-
-
 
 ############################################################
 ###################### Global Variabls #####################
@@ -176,7 +172,11 @@ class AndroidBluetoothClass:
                                     pos_hint= {"top": 1, "right": 1},
                                     on_release  = self.edit_device_card,
                                     theme_text_color= "Custom",
-                                    text_color = "#222627"
+                                    text_color = "#222627",
+                                    theme_font_size= "Custom",
+                                    size= (dp(25), dp(25)),
+                                    font_size= dp(25)
+
                                 ),
 
                                 MDBoxLayout(
@@ -218,10 +218,11 @@ class AndroidBluetoothClass:
                             elevation_level= 1,
 
                             size_hint=(.5, None),
-                            size=(1, 200),
+                            size=(1, 250),
                             padding=(10, 10, 10, 10),
                             state_hover = 0,
                             state_press = 0,
+                            
                             )
                         )
 
@@ -390,10 +391,21 @@ class AndroidBluetoothClass:
                 MDTextField(
                     MDTextFieldHintText(
                         text="Edit Device",
+                        theme_text_color= "Custom",
+                        theme_font_name= "Custom",
+                        theme_font_size= "Custom",
+                        font_name="BPoppins",
                         halign="left",
+                        font_size = dp(13)
+
                     ),
                     MDTextFieldHelperText(
                         text="Enter Device Name",
+                        theme_text_color= "Custom",
+                        theme_font_name= "Custom",
+                        theme_font_size= "Custom",
+                        font_name="BPoppins",
+                        font_size = dp(15)
                         
                         ),
                         

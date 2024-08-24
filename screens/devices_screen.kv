@@ -42,17 +42,23 @@
                     icon: "information"
                     theme_icon_color: "Custom"
                     theme_bg_color: "Custom"
+                    theme_font_size: "Custom"
                     md_bg_color: "#f4f9fc"
                     icon_color: "#282827"                     
                     on_release: app.info_dialog()
+                    font_size: dp(25)
+                    size: dp(25), dp(25)
                     
                 MDActionTopAppBarButton:
                     icon: "help-circle"
                     theme_icon_color: "Custom"
                     theme_bg_color: "Custom"
+                    theme_font_size: "Custom"
                     md_bg_color: "#f4f9fc"
                     icon_color: "#282827" 
-                    on_release: app.go_back_to_help_1_screen() 
+                    on_release: app.go_back_to_help_1_screen()
+                    font_size: dp(25)
+                    size: dp(25), dp(25) 
 
 ############################################################
 ################## Refresh & Back Buttons ##################
@@ -75,11 +81,18 @@
                 MDButtonIcon:
                     icon: "arrow-left"
                     theme_icon_color: "Custom"
+                    theme_font_size: "Custom"
                     icon_color: "#fefefe"
+                    font_size: dp(18)
                 MDButtonText:
                     text: "Back"
                     theme_text_color: "Custom"
+                    theme_font_size: "Custom"
+                    theme_font_name: "Custom"
+                    font_name:"MPoppins"
                     text_color: "#fefefe"
+                    font_size: dp(18)
+
 
             MDButton:
                 fab_state: "expand"
@@ -91,11 +104,18 @@
                 MDButtonIcon:
                     icon: "refresh"
                     theme_icon_color: "Custom"
+                    theme_font_size: "Custom"
                     icon_color: "#282827"
+                    font_size: dp(18)
+
                 MDButtonText:
                     text: "Refresh"
                     theme_text_color: "Custom"
+                    theme_font_size: "Custom"
+                    theme_font_name: "Custom"
+                    font_name:"MPoppins"
                     text_color: "#282827"
+                    font_size: dp(18)
 
 ############################################################
 ################## Devices Cards Section ###################
