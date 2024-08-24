@@ -42,6 +42,8 @@
                 size_hint: None ,None
                 size: "40dp", "40dp"
                 on_release: app.go_to_second_screen() 
+                pos_hint: {"center_x": .5, "center_y": .5}
+                
 
             MDIconButton:
                 icon: "information"
@@ -53,6 +55,7 @@
                 size_hint: None ,None
                 size: "40dp", "40dp"
                 on_release: app.info_dialog()
+                pos_hint: {"center_x": .5, "center_y": .5}
 
             MDIconButton:
                 icon: "help-circle"
@@ -64,6 +67,7 @@
                 size_hint: None ,None
                 size: "40dp", "40dp"
                 on_release: app.go_back_to_help_1_screen() 
+                pos_hint: {"center_x": .5, "center_y": .5}
 
 
 
@@ -87,7 +91,7 @@
                 theme_icon_color: "Custom"
                 theme_bg_color: "Custom"
                 theme_font_size: "Custom"
-                font_size: "20sp"
+                font_size: "20dp"
                 size_hint: None ,None
                 size: "40dp", "40dp"
                 md_bg_color: "#11ac68"
@@ -101,11 +105,11 @@
                     theme_icon_color: "Custom"
                     theme_bg_color: "Custom"
                     theme_font_size: "Custom"
-                    font_size: "20sp"
                     size_hint: None ,None
                     size: "40dp", "40dp"
                     md_bg_color: "#11ac68"
                     text_color: "#282827" 
+                    font_size : dp(20)
 
 
             MDIconButton:
@@ -116,7 +120,7 @@
                 theme_icon_color: "Custom"
                 theme_bg_color: "Custom"
                 theme_font_size: "Custom"
-                font_size: "30sp"
+                font_size: "30dp"
                 size_hint: None ,None
                 size: "45dp", "45dp"
                 md_bg_color: "#fefefe"
@@ -137,7 +141,7 @@
             pos_hint: {'center_x': .5, 'center_y': .5}
 
 ############################################################
-################# speed degree section info ################
+################ speed , degree section info ###############
 ############################################################
         MDCard:
             orientation: 'vertical'
@@ -399,7 +403,7 @@
                     theme_icon_color: "Custom"
                     theme_bg_color: "Custom"
                     theme_font_size: "Custom"
-                    font_size: "55sp"
+                    font_size: "55dp"
                     size_hint: None ,None
                     size: "55dp", "55dp"
 
@@ -425,7 +429,7 @@
                     theme_icon_color: "Custom"
                     theme_bg_color: "Custom"
                     theme_font_size: "Custom"
-                    font_size: "30sp"
+                    font_size: "30dp"
                     size_hint: None, None
                     size: "50dp" ,"50dp"
 
@@ -450,7 +454,7 @@
                     theme_icon_color: "Custom"
                     theme_bg_color: "Custom"
                     theme_font_size: "Custom"
-                    font_size: "55sp"
+                    font_size: "55dp"
                     size_hint: None, None
                     size: "55dp", "55dp"
 
@@ -536,7 +540,7 @@
                     theme_icon_color: "Custom"
                     theme_bg_color: "Custom"
                     theme_font_size: "Custom"
-                    font_size: "55sp"
+                    font_size: "55dp"
                     size_hint: None, None
                     size: "55dp", "55dp"
 
@@ -561,7 +565,7 @@
                     theme_icon_color: "Custom"
                     theme_bg_color: "Custom"
                     theme_font_size: "Custom"
-                    font_size: "30sp"
+                    font_size: "30dp"
                     size_hint: None, None
                     size: "50dp", "50dp"
 
@@ -587,7 +591,7 @@
                     theme_icon_color: "Custom"
                     theme_bg_color: "Custom"
                     theme_font_size: "Custom"
-                    font_size: "55sp"
+                    font_size: "55dp"
                     size_hint: None, None
                     size: "55dp", "55dp"
 
@@ -613,7 +617,7 @@
 ############################################################
         MDCard:
             orientation: 'vertical'
-            size_hint_y: 0.26
+            size_hint_y: 0.33
             pos_hint: {"center_x": .5, "center_y": .5}
             elevation: 2
             padding: dp(5)
@@ -717,11 +721,11 @@
                         theme_icon_color: "Custom"
                         theme_bg_color: "Custom"
                         theme_font_size: "Custom"
-                        font_size: "55sp"
+                        font_size: "55dp"
                         size_hint: None, None
                         size: "55dp", "55dp"
 
-                        icon: "menu-right"
+                        icon: "chevron-up"
                         md_bg_color: "#282827"
                         icon_color: "#fefefe" 
                         pos_hint: {'center_x': 0.5}
@@ -742,7 +746,7 @@
 ############################################################
         BoxLayout:
             orientation: 'vertical'
-            size_hint_y: 0.35
+            size_hint_y: 0.4
             pos_hint: {"center_x": .5, "center_y": .5}
             elevation: 2
             padding: dp(10)
@@ -779,7 +783,7 @@
                         theme_icon_color: "Custom"
                         theme_bg_color: "Custom"
                         theme_font_size: "Custom"
-                        font_size: "40sp"
+                        font_size: "40dp"
                         size_hint: None, None
                         size: "55dp", "55dp"
 
@@ -817,7 +821,7 @@
                         theme_icon_color: "Custom"
                         theme_bg_color: "Custom"
                         theme_font_size: "Custom"
-                        font_size: "35sp"
+                        font_size: "35dp"
                         size_hint: None, None
                         size: "50dp", "50dp"
 
@@ -855,7 +859,7 @@
                         theme_icon_color: "Custom"
                         theme_bg_color: "Custom"
                         theme_font_size: "Custom"
-                        font_size: "40sp"
+                        font_size: "40dp"
                         size_hint: None, None
                         size: "55dp", "55dp"
 
