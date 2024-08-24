@@ -1,28 +1,43 @@
-name: Build Kivy App
+name: CI
 
 on:
   push:
-    branches:
-      - main  # Change to your default branch if different
+    branches: [ main ]
   pull_request:
-    branches:
-      - main  # Change to your default branch if different
+    branches: [ main ]
+  schedule:
+    - cron: '0 0 1,15 * *'
 
 jobs:
-  build-android:
-    name: Build Android App
+  build:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # Cache Buildozer global directory
+      - name: Cache Buildozer global directory
+        uses: actions/cache@v3
+        with:
+          path: ~/.buildozer
+          key: buildozer-global-${{ hashFiles('buildozer.spec') }}
+
+      # Cache Buildozer dependencies
+      - name: Cache Buildozer dependencies
+        uses: actions/cache@v3
+        with:
+          path: .buildozer
+          key: buildozer-${{ runner.os }}-${{ hashFiles('buildozer.spec') }}
+
+      # Set up Python
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'  # Use the appropriate Python version
+          python-version: '3.10'
 
-      - name: Install Buildozer and dependencies
+      # Install dependencies
+      - name: Install Buildozer and system dependencies
         run: |
           python -m pip install --upgrade pip
           pip install buildozer
@@ -53,11 +68,20 @@ jobs:
             libreadline-dev \
             libncursesw5-dev \
             uuid-dev \
-            libgstreamer1.0-dev \
+            libgstreamer1.0 \
             gstreamer1.0-plugins-base \
             gstreamer1.0-plugins-good
 
+      # Build with Buildozer
       - name: Build Android APK
+        id: buildozer
         run: |
           buildozer android clean
           buildozer android debug
+
+      # Upload build artifacts
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: android-apk
+          path: bin/*.apk
