@@ -53,7 +53,7 @@ jobs:
             libreadline-dev \
             libncursesw5-dev \
             uuid-dev \
-            libgstreamer1.0 \
+            libgstreamer1.0-dev \
             gstreamer1.0-plugins-base \
             gstreamer1.0-plugins-good
 
