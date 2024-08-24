@@ -75,7 +75,6 @@ jobs:
       - name: Build Android APK
         id: buildozer
         run: |
-          buildozer android clean
           buildozer android debug
 
       # Upload build artifacts
