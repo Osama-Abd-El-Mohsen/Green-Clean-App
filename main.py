@@ -52,7 +52,7 @@ class LoadScreen(Screen):
 ############################################################
 ###################### Global Variabls #####################
 ############################################################
-app_version = 2.4
+app_version = 2.5
 style_state = 'Light'
 id_devices_list =[]
 name_devices_list=[]
