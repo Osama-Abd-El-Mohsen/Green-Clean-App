@@ -32,6 +32,7 @@ if platform == "android":
 if platform != "android":
     Window.size = (406, 762)
     Window.always_on_top = True
+
 Window.clearcolor = (244/255, 249/255, 252/255, 1)
 x = datetime.datetime.now()
 
@@ -48,7 +49,7 @@ class LoadScreen(Screen):
 ############################################################
 ###################### Global Variabls #####################
 ############################################################
-app_version = 2.5
+app_version = 2.6
 style_state = 'Light'
 id_devices_list =[]
 name_devices_list=[]
@@ -130,7 +131,8 @@ class AndroidBluetoothClass:
             print("Bluetooth Can not initialization")
     
     def get_paired_devices(self, DeviceName="HC-05"):
-        global state
+        global state,address_paired_devices_list
+        address_paired_devices_list=[]
         try :
             self.init_bluetooth()
             paired_devices = self.bluetooth_adapter.getBondedDevices().toArray()
@@ -144,6 +146,7 @@ class AndroidBluetoothClass:
                 second_screen = self.root.get_screen('Devices Screen')
                 second_screen.ids.list.clear_widgets()
                 for device in paired_devices:
+                    address_paired_devices_list.append(device.getAddress())
                     if device.getName() == DeviceName and device.getAddress() not in address_devices_list:
                         device_name = device.getName()
                         device_address = device.getAddress()
@@ -225,6 +228,10 @@ class AndroidBluetoothClass:
                             
                             )
                         )
+                print("="*50)
+                print(f"address_paired_devices_list = {address_paired_devices_list}")
+                print(f"address_devices_list = {address_devices_list}")
+                print("="*50)
 
 
         except Exception as e:
@@ -613,8 +620,9 @@ class MyApp(MDApp):
                 "font_name": "BPoppins",
                 "text": f"{name}",
                 "on_release": lambda x=name, y=address: self.menu_callback(x, y),
-            } for name,address in zip(name_devices_list,address_devices_list)
+            } for name,address in zip(name_devices_list,address_devices_list) if address in address_paired_devices_list
         ]
+
         menu = MDDropdownMenu(
             caller=item,
             items=menu_items,

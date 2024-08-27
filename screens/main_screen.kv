@@ -1,1 +1,893 @@
-                              
+<MainScreen>:
+    name: 'Main Screen'
+    app: app
+    
+    MDBoxLayout:
+        id: boxlayout
+        orientation: 'vertical'
+        md_bg_color: "#f4f9fc"
+
+############################################################
+########################## Top Bar #########################
+############################################################
+
+
+        BoxLayout:
+            orientation: 'horizontal'
+            padding: dp(15)
+            spacing: dp(15)
+            size_hint: 1, None
+            size: self.minimum_size
+            pos_hint: {"center_x": .5, "center_y": .5}
+
+            MDLabel:
+                text: "[color=11ac68]Green[/color] Clean"
+                markup: True
+                theme_text_color: "Custom"
+                theme_font_name: "Custom"
+                theme_font_size: "Custom"
+                font_name:"BPoppins"
+                text_color : "#0c1616"
+                font_size : dp(25)
+                halign: "left"
+
+
+            MDIconButton:
+                icon: "robot-excited"
+                theme_icon_color: "Custom"
+                theme_bg_color: "Custom"
+                theme_font_size: "Custom"
+                md_bg_color: "#f4f9fc"
+                icon_color: "#282827" 
+                font_size: dp(25)
+                size_hint: None ,None
+                size: "25dp", "25dp"
+                on_release: app.go_to_second_screen() 
+                pos_hint: {"center_x": .5, "center_y": .5}
+                
+
+            MDIconButton:
+                icon: "information"
+                theme_icon_color: "Custom"
+                theme_bg_color: "Custom"
+                theme_font_size: "Custom"
+                md_bg_color: "#f4f9fc"
+                icon_color: "#282827" 
+                font_size: "25dp"
+                size_hint: None ,None
+                size: "25dp", "25dp"
+                on_release: app.info_dialog()
+                pos_hint: {"center_x": .5, "center_y": .5}
+
+            MDIconButton:
+                icon: "help-circle"
+                theme_icon_color: "Custom"
+                theme_bg_color: "Custom"
+                theme_font_size: "Custom"
+                md_bg_color: "#f4f9fc"
+                icon_color: "#282827" 
+                font_size: "25dp"
+                size_hint: None ,None
+                size: "25dp", "25dp"
+                on_release: app.go_back_to_help_1_screen() 
+                pos_hint: {"center_x": .5, "center_y": .5}
+
+
+
+
+############################################################
+############### Devices Menu & connect button ##############
+############################################################
+        BoxLayout:
+            orientation: 'horizontal'
+            padding: dp(7)
+            spacing: dp(20)
+            size_hint: None, None
+            size: self.minimum_size
+            pos_hint: {"center_x": .5, "center_y": .5}
+
+            MDDropDownItem:
+                id : menu
+                on_release: app.open_devices_menu(self)
+                bold:True
+                font_name:"BPoppins"
+                theme_icon_color: "Custom"
+                theme_bg_color: "Custom"
+                theme_font_size: "Custom"
+                font_size: "20dp"
+                size_hint: None ,None
+                size: "40dp", "40dp"
+                md_bg_color: "#11ac68"
+                text_color: "#282827" 
+
+                MDDropDownItemText:
+                    id: drop_text
+                    text: "Select Device"
+                    font_name:"MPoppins"
+                    bold:True
+                    theme_icon_color: "Custom"
+                    theme_bg_color: "Custom"
+                    theme_font_size: "Custom"
+                    size_hint: None ,None
+                    size: "40dp", "40dp"
+                    md_bg_color: "#11ac68"
+                    text_color: "#282827" 
+                    font_size : dp(20)
+
+
+            MDIconButton:
+                icon: "bluetooth-connect"
+                text_color: "blue"
+                on_release: app.connect_bluetooth()
+                id :connect
+                theme_icon_color: "Custom"
+                theme_bg_color: "Custom"
+                theme_font_size: "Custom"
+                font_size: "30dp"
+                size_hint: None ,None
+                size: "45dp", "45dp"
+                md_bg_color: "#fefefe"
+                icon_color: "#196cac" 
+
+        MDDivider:
+            color :"#f4f9fc"
+            size_hint_x:.2
+            pos_hint: {'center_x': .5, 'center_y': .5}
+        MDDivider:
+            color :"#f4f9fc"
+            size_hint_x:.2
+            pos_hint: {'center_x': .5, 'center_y': .5}
+
+        MDDivider:
+            color :"#f4f9fc"
+            size_hint_x:.2
+            pos_hint: {'center_x': .5, 'center_y': .5}
+
+############################################################
+################ speed , degree section info ###############
+############################################################
+        MDCard:
+            orientation: 'vertical'
+            size_hint_y: 0.25
+            pos_hint: {"center_x": .5, "center_y": .5}
+            style: "filled"
+            theme_bg_color: "Custom"
+            md_bg_color : "#f4f9fc"
+            radius: [35 ,35 ,35 ,35]
+            state_hover : 0
+            state_press : 0
+
+
+            BoxLayout:
+                orientation: 'horizontal'
+                spacing: dp(2)
+
+                BoxLayout:
+                    orientation: 'vertical'
+                    spacing: dp(5)
+                    padding: (dp(0),dp(5),dp(0),dp(5))
+
+                    MDLabel:
+                        text: "WHEELS"
+                        halign: 'center'
+                        theme_text_color: "Custom"
+                        theme_font_name: "Custom"
+                        theme_font_size: "Custom"
+                        font_name:"BPoppins"
+                        text_color : "#11ac68"
+                        font_size : dp(16)
+
+                    MDLabel:
+                        text: "0"
+                        halign: 'center'
+                        theme_text_color: "Custom"
+                        theme_font_name: "Custom"
+                        theme_font_size: "Custom"
+                        font_name:"BPoppins"
+                        text_color : "#0c1616"
+                        font_size : dp(20)
+                        id:WheelsSpeed
+
+                    MDLabel:
+                        text: "MIN = -4"
+                        halign: 'center'
+                        theme_text_color: "Custom"
+                        theme_font_name: "Custom"
+                        theme_font_size: "Custom"
+                        font_name:"BPoppins"
+                        text_color : "#cd2525"
+                        font_size : dp(12)
+
+                    MDLabel:
+                        text: "MAX = 4"
+                        halign: 'center'
+                        theme_text_color: "Custom"
+                        theme_font_name: "Custom"
+                        theme_font_size: "Custom"
+                        font_name:"BPoppins"
+                        text_color : "#cd2525"
+                        font_size : dp(12)
+
+                BoxLayout:
+                    orientation: 'vertical'
+                    spacing: dp(5)
+                    padding: (dp(0),dp(5),dp(0),dp(5))
+
+                    MDLabel:
+                        text: "BROOMS"
+                        halign: 'center'
+                        theme_text_color: "Custom"
+                        theme_font_name: "Custom"
+                        theme_font_size: "Custom"
+                        font_name:"BPoppins"
+                        text_color : "#11ac68"
+                        font_size : dp(16)
+
+
+                    MDLabel:
+                        text: "0"
+                        halign: 'center'
+                        theme_text_color: "Custom"
+                        theme_font_name: "Custom"
+                        theme_font_size: "Custom"
+                        font_name:"BPoppins"
+                        text_color : "#0c1616"
+                        font_size : dp(20)
+                        id: BroomsSpeed
+
+                    MDLabel:
+                        text: "MIN = -4"
+                        halign: 'center'
+                        theme_text_color: "Custom"
+                        theme_font_name: "Custom"
+                        theme_font_size: "Custom"
+                        font_name:"BPoppins"
+                        text_color : "#cd2525"
+                        font_size : dp(12)
+
+                    MDLabel:
+                        text: "MAX = 4"
+                        halign: 'center'
+                        theme_text_color: "Custom"
+                        theme_font_name: "Custom"
+                        theme_font_size: "Custom"
+                        font_name:"BPoppins"
+                        text_color : "#cd2525"
+                        font_size : dp(12)
+
+                BoxLayout:
+                    orientation: 'vertical'
+                    spacing: dp(5)
+                    padding: (dp(0),dp(5),dp(0),dp(5))
+
+                    MDLabel:
+                        text: "PUMP"
+                        halign: 'center'
+                        theme_text_color: "Custom"
+                        theme_font_name: "Custom"
+                        theme_font_size: "Custom"
+                        font_name:"BPoppins"
+                        text_color : "#11ac68"
+                        font_size : dp(16)
+
+
+                    MDLabel:
+                        text: "0"
+                        halign: 'center'
+                        theme_text_color: "Custom"
+                        theme_font_name: "Custom"
+                        theme_font_size: "Custom"
+                        font_name:"BPoppins"
+                        text_color : "#0c1616"
+                        font_size : dp(20)
+                        id: PumpSpeed
+
+                    MDLabel:
+                        text: "MIN = 0"
+                        halign: 'center'
+                        theme_text_color: "Custom"
+                        theme_font_name: "Custom"
+                        theme_font_size: "Custom"
+                        font_name:"BPoppins"
+                        text_color : "#cd2525"
+                        font_size : dp(12)
+
+                    MDLabel:
+                        text: "MAX = 3"
+                        halign: 'center'
+                        theme_text_color: "Custom"
+                        theme_font_name: "Custom"
+                        theme_font_size: "Custom"
+                        font_name:"BPoppins"
+                        text_color : "#cd2525"
+                        font_size : dp(12)
+
+                BoxLayout:
+                    orientation: 'vertical'
+                    spacing: dp(5)
+                    padding: (dp(0),dp(5),dp(0),dp(5))
+
+                    MDLabel:
+                        text: "Glass MOP"
+                        halign: 'center'
+                        theme_text_color: "Custom"
+                        theme_font_name: "Custom"
+                        theme_font_size: "Custom"
+                        font_name:"BPoppins"
+                        text_color : "#11ac68"
+                        font_size : dp(16)
+
+
+                    MDLabel:
+                        text: "0"
+                        halign: 'center'
+                        theme_text_color: "Custom"
+                        theme_font_name: "Custom"
+                        theme_font_size: "Custom"
+                        font_name:"BPoppins"
+                        text_color : "#0c1616"
+                        font_size : dp(20)
+                        id: GlassSpeed
+
+                    MDLabel:
+                        text: "MIN  = 20"
+                        halign: 'center'
+                        theme_text_color: "Custom"
+                        theme_font_name: "Custom"
+                        theme_font_size: "Custom"
+                        font_name:"BPoppins"
+                        text_color : "#cd2525"
+                        font_size : dp(12)
+
+                    MDLabel:
+                        text: "MAX = 90"
+                        halign: 'center'
+                        theme_text_color: "Custom"
+                        theme_font_name: "Custom"
+                        theme_font_size: "Custom"
+                        font_name:"BPoppins"
+                        text_color : "#cd2525"
+                        font_size : dp(12)
+
+############################################################
+###################### WHEELS section ######################
+############################################################
+        BoxLayout:
+            orientation: 'horizontal'
+            padding: dp(-2)
+            spacing: dp(2)
+
+            MDCard:
+                orientation: 'vertical'
+                size_hint_y: .9
+                size_hint_x: 0.7
+                padding: dp(1)
+                spacing: dp(5)        
+                pos_hint: {"center_x": .5 ,"center_y": .5}
+                style: "elevated"
+                theme_bg_color: "Custom"
+                md_bg_color : "#fefefe"
+                theme_shadow_softness: "Custom"
+                shadow_softness: 20
+                theme_elevation_level: "Custom"
+                elevation_level: 1
+                radius: [0 ,35 ,35 ,0]
+                state_hover : 0
+                state_press : 0
+
+
+                
+                MDDivider:
+                    color :"#fefefe"
+                    size_hint_x:.2
+                    pos_hint: {'center_x': .5, 'center_y': .5}
+                MDDivider:
+                    color :"#fefefe"
+                    size_hint_x:.2
+                    pos_hint: {'center_x': .5, 'center_y': .5}
+
+                MDDivider:
+                    color :"#fefefe"
+                    size_hint_x:.2
+                    pos_hint: {'center_x': .5, 'center_y': .5}
+
+
+                MDLabel:
+                    text: "WHEELS"
+                    halign: 'center'
+                    theme_text_color: "Custom"
+                    theme_font_name: "Custom"
+                    theme_font_size: "Custom"
+                    font_name:"BPoppins"
+                    text_color : "#11ac68"
+                    font_size : dp(25)
+
+                MDIconButton:
+                    theme_icon_color: "Custom"
+                    theme_bg_color: "Custom"
+                    theme_font_size: "Custom"
+                    font_size: "55dp"
+                    size_hint: None ,None
+                    size: "55dp", "55dp"
+
+                    icon: "chevron-up"
+                    pos_hint: {'center_x': 0.5,'center_y': 0.5}
+                    on_release: app.send_wheels_up()
+                    md_bg_color: "#282827"
+                    icon_color: "#fefefe" 
+                    
+
+                MDLabel:
+                    text: "INCREASE SPEED"
+                    halign: 'center'
+                    theme_text_color: "Custom"
+                    theme_font_name: "Custom"
+                    theme_font_size: "Custom"
+                    font_name:"BPoppins"
+                    text_color : "#222627"
+                    font_size : dp(12)
+
+
+                MDIconButton:
+                    theme_icon_color: "Custom"
+                    theme_bg_color: "Custom"
+                    theme_font_size: "Custom"
+                    font_size: "30dp"
+                    size_hint: None, None
+                    size: "50dp" ,"50dp"
+
+                    icon: "pause"
+                    md_bg_color: "#cd2525"
+                    icon_color: "#fefefe" 
+                    pos_hint: {'center_x': 0.5,'center_y': 0.5}
+                    on_release: app.send_wheels_stop()
+                    
+
+                MDLabel:
+                    text: "PAUSE"
+                    halign: 'center'
+                    theme_text_color: "Custom"
+                    theme_font_name: "Custom"
+                    theme_font_size: "Custom"
+                    font_name:"BPoppins"
+                    text_color : "#222627"
+                    font_size : dp(12)
+
+                MDIconButton:
+                    theme_icon_color: "Custom"
+                    theme_bg_color: "Custom"
+                    theme_font_size: "Custom"
+                    font_size: "55dp"
+                    size_hint: None, None
+                    size: "55dp", "55dp"
+
+                    icon: "chevron-down"
+                    pos_hint: {'center_x': 0.5,'center_y': 0.5}
+                    on_release: app.send_wheels_down()
+                    md_bg_color: "#282827"
+                    icon_color: "#fefefe" 
+                    
+
+                MDLabel:
+                    text: "REDUCING SPEED"
+                    halign: 'center'
+                    theme_text_color: "Custom"
+                    theme_font_name: "Custom"
+                    theme_font_size: "Custom"
+                    font_name:"BPoppins"
+                    text_color : "#222627"
+                    font_size : dp(12)
+
+############################################################
+####################### Logo section #######################
+############################################################
+            BoxLayout:
+                orientation: 'vertical'
+                size_hint_x: 0.6
+                pos_hint: {'center_x': 0.5 ,'center_y': 0.5}
+                padding: dp(-5)
+                spacing: dp(5)
+
+                Image:
+                    source: 'Assets/bg.png'
+                    size_hint: (1 ,1)
+                    pos_hint: {'center_x': 0.5 ,'center_y': 0.5}
+
+############################################################
+###################### BROOMS section ######################
+############################################################
+            MDCard:
+                orientation: 'vertical'
+                size_hint_y: .9
+                size_hint_x: 0.7
+                padding: dp(1)
+                spacing: dp(5)        
+                pos_hint: {"center_x": .5 ,"center_y": .5}
+                style: "elevated"
+                theme_bg_color: "Custom"
+                md_bg_color : "#fefefe"
+                theme_shadow_softness: "Custom"
+                shadow_softness: 20
+                theme_elevation_level: "Custom"
+                elevation_level: 1
+                radius: [35 ,0 ,0 ,35]
+                state_hover : 0
+                state_press : 0
+
+                
+                MDDivider:
+                    color :"#fefefe"
+                    size_hint_x:.2
+                    pos_hint: {'center_x': .5, 'center_y': .5}
+                MDDivider:
+                    color :"#fefefe"
+                    size_hint_x:.2
+                    pos_hint: {'center_x': .5, 'center_y': .5}
+
+                MDDivider:
+                    color :"#fefefe"
+                    size_hint_x:.2
+                    pos_hint: {'center_x': .5, 'center_y': .5}
+
+                MDLabel:
+                    text: "BROOMS"
+                    halign: 'center'
+                    theme_text_color: "Custom"
+                    theme_font_name: "Custom"
+                    theme_font_size: "Custom"
+                    font_name:"BPoppins"
+                    text_color : "#11ac68"
+                    font_size : dp(25)
+
+                MDIconButton:
+                    theme_icon_color: "Custom"
+                    theme_bg_color: "Custom"
+                    theme_font_size: "Custom"
+                    font_size: "55dp"
+                    size_hint: None, None
+                    size: "55dp", "55dp"
+
+                    icon: "chevron-up"
+                    pos_hint: {'center_x': 0.5,'center_y': 0.5}
+                    on_release: app.send_brooms_up()
+                    md_bg_color: "#282827"
+                    icon_color: "#fefefe" 
+
+                MDLabel:
+                    text: "INCREASE SPEED"
+                    halign: 'center'
+                    theme_text_color: "Custom"
+                    theme_font_name: "Custom"
+                    theme_font_size: "Custom"
+                    font_name:"BPoppins"
+                    text_color : "#222627"
+                    font_size : dp(12)
+
+
+                MDIconButton:
+                    theme_icon_color: "Custom"
+                    theme_bg_color: "Custom"
+                    theme_font_size: "Custom"
+                    font_size: "30dp"
+                    size_hint: None, None
+                    size: "50dp", "50dp"
+
+                    icon: "pause"
+                    md_bg_color: "#cd2525"
+                    icon_color: "#fefefe" 
+                    pos_hint: {'center_x': 0.5,'center_y': 0.5}
+                    on_release: app.send_brooms_stop()
+
+                MDLabel:
+                    text: "PAUSE"
+                    halign: 'center'
+                    theme_text_color: "Custom"
+                    theme_font_name: "Custom"
+                    theme_font_size: "Custom"
+                    font_name:"BPoppins"
+                    text_color : "#222627"
+                    font_size : dp(12)
+                
+
+
+                MDIconButton:
+                    theme_icon_color: "Custom"
+                    theme_bg_color: "Custom"
+                    theme_font_size: "Custom"
+                    font_size: "55dp"
+                    size_hint: None, None
+                    size: "55dp", "55dp"
+
+                    icon: "chevron-down"
+                    md_bg_color: "#282827"
+                    icon_color: "#fefefe" 
+                    pos_hint: {'center_x': 0.5}
+                    on_release: app.send_brooms_down()
+
+                MDLabel:
+                    text: "REDUCING SPEED"
+                    halign: 'center'
+                    theme_text_color: "Custom"
+                    theme_font_name: "Custom"
+                    theme_font_size: "Custom"
+                    font_name:"BPoppins"
+                    text_color : "#222627"
+                    font_size : dp(12)
+
+
+############################################################
+################## Glass MOP section info ##################
+############################################################
+        MDCard:
+            orientation: 'vertical'
+            size_hint_y: 0.33
+            pos_hint: {"center_x": .5, "center_y": .5}
+            elevation: 2
+            padding: dp(5)
+            spacing: dp(2)
+            
+            style: "elevated"
+            theme_bg_color: "Custom"
+            md_bg_color : "#fefefe"
+            theme_shadow_softness: "Custom"
+            shadow_softness: 20
+            theme_elevation_level: "Custom"
+            elevation_level: 1
+            radius: [35 ,35 ,0 ,0]
+            state_hover : 0
+            state_press : 0
+
+            BoxLayout:
+                orientation: 'horizontal'
+                spacing: dp(2)
+
+                BoxLayout:
+                    orientation: 'vertical'
+                    spacing: dp(2)
+                    padding: (dp(0),dp(5),dp(0),dp(5))
+
+                    MDDivider:
+                        color :"#fefefe"
+                        size_hint_x:.2
+                        pos_hint: {'center_x': .5, 'center_y': .5}
+
+                    MDDivider:
+                        color :"#fefefe"
+                        size_hint_x:.2
+                        pos_hint: {'center_x': .5, 'center_y': .5}
+
+                    MDIconButton:
+                        theme_icon_color: "Custom"
+                        theme_bg_color: "Custom"
+                        theme_font_size: "Custom"
+                        font_size: "40dp"
+                        size_hint: None, None
+                        size: "55dp", "55dp"
+
+                        md_bg_color: "#fdbc48"
+                        icon_color: "#fefefe" 
+                        icon: "water"
+                        pos_hint: {'center_x': 0.5,'center_y': 0.5}
+                        on_release: app.send_deg_down()
+
+                    MDLabel:
+                        text: "TOGGLE PUMP"
+                        halign: 'center'
+                        theme_text_color: "Custom"
+                        theme_font_name: "Custom"
+                        theme_font_size: "Custom"
+                        font_name:"BPoppins"
+                        text_color : "#222627"
+                        font_size : dp(12)
+
+                BoxLayout:
+                    orientation: 'vertical'
+                    spacing: dp(2)
+                    padding: (dp(0),dp(5),dp(0),dp(5))
+
+                    MDDivider:
+                        color :"#fefefe"
+                        size_hint_x:.2
+                        pos_hint: {'center_x': .5, 'center_y': .5}
+
+                    MDDivider:
+                        color :"#fefefe"
+                        size_hint_x:.2
+                        pos_hint: {'center_x': .5, 'center_y': .5}
+
+                    MDLabel:
+                        text: "GLASS MOP"
+                        halign: 'center'
+                        theme_text_color: "Custom"
+                        theme_font_name: "Custom"
+                        theme_font_size: "Custom"
+                        font_name:"BPoppins"
+                        text_color : "#11ac68"
+                        font_size : dp(20)
+
+                BoxLayout:
+                    orientation: 'vertical'
+                    spacing: dp(2)
+                    padding: (dp(0),dp(5),dp(0),dp(5))
+
+                    MDDivider:
+                        color :"#fefefe"
+                        size_hint_x:.2
+                        pos_hint: {'center_x': .5, 'center_y': .5}
+
+                    MDDivider:
+                        color :"#fefefe"
+                        size_hint_x:.2
+                        pos_hint: {'center_x': .5, 'center_y': .5}
+
+                    MDIconButton:
+                        theme_icon_color: "Custom"
+                        theme_bg_color: "Custom"
+                        theme_font_size: "Custom"
+                        font_size: "55dp"
+                        size_hint: None, None
+                        size: "55dp", "55dp"
+
+                        icon: "chevron-up"
+                        md_bg_color: "#282827"
+                        icon_color: "#fefefe" 
+                        pos_hint: {'center_x': 0.5}
+                        on_release: app.send_deg_up()
+
+                    MDLabel:
+                        text: "INCREASE DEGREE"
+                        halign: 'center'
+                        theme_text_color: "Custom"
+                        theme_font_name: "Custom"
+                        theme_font_size: "Custom"
+                        font_name:"BPoppins"
+                        text_color : "#222627"
+                        font_size : dp(12)
+
+############################################################
+####################### Pumps section ######################
+############################################################
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint_y: 0.4
+            pos_hint: {"center_x": .5, "center_y": .5}
+            elevation: 2
+            padding: dp(10)
+            spacing: dp(2)
+            canvas.before:
+                Color:
+                    rgba: 17/255, 172/255 ,104/255, 1  # "#11ac68"
+                RoundedRectangle:
+                    size: self.size
+                    pos: self.pos
+                    radius: [35, 35, 0 ,0]
+
+            MDLabel:
+                pos_hint: {'center_x': 0.5}
+                text: "PUMP : OFF"
+                id: pumpState
+                halign: 'center'
+                theme_text_color: "Custom"
+                theme_font_name: "Custom"
+                theme_font_size: "Custom"
+                font_name:"BPoppins"
+                text_color : "#fefefe"
+                font_size : dp(25)
+
+            BoxLayout:
+                orientation: 'horizontal'
+                spacing: dp(5)
+
+                BoxLayout:
+                    orientation: 'vertical'
+                    spacing: dp(5)
+
+                    MDIconButton:
+                        theme_icon_color: "Custom"
+                        theme_bg_color: "Custom"
+                        theme_font_size: "Custom"
+                        font_size: "40dp"
+                        size_hint: None, None
+                        size: "55dp", "55dp"
+
+                        icon: "fan-chevron-down"
+                        md_bg_color: "#fdbc48"
+                        icon_color: "#282827" 
+                        pos_hint: {'center_x': 0.5}
+                        on_release: app.send_pump_down()
+
+                    MDDivider:
+                        color :"#11ac68"
+                        size_hint_x: .5
+                        pos_hint: {'center_x': .5 ,'center_y': .5}
+
+                    MDDivider:
+                        color :"#11ac68"
+                        size_hint_x: .5
+                        pos_hint: {'center_x': .5 ,'center_y': .5}
+
+                    MDLabel:
+                        text: "REDUCING SPEED"
+                        halign: 'center'
+                        theme_text_color: "Custom"
+                        theme_font_name: "Custom"
+                        theme_font_size: "Custom"
+                        font_name:"BPoppins"
+                        text_color : "#222627"
+                        font_size : dp(12)
+
+                BoxLayout:
+                    orientation: 'vertical'
+                    spacing: dp(5)
+
+                    MDIconButton:
+                        theme_icon_color: "Custom"
+                        theme_bg_color: "Custom"
+                        theme_font_size: "Custom"
+                        font_size: "35dp"
+                        size_hint: None, None
+                        size: "50dp", "50dp"
+
+                        icon: "pause"
+                        md_bg_color: "#cd2525"
+                        icon_color: "#fefefe" 
+                        pos_hint: {'center_x': 0.5}
+                        on_release: app.send_pump_stop()
+
+                    MDDivider:
+                        color :"#11ac68"
+                        size_hint_x: .5
+                        pos_hint: {'center_x': .5 ,'center_y': .5}
+
+                    MDDivider:
+                        color :"#11ac68"
+                        size_hint_x: .5
+                        pos_hint: {'center_x': .5 ,'center_y': .5}
+
+                    MDLabel:
+                        text: "PAUSE"
+                        halign: 'center'
+                        theme_text_color: "Custom"
+                        theme_font_name: "Custom"
+                        theme_font_size: "Custom"
+                        font_name:"BPoppins"
+                        text_color : "#222627"
+                        font_size : dp(12)
+
+                BoxLayout:
+                    orientation: 'vertical'
+                    spacing: dp(5)
+
+                    MDIconButton:
+                        theme_icon_color: "Custom"
+                        theme_bg_color: "Custom"
+                        theme_font_size: "Custom"
+                        font_size: "40dp"
+                        size_hint: None, None
+                        size: "55dp", "55dp"
+
+                        md_bg_color: "#fdbc48"
+                        icon_color: "#282827" 
+                        icon: "fan-chevron-up"
+                        pos_hint: {'center_x': 0.5}
+                        on_release: app.send_pump_up()
+
+                    MDDivider:
+                        color :"#11ac68"
+                        size_hint_x: .5
+                        pos_hint: {'center_x': .5, 'center_y': .5}
+
+                    MDDivider:
+                        color :"#11ac68"
+                        size_hint_x: .5
+                        pos_hint: {'center_x': .5 ,'center_y': .5}
+
+                    MDLabel:
+                        text: "INCREASE SPEED"
+                        halign: 'center'
+                        theme_text_color: "Custom"
+                        theme_font_name: "Custom"
+                        theme_font_size: "Custom"
+                        font_name:"BPoppins"
+                        text_color : "#222627"
+                        font_size : dp(12)
