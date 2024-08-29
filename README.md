@@ -1,4 +1,5 @@
 # Green Clean App (Solar Energy) 🍏🧹🌞
+[![Downlaod Build APK](https://github.com/Osama-Abd-El-Mohsen/Green-Clean-App/actions/workflows/build.yml/badge.svg)](https://github.com/Osama-Abd-El-Mohsen/Green-Clean-App/actions/workflows/build.yml)
 ## App Screens
 
 |Main Screen|Devices Screen|
