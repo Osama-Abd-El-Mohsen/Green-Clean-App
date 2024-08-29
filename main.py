@@ -147,6 +147,7 @@ class AndroidBluetoothClass:
                 second_screen.ids.list.clear_widgets()
                 for device in paired_devices:
                     address_paired_devices_list.append(device.getAddress())
+                    print("append")
                     if device.getName() == DeviceName and device.getAddress() not in address_devices_list:
                         device_name = device.getName()
                         device_address = device.getAddress()
@@ -541,6 +542,9 @@ class MyApp(MDApp):
         self.help_page()
         y = datetime.datetime.now()
         print(y-x)
+
+        self.android_bluetooth = AndroidBluetoothClass(self.root)
+        self.android_bluetooth.get_paired_devices()
 
     # if first time open the app go to help screens
     def help_page(self):
