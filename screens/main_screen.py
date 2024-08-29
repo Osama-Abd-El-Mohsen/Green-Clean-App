@@ -3,6 +3,7 @@ from utils import load_kv_path
 from kivy.storage.jsonstore import JsonStore
 from kivy.clock import Clock
 from kivymd.utils.set_bars_colors import set_bars_colors
+from main import AndroidBluetoothClass
 
 load_kv_path("screens/main_screen.kv")
 
@@ -18,6 +19,8 @@ class MainScreen(F.Screen):
 
     def on_pre_enter(self, *args):
         parent_manager = self.parent
+        self.android_bluetooth = AndroidBluetoothClass(parent_manager)
+        self.android_bluetooth.get_paired_devices()
         if not self.has_loaded:
             if 'Loading Screen' not in self.parent.screen_names:
                 self.parent.add_widget(self.get_screen_object_from_screen_name('Loading Screen'))

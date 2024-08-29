@@ -542,10 +542,6 @@ class MyApp(MDApp):
         y = datetime.datetime.now()
         print(y-x)
 
-        self.android_bluetooth = AndroidBluetoothClass(self.root)
-        self.android_bluetooth.get_paired_devices()
-        self.bluetooth_devices()
-
     # if first time open the app go to help screens
     def help_page(self):
         global first_open_state
