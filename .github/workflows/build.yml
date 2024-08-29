@@ -53,14 +53,8 @@ jobs:
         ANDROID_NDK_ROOT: ${{ github.workspace }}/.buildozer/android/platform/android-ndk-r21e
         ANDROID_HOME: ${{ github.workspace }}/.buildozer/android/platform/android-sdk
 
-    - name: Create output directory
-      run: mkdir -p output
-
-    - name: Copy APK to output directory
-      run: cp bin/*.apk output/
-
     - name: Upload APK
       uses: actions/upload-artifact@v2
       with:
-        name: MyApp.apk
-        path: output/*.apk
+          name: MyApp.apk
+          path: ./output/*.apk
