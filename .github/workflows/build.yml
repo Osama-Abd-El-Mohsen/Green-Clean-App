@@ -1,0 +1,54 @@
+name: Build Kivy APK
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.11
+
+    - name: Install dependencies
+      run: |
+        sudo apt update
+        sudo apt install -y build-essential libssl-dev libffi-dev python3-dev \
+                            libpython3-dev zlib1g-dev libncurses5-dev libgdbm-dev \
+                            libnss3-dev libsqlite3-dev libreadline-dev libbz2-dev \
+                            liblzma-dev tk-dev libxml2-dev libxmlsec1-dev libffi-dev \
+                            liblzma-dev git zip unzip openjdk-8-jdk
+
+    - name: Install pip dependencies
+      run: |
+        pip install --upgrade pip
+        pip install setuptools wheel cython
+
+    - name: Install Buildozer and requirements
+      run: |
+        pip install buildozer
+
+    - name: Build the APK
+      run: |
+        buildozer android debug
+      env:
+        ANDROID_NDK_HOME: ${{ github.workspace }}/.buildozer/android/platform/android-ndk-r21e
+        ANDROID_NDK_ROOT: ${{ github.workspace }}/.buildozer/android/platform/android-ndk-r21e
+        ANDROID_HOME: ${{ github.workspace }}/.buildozer/android/platform/android-sdk
+
+    - name: Upload APK
+      uses: actions/upload-artifact@v2
+      with:
+        name: MyApp.apk
+        path: bin/*.apk  # Replace with the actual path to the APK
