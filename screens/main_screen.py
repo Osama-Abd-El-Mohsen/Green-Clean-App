@@ -28,12 +28,12 @@ class MainScreen(F.Screen):
             if 'Devices Screen' not in self.parent.screen_names:
                 self.parent.add_widget(self.get_screen_object_from_screen_name('Devices Screen'))
 
-            self.android_bluetooth = AndroidBluetoothClass(parent_manager)
-            self.android_bluetooth.get_paired_devices()
             Clock.schedule_once(lambda dt: self.load_content(dt, parent_manager), 1)
         else:
             self.set_bars_colors_screen_1()
             parent_manager.current = 'Main Screen'
+        self.android_bluetooth = AndroidBluetoothClass(parent_manager)
+        self.android_bluetooth.get_paired_devices()
 
     def on_enter(self,*args):
         if 'Help Screen_1' not in self.parent.screen_names:

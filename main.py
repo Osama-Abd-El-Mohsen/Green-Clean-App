@@ -286,6 +286,12 @@ class AndroidBluetoothClass:
                 self.ReceiveData.close()
                 self.SendData.close()
                 self.ConnectionEstablished = False
+                print("+"*50)
+                print("not closed")
+                if hasattr(self, 'socket') and self.socket:
+                    self.socket.close()
+                    print("closed")
+                print("+"*50)
                 print("Disconnected from device")
                 main_screen = self.root.get_screen('Main Screen')
                 main_screen.ids.connect.text_color="red"
