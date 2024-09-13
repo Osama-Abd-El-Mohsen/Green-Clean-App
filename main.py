@@ -263,6 +263,7 @@ class AndroidBluetoothClass:
             snackbar("Bluetooth Connection successful")
             main_screen = self.root.get_screen('Main Screen')
             main_screen.ids.connect.text_color="#1aaa65"
+            print("after changed color to green")
 
 
             if not self.ConnectionEstablished:
@@ -281,28 +282,24 @@ class AndroidBluetoothClass:
             return 0
     
     def disconnect(self):
-        if self.ConnectionEstablished:
-            try:
-                self.ReceiveData.close()
-                self.SendData.close()
-                self.ConnectionEstablished = False
-                print("+"*50)
-                print("not closed")
-                if hasattr(self, 'socket') and self.socket:
-                    self.socket.close()
-                    print("closed")
-                print("+"*50)
-                print("Disconnected from device")
-                main_screen = self.root.get_screen('Main Screen')
-                main_screen.ids.connect.text_color="red"
-            except Exception as e:
-                print("Failed to disconnect:", e)
-                main_screen = self.root.get_screen('Main Screen')
-                main_screen.ids.connect.text_color="red"
-        else:
-            print("No connection to disconnect")
+        try:
+            self.ReceiveData.close()
+            self.SendData.close()
+            self.ConnectionEstablished = False
+
+            if hasattr(self, 'socket') and self.socket:
+                self.socket.close()
+                snackbar('Bluetooth device disconnected')
+
             main_screen = self.root.get_screen('Main Screen')
             main_screen.ids.connect.text_color="red"
+            
+        except Exception as e:
+            print("No connection to disconnect")
+            print("Failed to disconnect:", e)
+            main_screen = self.root.get_screen('Main Screen')
+            main_screen.ids.connect.text_color="red"
+
 
     def BluetoothSend(self, Message):
         try:
@@ -550,7 +547,7 @@ class MyApp(MDApp):
         print(y-x)
 
         self.android_bluetooth = AndroidBluetoothClass(self.root)
-        self.android_bluetooth.get_paired_devices()
+        # self.android_bluetooth.get_paired_devices()
 
     # if first time open the app go to help screens
     def help_page(self):
@@ -749,23 +746,25 @@ class MyApp(MDApp):
         global RSM1,LSM1,RSM2,LSM2,RSM3,LSM3,SR,W
         try :
             self.android_bluetooth.get_connect_to_device(selected_address) 
+            print("sending 'c'")
             self.android_bluetooth.BluetoothSend('c')
-            dic = self.android_bluetooth.BluetoothReceive()
-            dic=dic.replace("'",'"')
-            dic = json.loads(dic)
-            print("="*50)
-            print(dic)
-            print("="*50)
+            print("'c' sended")
+            # dic = self.android_bluetooth.BluetoothReceive()
+            # dic=dic.replace("'",'"')
+            # dic = json.loads(dic)
+            # print("="*50)
+            # print(dic)
+            # print("="*50)
             
-            RSM1 = dic['RSM1']
-            LSM1 = dic['LSM1']
-            RSM2 = dic['RSM2']
-            LSM2 = dic['LSM2']
-            RSM3 = dic['RSM3']
-            LSM3 = dic['LSM3']
-            SR   = dic['SR']
-            W   = dic['W']
-            self.update_info_label()
+            # RSM1 = dic['RSM1']
+            # LSM1 = dic['LSM1']
+            # RSM2 = dic['RSM2']
+            # LSM2 = dic['LSM2']
+            # RSM3 = dic['RSM3']
+            # LSM3 = dic['LSM3']
+            # SR   = dic['SR']
+            # W   = dic['W']
+            # self.update_info_label()
         except Exception as e :
             print(e)
 

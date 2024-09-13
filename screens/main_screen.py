@@ -32,12 +32,13 @@ class MainScreen(F.Screen):
         else:
             self.set_bars_colors_screen_1()
             parent_manager.current = 'Main Screen'
-        self.android_bluetooth = AndroidBluetoothClass(parent_manager)
-        self.android_bluetooth.get_paired_devices()
+
 
     def on_enter(self,*args):
         if 'Help Screen_1' not in self.parent.screen_names:
             self.parent.add_widget(self.get_screen_object_from_screen_name('Help Screen_1'))
+        self.android_bluetooth = AndroidBluetoothClass(self.parent)
+        self.android_bluetooth.get_paired_devices()
 
     def load_content(self, dt, parent_manager):
         if self.first_open_state == 0:
